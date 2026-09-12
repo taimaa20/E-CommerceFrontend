@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/waste-log/layout,_N_T_/admin/waste-log/page,_N_T_/admin/waste-log"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/waste-log/__PAGE__",
+    "/admin/waste-log",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}

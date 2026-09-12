@@ -1,0 +1,137 @@
+<step title="Incoming Request" date="2026-03-15T21:02:58.779" instance="c6a88b" url="/api/publish?type=zip" method="POST" type="request" pid="831,1,15" Accept="*/*" Host="wa-pos-fe-dev1-ananhya5hqaafffj.scm.swedencentral-01.azurewebsites.net" User-Agent="AZURECLI/2.80.0 (MSI)" Accept-Encoding="gzip, deflate" Authorization="Bea..." Cache-Control="no-cache" Content-Type="application/octet-stream" Cookie="ARRAffinity=c6a88b48c7c8f7eb36b815faecc076b5af62a303dfe264125f83c50a4458b7aa; ARRAffinitySameSite=c6a88b48c7c8f7eb36b815faecc076b5af62a303dfe264125f83c50a4458b7aa" Content-Length="6658693" x-ms-client-request-id="4db8dece-20b2-11f1-bab7-dc4546b84e16" x-ms-artifact-checksum="61c6cfbe3abb211d6015ca0b70c63c1ab81080bcc6d6e66eed10f6e8a27770f5" X-ARR-LOG-ID="4db8dece-20b2-11f1-bab7-dc4546b84e16" CLIENT-IP="86.108.21.241:16016" X-SITE-DEPLOYMENT-ID="WA-POS-FE-DEV1" WAS-DEFAULT-HOSTNAME="wa-pos-fe-dev1-ananhya5hqaafffj.scm.swedencentral-01.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/publish?type=zip" X-Client-IP="86.108.21.241" X-Client-Port="16016" >
+  <step title="OneDeploy" date="2026-03-15T21:02:58.881" >
+    <step title="None repository commit" date="2026-03-15T21:02:58.899" >
+      <step title="Commit id: 2715b50f-bd3a-4b3e-bc78-00a5df2014d9" date="2026-03-15T21:02:58.904" Message="N/A" AuthorName="N/A" AuthorEmail="N/A" /><!-- duration: 4ms -->
+    </step><!-- duration: 14ms -->
+    <step title="Starting PushDeployAsync" date="2026-03-15T21:02:58.917" /><!-- duration: 4ms -->
+    <step title="Writing artifact to /tmp/zipdeploy/755bec89-5e26-4e09-9573-10564e4eab47.zip" date="2026-03-15T21:02:58.943" >
+      <step title="Writing multipart request body to /tmp/zipdeploy/755bec89-5e26-4e09-9573-10564e4eab47.zip" date="2026-03-15T21:02:58.948" /><!-- duration: 14ms -->
+    </step><!-- duration: 901ms -->
+    <step title="Attempting to fetch target branch HEAD" date="2026-03-15T21:02:59.861" /><!-- duration: 4ms -->
+    <step title="Acquiring Deployment Lock" date="2026-03-15T21:02:59.874" /><!-- duration: 11ms -->
+    <step title="Acquired Deployment Lock" date="2026-03-15T21:02:59.926" /><!-- duration: 4ms -->
+    <step title="Performing fetch based deployment" date="2026-03-15T21:02:59.940" >
+      <step title="Creating temporary deployment" date="2026-03-15T21:02:59.945" /><!-- duration: 71ms -->
+      <step title="Releasing Deployment Lock" date="2026-03-15T21:03:01.192" /><!-- duration: 9ms -->
+      <step title="Cleaning up temp folders from previous zip deployments and extracting pushed zip file /tmp/zipdeploy/755bec89-5e26-4e09-9573-10564e4eab47.zip (6.35 MB) to /tmp/zipdeploy/extracted" date="2026-03-15T21:03:01.239" >
+        <step title="ChmodRecursive Process exited with total time taken in ms: 58" date="2026-03-15T21:03:02.450" /><!-- duration: 7ms -->
+      </step><!-- duration: 1223ms -->
+      <step title="None repository commit" date="2026-03-15T21:03:02.471" >
+        <step title="Commit id: 2715b50f-bd3a-4b3e-bc78-00a5df2014d9" date="2026-03-15T21:03:02.478" Message="OneDeploy" AuthorName="N/A" AuthorEmail="N/A" /><!-- duration: 4ms -->
+      </step><!-- duration: 15ms -->
+      <step title="Deployment timer started" date="2026-03-15T21:03:04.512" >
+        <step title="DeploymentManager.Deploy(id:2715b50f-bd3a-4b3e-bc78-00a5df2014d9)" date="2026-03-15T21:03:04.520" >
+          <step title="Collecting changeset information" date="2026-03-15T21:03:04.552" /><!-- duration: 103ms -->
+          <step title="Updating submodules" date="2026-03-15T21:03:04.663" /><!-- duration: 1187ms -->
+          <step title="Determining deployment builder" date="2026-03-15T21:03:06.099" >
+            <step title="Builder is CustomBuilder" date="2026-03-15T21:03:06.108" /><!-- duration: 4ms -->
+          </step><!-- duration: 18ms -->
+          <step title="PreDeployment: context.CleanOutputPath False" date="2026-03-15T21:03:06.176" >
+            <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2026-03-15T21:03:06.322" >
+              <step title="Building" date="2026-03-15T21:03:06.496" >
+                <step title="Executing external process" date="2026-03-15T21:03:07.030" type="process" path="starter.sh" arguments="npm install &amp;&amp; npm run build &amp;&amp; npm start" >
+                  <step title="Process dump" date="2026-03-15T21:03:11.679" exitCode="1" type="processOutput" /><!-- duration: 11ms -->
+                </step><!-- duration: 4666ms -->
+                <step title="Error occurred" date="2026-03-15T21:03:11.774" type="error" text="npm ERR! code EINVALIDTAGNAME
+npm ERR! Invalid tag name &quot;&amp;&amp;&quot; of package &quot;&amp;&amp;&quot;: Tags may not have any characters that encodeURIComponent encodes.
+
+npm ERR! A complete log of this run can be found in: /home/.npm/_logs/2026-03-15T21_03_08_138Z-debug-0.log
+/opt/Kudu/Scripts/starter.sh npm install &amp;&amp; npm run build &amp;&amp; npm start" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135" /><!-- duration: 4ms -->
+                <step title="Error occurred" date="2026-03-15T21:03:11.794" type="error" text="npm ERR! code EINVALIDTAGNAME
+npm ERR! Invalid tag name &quot;&amp;&amp;&quot; of package &quot;&amp;&amp;&quot;: Tags may not have any characters that encodeURIComponent encodes.
+
+npm ERR! A complete log of this run can be found in: /home/.npm/_logs/2026-03-15T21_03_08_138Z-debug-0.log
+/opt/Kudu/Scripts/starter.sh npm install &amp;&amp; npm run build &amp;&amp; npm start" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.CustomBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/CustomBuilder.cs:line 53
+--- End of stack trace from previous location ---
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771" /><!-- duration: 13ms -->
+                <step title="Purge deployment items" date="2026-03-15T21:03:12.141" >
+                  <step title="Remove 45c17fe1-, Failed, received at 03/15/2026 21:00:01" date="2026-03-15T21:03:12.205" /><!-- duration: 4ms -->
+                </step><!-- duration: 72ms -->
+              </step><!-- duration: 5721ms -->
+            </step><!-- duration: 5900ms -->
+            <step title="Error occurred" date="2026-03-15T21:03:12.226" type="error" text="npm ERR! code EINVALIDTAGNAME
+npm ERR! Invalid tag name &quot;&amp;&amp;&quot; of package &quot;&amp;&amp;&quot;: Tags may not have any characters that encodeURIComponent encodes.
+
+npm ERR! A complete log of this run can be found in: /home/.npm/_logs/2026-03-15T21_03_08_138Z-debug-0.log
+/opt/Kudu/Scripts/starter.sh npm install &amp;&amp; npm run build &amp;&amp; npm start" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.CustomBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/CustomBuilder.cs:line 53
+--- End of stack trace from previous location ---
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840" /><!-- duration: 5ms -->
+            <step title="Cleaning up temp files" date="2026-03-15T21:03:12.325" /><!-- duration: 8ms -->
+            <step title="Cleaning up temp files" date="2026-03-15T21:03:12.345" /><!-- duration: 506ms -->
+            <step title="Error occurred" date="2026-03-15T21:03:12.904" type="error" text="npm ERR! code EINVALIDTAGNAME
+npm ERR! Invalid tag name &quot;&amp;&amp;&quot; of package &quot;&amp;&amp;&quot;: Tags may not have any characters that encodeURIComponent encodes.
+
+npm ERR! A complete log of this run can be found in: /home/.npm/_logs/2026-03-15T21_03_08_138Z-debug-0.log
+/opt/Kudu/Scripts/starter.sh npm install &amp;&amp; npm run build &amp;&amp; npm start" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.CustomBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/CustomBuilder.cs:line 53
+--- End of stack trace from previous location ---
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840
+   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 266" /><!-- duration: 10ms -->
+          </step><!-- duration: 6747ms -->
+          <step title="Reloading status file with latest updates" date="2026-03-15T21:03:12.977" >
+            <step title="WebHooksManager.PublishEventAsync: PostDeployment" date="2026-03-15T21:03:12.982" /><!-- duration: 71ms -->
+          </step><!-- duration: 80ms -->
+          <step title="Error occurred" date="2026-03-15T21:03:13.062" type="error" text="npm ERR! code EINVALIDTAGNAME
+npm ERR! Invalid tag name &quot;&amp;&amp;&quot; of package &quot;&amp;&amp;&quot;: Tags may not have any characters that encodeURIComponent encodes.
+
+npm ERR! A complete log of this run can be found in: /home/.npm/_logs/2026-03-15T21_03_08_138Z-debug-0.log
+/opt/Kudu/Scripts/starter.sh npm install &amp;&amp; npm run build &amp;&amp; npm start" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.CustomBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/CustomBuilder.cs:line 53
+--- End of stack trace from previous location ---
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840
+   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 266" /><!-- duration: 4ms -->
+          <step title="Marking deployment as failed and cleaning up the temp deployment" date="2026-03-15T21:03:13.123" /><!-- duration: 18ms -->
+        </step><!-- duration: 8755ms -->
+      </step><!-- duration: 8768ms -->
+      <step title="Error occurred" date="2026-03-15T21:03:13.307" type="error" text="Deployment failed" stackTrace="   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 307
+   at Kudu.Core.Deployment.FetchDeploymentManager.PerformDeployment(DeploymentInfoBase deploymentInfo, IDisposable tempDeployment, ChangeSet tempChangeSet, DeployStatusApiResult updateStatusObj) in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 230
+   at Kudu.Core.Deployment.FetchDeploymentManager.&lt;&gt;c__DisplayClass17_0.&lt;&lt;FetchDeploy&gt;b__0&gt;d.MoveNext() in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 131
+--- End of stack trace from previous location ---
+   at Kudu.Core.Deployment.FetchDeploymentManager.FetchDeploy(DeploymentInfoBase deployInfo, Boolean asyncRequested, Uri requestUri, String targetBranch) in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 124
+   at Kudu.Services.Deployment.PushDeploymentController.PushDeployAsync(ArtifactDeploymentInfo deploymentInfo, Boolean isAsync, HttpContext context, JObject requestJson) in /tmp/KuduLite/Kudu.Services/Deployment/PushDeploymentController.cs:line 802
+   at Kudu.Services.Deployment.PushDeploymentController.OneDeploy(String type, Boolean async, String path, Nullable`1 restart, Nullable`1 clean, Boolean ignoreStack, Boolean trackDeploymentProgress, Boolean trackStatus, Boolean reset) in /tmp/KuduLite/Kudu.Services/Deployment/PushDeploymentController.cs:line 624
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeActionMethodAsync&gt;g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeNextActionFilterAsync&gt;g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeInnerFilterAsync&gt;g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeNextResourceFilter&gt;g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeFilterPipelineAsync&gt;g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeAsync&gt;g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeAsync&gt;g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Kudu.Services.Web.Startup.&lt;&gt;c.&lt;&lt;Configure&gt;b__11_7&gt;d.MoveNext() in /tmp/KuduLite/Kudu.Services.Web/Startup.cs:line 428
+--- End of stack trace from previous location ---
+   at Kudu.Services.Web.Tracing.TraceMiddleware.Invoke(HttpContext context) in /tmp/KuduLite/Kudu.Services.Web/Tracing/TraceMiddleware.cs:line 101" innerText="npm ERR! code EINVALIDTAGNAME
+npm ERR! Invalid tag name &quot;&amp;&amp;&quot; of package &quot;&amp;&amp;&quot;: Tags may not have any characters that encodeURIComponent encodes.
+
+npm ERR! A complete log of this run can be found in: /home/.npm/_logs/2026-03-15T21_03_08_138Z-debug-0.log
+/opt/Kudu/Scripts/starter.sh npm install &amp;&amp; npm run build &amp;&amp; npm start" innerStackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.CustomBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/CustomBuilder.cs:line 53
+--- End of stack trace from previous location ---
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840
+   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 266" /><!-- duration: 5ms -->
+      <step title="Incoming Request" date="2026-03-15T21:03:13.347" url="/Error?type=zip" method="POST" type="request" pid="831,1,18" Accept="*/*" Host="wa-pos-fe-dev1-ananhya5hqaafffj.scm.swedencentral-01.azurewebsites.net" User-Agent="AZURECLI/2.80.0 (MSI)" Accept-Encoding="gzip, deflate" Authorization="Bea..." Cache-Control="no-cache" Content-Type="application/octet-stream" Cookie="ARRAffinity=c6a88b48c7c8f7eb36b815faecc076b5af62a303dfe264125f83c50a4458b7aa; ARRAffinitySameSite=c6a88b48c7c8f7eb36b815faecc076b5af62a303dfe264125f83c50a4458b7aa" Content-Length="6658693" x-ms-client-request-id="4db8dece-20b2-11f1-bab7-dc4546b84e16" x-ms-artifact-checksum="61c6cfbe3abb211d6015ca0b70c63c1ab81080bcc6d6e66eed10f6e8a27770f5" X-ARR-LOG-ID="4db8dece-20b2-11f1-bab7-dc4546b84e16" CLIENT-IP="86.108.21.241:16016" X-SITE-DEPLOYMENT-ID="WA-POS-FE-DEV1" WAS-DEFAULT-HOSTNAME="wa-pos-fe-dev1-ananhya5hqaafffj.scm.swedencentral-01.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/publish?type=zip" X-Client-IP="86.108.21.241" X-Client-Port="16016" >
+        <step title="Outgoing response" date="2026-03-15T21:03:13.378" type="response" statusCode="400" statusText="BadRequest" /><!-- duration: 4ms -->
+      </step><!-- duration: 44ms -->

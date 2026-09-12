@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/assets/layout,_N_T_/admin/assets/maintenance/layout,_N_T_/admin/assets/maintenance/page,_N_T_/admin/assets/maintenance"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/assets/maintenance/__PAGE__",
+    "/admin/assets/maintenance",
+    "/admin/assets",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}

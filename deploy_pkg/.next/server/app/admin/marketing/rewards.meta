@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/marketing/layout,_N_T_/admin/marketing/rewards/layout,_N_T_/admin/marketing/rewards/page,_N_T_/admin/marketing/rewards"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/marketing/rewards/__PAGE__",
+    "/admin/marketing/rewards",
+    "/admin/marketing",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}

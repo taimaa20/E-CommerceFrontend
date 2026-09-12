@@ -1,0 +1,102 @@
+{
+  "brand": {
+    "name": "Sando Box",
+    "nameAr": "ساندو بوكس",
+    "tagline": "Handcrafted Sandos, Big Flavor, Small Box",
+    "taglineAr": "ساندوتشات مميزة، نكهات كبيرة، في علبة صغيرة",
+    "logo": "/website/brand/logo-wordmark.png"
+  },
+  "hero": {
+    "eyebrow": "Since 2023 · Egypt",
+    "eyebrowAr": "منذ 2023 · مصر",
+    "title": "Crafted Sandos.\nBold Flavors.",
+    "titleAr": "ساندوتشات مصنوعة بعناية.\nنكهات جريئة.",
+    "subtitle": "Every Sando is built fresh to order with premium ingredients and a whole lot of love. Welcome to the Box.",
+    "subtitleAr": "كل ساندوتش يُصنع طازجًا بمكونات مميزة وحب كبير. مرحبًا بك في البوكس.",
+    "ctaPrimary": "Explore Menu",
+    "ctaPrimaryAr": "استكشف القائمة",
+    "ctaSecondary": "Visit Us",
+    "ctaSecondaryAr": "زورنا"
+  },
+  "about": {
+    "eyebrow": "Our Story",
+    "eyebrowAr": "قصتنا",
+    "title": "A little box. A lot of flavor.",
+    "titleAr": "علبة صغيرة. نكهة عظيمة.",
+    "paragraphs": [
+      "Sando Box was born out of a simple idea: the perfect sandwich shouldn't be complicated — it should be honest, fresh, and unforgettable. We hand-pick every ingredient, bake our bread in-house, and build every sando the moment you order it.",
+      "From our signature sauces to slow-cooked proteins, every bite is designed to surprise you. No shortcuts. No compromises. Just real food, served with real heart — in a box."
+    ],
+    "paragraphsAr": [
+      "وُلد ساندو بوكس من فكرة بسيطة: الساندوتش المثالي لا يجب أن يكون معقدًا، بل صادقًا وطازجًا ولا يُنسى. نختار كل مكون بعناية، ونخبز خبزنا في المطبخ، ونُعد كل ساندوتش في لحظة طلبك.",
+      "من صلصاتنا المميزة إلى اللحوم المطهوة ببطء، كل قضمة مصممة لتفاجئك. بدون اختصارات. بدون تنازلات. فقط طعام حقيقي، يُقدم بقلب حقيقي، في علبة."
+    ],
+    "image": "/website/brand/story-brand-scene.jpg",
+    "stats": [
+      { "value": "12+", "label": "Signature Sandos", "labelAr": "ساندوتش مميز" },
+      { "value": "100%", "label": "Fresh Daily", "labelAr": "طازج يوميًا" },
+      { "value": "4.9", "label": "Guest Rating", "labelAr": "تقييم الضيوف" }
+    ]
+  },
+  "experience": {
+    "eyebrow": "Why Sando Box",
+    "eyebrowAr": "لماذا ساندو بوكس",
+    "title": "Crafted with care, served with pride.",
+    "titleAr": "مصنوع بعناية، يُقدم بفخر.",
+    "items": [
+      {
+        "icon": "chef",
+        "title": "Made-to-Order",
+        "titleAr": "يُحضّر حسب الطلب",
+        "description": "Every sando is built fresh the moment you order it. No shortcuts.",
+        "descriptionAr": "كل ساندوتش يُحضّر طازجًا فور طلبك. بدون اختصارات."
+      },
+      {
+        "icon": "leaf",
+        "title": "Premium Ingredients",
+        "titleAr": "مكونات مميزة",
+        "description": "Locally sourced produce and proteins, hand-picked every single morning.",
+        "descriptionAr": "منتجات ولحوم محلية، نختارها بعناية كل صباح."
+      },
+      {
+        "icon": "flame",
+        "title": "Signature Recipes",
+        "titleAr": "وصفات حصرية",
+        "description": "House-made sauces, slow-cooked proteins, and fresh-baked bread daily.",
+        "descriptionAr": "صلصات من مطبخنا، لحوم مطهوة ببطء، وخبز طازج يوميًا."
+      },
+      {
+        "icon": "box",
+        "title": "Built to Travel",
+        "titleAr": "مصمم للتنقل",
+        "description": "Our signature boxes keep it crisp, warm, and flavorful from kitchen to you.",
+        "descriptionAr": "علبنا المميزة تحافظ على الطعم والقرمشة من المطبخ إليك."
+      }
+    ]
+  },
+  "gallery": [
+    { "src": "/website/brand/strategy-sandos.jpg", "alt": "Signature sandos rising from the Sando Box", "altAr": "ساندوتشات مميزة تخرج من علبة ساندو بوكس" },
+    { "src": "/website/brand/strategy-premium-spread.jpg", "alt": "Sando Box spread with signature sandwiches", "altAr": "تشكيلة ساندو بوكس مع الساندوتشات المميزة" },
+    { "src": "/website/brand/photo-wraps-board.jpg", "alt": "Fresh burgers wrapped in branded Sando Box paper", "altAr": "برجر طازج داخل ورق ساندو بوكس المطبوع" },
+    { "src": "/website/brand/photo-bread-bags.jpg", "alt": "Fresh bread peeking from Sando Box sleeves", "altAr": "خبز طازج ظاهر من أكمام ساندو بوكس" },
+    { "src": "/website/brand/strategy-brand-scene.jpg", "alt": "Sando Box ready to serve with bag and sandwich set", "altAr": "ساندو بوكس جاهز للتقديم مع الكيس وتشكيلة الساندوتشات" },
+    { "src": "/website/brand/photo-boxes-red.jpg", "alt": "Freshly boxed Sando Box orders on the red backdrop", "altAr": "طلبات ساندو بوكس مجهزة على الخلفية الحمراء" }
+  ],
+  "contact": {
+    "address": "Craft Zone, Second New Cairo, Cairo Governorate",
+    "addressAr": "كرافت زوون، ثانى القاهرة الجديدة، محافظة القاهرة",
+    "phones": ["0101010 86 37", "0101010 85 37"],
+    "email": "support@sandobox.net",
+    "hours": [
+      { "days": "Sunday – Thursday", "daysAr": "الأحد – الخميس", "time": "11:00 AM – 01:00 AM" },
+      { "days": "Friday – Saturday", "daysAr": "الجمعة – السبت", "time": "12:00 PM – 02:00 AM" }
+    ],
+    "social": {
+      "instagram": "https://www.instagram.com/sandobox.eg/?hl=en",
+      "facebook": "https://www.facebook.com/share/1838mj1UyF/?mibextid=wwXIfr",
+      "tiktok": "https://www.tiktok.com/@sandobox.eg?_r=1&_t=ZS-95Vq978TdES"
+    },
+    "mapEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.749667378139!2d31.670280199999997!3d30.072709300000007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1457f5d79cd84d57%3A0x4b1659e598d4bab0!2sSandobox!5e0!3m2!1sen!2sjo!4v1778142528282!5m2!1sen!2sjo"
+}
+}
+ 

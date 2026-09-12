@@ -1,0 +1,49 @@
+{
+  "offers": [
+    {
+      "id": "combo-solo",
+      "name": "The Solo Box",
+      "nameAr": "ذا سولو بوكس",
+      "tagline": "1 Sando · Fries · Drink",
+      "taglineAr": "ساندوتش · بطاطس · مشروب",
+      "description": "Grab-and-go perfection. Any signature sando paired with crispy fries and a chilled drink.",
+      "descriptionAr": "وجبة خفيفة ومتكاملة. ساندوتش مميز مع بطاطس مقرمشة ومشروب بارد.",
+      "price": 24,
+      "originalPrice": 29,
+      "image": "/website/brand/strategy-sandos.jpg",
+      "badge": "Most Popular",
+      "badgeAr": "الأكثر طلبًا",
+      "color": "red"
+    },
+    {
+      "id": "combo-family",
+      "name": "The Family Box",
+      "nameAr": "ذا فاميلي بوكس",
+      "tagline": "4 Pieces Fried · Kofta · Sides · 4 Drinks",
+      "taglineAr": "4 قطع فرايد · كفتة · أطباق جانبية · 4 مشروبات",
+      "description": "Built for the whole table. Four-piece fried chicken, half-kilo kofta, sides, and drinks for four.",
+      "descriptionAr": "مصمم لكل العائلة. 4 قطع فرايد تشكن، نصف كيلو كفتة، أطباق جانبية، ومشروبات لأربعة أشخاص.",
+      "price": 289,
+      "originalPrice": 340,
+      "image": "/website/brand/strategy-premium-spread.jpg",
+      "badge": "Best Value",
+      "badgeAr": "أفضل قيمة",
+      "color": "black"
+    },
+    {
+      "id": "combo-party",
+      "name": "The Party Box",
+      "nameAr": "ذا بارتي بوكس",
+      "tagline": "8 Pieces Fried · 1kg Kofta · Sides · 8 Drinks",
+      "taglineAr": "8 قطع فرايد · كيلو كفتة · أطباق جانبية · 8 مشروبات",
+      "description": "For the big crew. Eight-piece fried chicken, a full kilo of kofta, all the sides, drinks for eight.",
+      "descriptionAr": "للاجتماعات الكبيرة. 8 قطع فرايد تشكن، كيلو كامل كفتة، كل الأطباق الجانبية، ومشروبات لثمانية.",
+      "price": 549,
+      "originalPrice": 640,
+      "image": "/website/brand/strategy-brand-scene.jpg",
+      "badge": "Save 15%",
+      "badgeAr": "وفر 15%",
+      "color": "red"
+    }
+  ]
+}

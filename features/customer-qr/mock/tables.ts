@@ -1,0 +1,68 @@
+import type { CustomerTable } from "../types";
+
+export const mockTables: CustomerTable[] = [
+  {
+    id: "T1",
+    code: "01",
+    label: { en: "Table 1", ar: "طاولة 1" },
+    area: { en: "Main hall", ar: "الصالة الرئيسية" },
+    seats: 2,
+    active: true,
+  },
+  {
+    id: "T2",
+    code: "02",
+    label: { en: "Table 2", ar: "طاولة 2" },
+    area: { en: "Main hall", ar: "الصالة الرئيسية" },
+    seats: 4,
+    active: true,
+  },
+  {
+    id: "T3",
+    code: "03",
+    label: { en: "Table 3", ar: "طاولة 3" },
+    area: { en: "Window", ar: "النافذة" },
+    seats: 2,
+    active: true,
+  },
+  {
+    id: "T4",
+    code: "04",
+    label: { en: "Table 4", ar: "طاولة 4" },
+    area: { en: "Window", ar: "النافذة" },
+    seats: 4,
+    active: true,
+  },
+  {
+    id: "T5",
+    code: "05",
+    label: { en: "Table 5", ar: "طاولة 5" },
+    area: { en: "Terrace", ar: "التراس" },
+    seats: 6,
+    active: true,
+  },
+  {
+    id: "T6",
+    code: "06",
+    label: { en: "Table 6", ar: "طاولة 6" },
+    area: { en: "Terrace", ar: "التراس" },
+    seats: 4,
+    active: true,
+  },
+  {
+    id: "T7",
+    code: "07",
+    label: { en: "VIP Booth", ar: "صالة كبار الزوار" },
+    area: { en: "VIP", ar: "كبار الزوار" },
+    seats: 8,
+    active: true,
+  },
+  {
+    id: "T8",
+    code: "08",
+    label: { en: "Bar Seat", ar: "مقعد البار" },
+    area: { en: "Bar", ar: "البار" },
+    seats: 1,
+    active: true,
+  },
+];

@@ -1,0 +1,71 @@
+# 🚀 QUICK DEPLOYMENT CHECKLIST
+
+## ✅ PRE-DEPLOYMENT (5 minutes)
+
+- [ ] New App Service created (Node 20-lts runtime)
+- [ ] App Service name: ________________
+- [ ] Resource group: ________________
+- [ ] Tenant: ________________
+
+## ✅ ENVIRONMENT SETUP (2 minutes)
+
+Set these in Azure Portal → App Service → Configuration → Application Settings:
+
+| Setting | Value |
+|---------|-------|
+| `PORT` | `8080` |
+| `NODE_ENV` | `production` |
+| `NEXT_PUBLIC_API_URL` | `/api/api-proxy` |
+| `NEXT_PUBLIC_SIGNALR_URL` | `https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net//` |
+| `BACKEND_URL` | `https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net//` |
+
+Click **Save** ✅
+
+## ✅ DEPLOYMENT (METHOD 1: VS CODE)
+
+1. [ ] Open VS Code
+2. [ ] Click **Azure** icon (left sidebar)
+3. [ ] Expand **App Services**
+4. [ ] **Right-click** your new App Service
+5. [ ] **Select** "Deploy to Web App"
+6. [ ] **Choose folder:** `RestaurantPos.Client`
+7. [ ] **Confirm** deployment
+8. [ ] ⏳ Wait 2-3 minutes for completion
+
+## ✅ DEPLOYMENT (METHOD 2: Azure CLI)
+
+```powershell
+az login --tenant "YOUR_TENANT_ID"
+az account set --subscription "YOUR_SUB_ID"
+
+cd "d:\New folder\source\resturant-pos\aipartner\aipartner-main\RestaurantPos.Client"
+
+az webapp deploy `
+  --resource-group YOUR_RESOURCE_GROUP `
+  --name YOUR_APP_SERVICE_NAME `
+  --src-path deploy.zip `
+  --type zip
+```
+
+## ✅ POST-DEPLOYMENT VERIFICATION
+
+- [ ] Go to Azure Portal → Your App Service
+- [ ] See **Status: Running** ✅
+- [ ] Click **Default domain** URL
+- [ ] See "Restaurant POS" interface ✅
+- [ ] Check browser console for errors ✅
+
+## 🎯 FINAL STATE
+
+- ✅ App is **RUNNING**
+- ✅ Shows **POS Interface**
+- ✅ **No errors** in console
+- ✅ **Backend API** responding
+- ✅ **Deployment COMPLETE** 🎉
+
+---
+
+**Deployment File Info:**
+- File: `deploy.zip` (6.35 MB)
+- Location: `d:\New folder\source\resturant-pos\aipartner\aipartner-main\RestaurantPos.Client\`
+- Configuration: Auto build and start on deployment

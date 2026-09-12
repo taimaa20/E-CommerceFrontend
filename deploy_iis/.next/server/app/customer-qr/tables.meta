@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/customer-qr/layout,_N_T_/customer-qr/tables/layout,_N_T_/customer-qr/tables/page,_N_T_/customer-qr/tables"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/customer-qr/tables/__PAGE__",
+    "/customer-qr/tables",
+    "/customer-qr",
+    "/_index",
+    "/_head"
+  ]
+}

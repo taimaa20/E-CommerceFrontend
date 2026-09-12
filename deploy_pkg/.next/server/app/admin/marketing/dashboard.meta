@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/marketing/layout,_N_T_/admin/marketing/dashboard/layout,_N_T_/admin/marketing/dashboard/page,_N_T_/admin/marketing/dashboard"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/marketing/dashboard/__PAGE__",
+    "/admin/marketing/dashboard",
+    "/admin/marketing",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}

@@ -1,0 +1,133 @@
+2026-03-15T21:29:02.2052660Z,Updating submodules.,621cd050-6f09-4ea4-8e24-ae329cf7689e,0
+2026-03-15T21:29:03.3845014Z,Preparing deployment for commit id 'ba4f6af6-e'.,e8949dd7-0a8b-4b6b-9865-205cd3e7277e,0
+2026-03-15T21:29:03.9304360Z,PreDeployment: context.CleanOutputPath False,9f3b4b09-be06-4b03-b3d9-181e227f8cc1,0
+2026-03-15T21:29:04.1022990Z,PreDeployment: context.OutputPath /home/site/wwwroot,abb96c68-0e2f-484a-88af-8f60bb185def,0
+2026-03-15T21:29:04.2963669Z,Repository path is /tmp/zipdeploy/extracted,88bcda7b-2dbe-459f-ad3a-b614ba95eaf4,0
+2026-03-15T21:29:04.4496271Z,Running oryx build...,365f6a23-1c0f-427f-aa12-5a7e8c5b2f88,0
+	2026-03-15T21:29:04.4697280Z,Command: oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de82d9e18af5b0 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log,,0
+	2026-03-15T21:29:05.8944644Z,Operation performed by Microsoft Oryx&comma; https://github.com/Microsoft/Oryx,,0
+	2026-03-15T21:29:05.9355399Z,You can report issues at https://github.com/Microsoft/Oryx/issues,,0
+	2026-03-15T21:29:06.0039019Z,,,0
+	2026-03-15T21:29:06.0456968Z,Oryx Version: 0.2.20260204.1+0fdbe200b286be083841ff7fa201c6c2316dc6b9&comma; Commit: 0fdbe200b286be083841ff7fa201c6c2316dc6b9&comma; ReleaseTagName: 20260204.1,,0
+	2026-03-15T21:29:06.0931797Z,,,0
+	2026-03-15T21:29:06.1847247Z,Build Operation ID: bb2894c6744c2b00,,0
+	2026-03-15T21:29:06.2335912Z,Repository Commit : ba4f6af6-eb09-4448-9a53-000acbd965a4,,0
+	2026-03-15T21:29:06.3060046Z,OS Type           : bookworm,,0
+	2026-03-15T21:29:06.3560999Z,Image Type        : githubactions,,0
+	2026-03-15T21:29:06.4451720Z,,,0
+	2026-03-15T21:29:06.4856053Z,Primary SDK Storage URL: https://oryx-cdn.microsoft.io,,0
+	2026-03-15T21:29:06.5459895Z,Backup SDK Storage URL: ,,0
+	2026-03-15T21:29:06.5936470Z,Detecting platforms...,,0
+	2026-03-15T21:29:06.6449453Z,External SDK provider is enabled.,,0
+	2026-03-15T21:29:06.6761846Z,Requesting metadata for platform nodejs from external SDK provider,,0
+	2026-03-15T21:29:07.9845831Z,Requesting metadata for platform nodejs from external SDK provider,,0
+	2026-03-15T21:29:08.3306374Z,Detected following platforms:,,0
+	2026-03-15T21:29:08.3591080Z,  nodejs: 20.20.0,,0
+	2026-03-15T21:29:08.3793117Z,Requesting metadata for platform nodejs from external SDK provider,,0
+	2026-03-15T21:29:09.0858268Z,Version '20.20.0' of platform 'nodejs' is not installed. Generating script to install it...,,0
+	2026-03-15T21:29:09.2865213Z,Detected the following frameworks: Typescript&comma;Next.js,,0
+	2026-03-15T21:29:09.5763058Z,,,0
+	2026-03-15T21:29:09.6440729Z,Using intermediate directory '/tmp/8de82d9e18af5b0'.,,0
+	2026-03-15T21:29:09.6663553Z,,,0
+	2026-03-15T21:29:09.7158658Z,Copying files to the intermediate directory...,,0
+	2026-03-15T21:29:09.7783775Z,Copying files to intermediate directory done in 0 sec(s).,,0
+	2026-03-15T21:29:09.8001036Z,,,0
+	2026-03-15T21:29:09.8473972Z,Source directory     : /tmp/8de82d9e18af5b0,,0
+	2026-03-15T21:29:09.8758061Z,Destination directory: /home/site/wwwroot,,0
+	2026-03-15T21:29:09.9458896Z,,,0
+	2026-03-15T21:29:09.9858600Z,Installing platform...,,0
+	2026-03-15T21:29:10.0062008Z,,,0
+	2026-03-15T21:29:10.0354467Z,Downloading and extracting 'nodejs' version '20.20.0' to '/tmp/oryx/platforms/nodejs/20.20.0'...,,0
+	2026-03-15T21:29:10.0579766Z,Detected image debian flavor: bookworm.,,0
+	2026-03-15T21:29:10.1058966Z,Skipping download of nodejs version 20.20.0 as it is available in external sdk provider cache...,,0
+	2026-03-15T21:29:10.1572598Z,Extracting contents...,,0
+	2026-03-15T21:29:16.7985276Z,Successfully extracted nodejs version 20.20.0 from external sdk provider cache...,,0
+	2026-03-15T21:29:16.8966581Z,,,0
+	2026-03-15T21:29:16.9390547Z,Platform installation done in 7 sec(s).,,0
+	2026-03-15T21:29:17.1179502Z,Running build script snippets...,,0
+	2026-03-15T21:29:17.1568307Z,Removing existing manifest file,,0
+	2026-03-15T21:29:17.1885658Z,Creating directory for command manifest file if it does not exist,,0
+	2026-03-15T21:29:17.2168819Z,Creating a manifest file...,,0
+	2026-03-15T21:29:17.2324280Z,Node Build Command Manifest file created.,,0
+	2026-03-15T21:29:17.2392664Z,,,0
+	2026-03-15T21:29:17.2455853Z,Using Node version:,,0
+	2026-03-15T21:29:17.2774100Z,v20.20.0,,0
+	2026-03-15T21:29:17.2997511Z,,,0
+	2026-03-15T21:29:17.3280694Z,Using Npm version:,,0
+	2026-03-15T21:29:18.1670889Z,10.8.2,,0
+	2026-03-15T21:29:18.2374854Z,,,0
+	2026-03-15T21:29:18.2685064Z,Running 'npm install'...,,0
+	2026-03-15T21:29:18.3285549Z,,,0
+	2026-03-15T21:30:24.9159102Z,,,0
+	2026-03-15T21:30:25.0435964Z,added 187 packages&comma; and audited 188 packages in 1m,,0
+	2026-03-15T21:30:25.0646420Z,,,0
+	2026-03-15T21:30:25.1432964Z,12 packages are looking for funding,,0
+	2026-03-15T21:30:25.1740608Z,  run `npm fund` for details,,0
+	2026-03-15T21:30:25.2739300Z,,,0
+	2026-03-15T21:30:25.3346808Z,1 high severity vulnerability,,0
+	2026-03-15T21:30:25.3639758Z,,,0
+	2026-03-15T21:30:25.3849619Z,To address all issues&comma; run:,,0
+	2026-03-15T21:30:25.4148260Z,  npm audit fix --force,,0
+	2026-03-15T21:30:25.4347619Z,,,0
+	2026-03-15T21:30:25.4659376Z,Run `npm audit` for details.,,0
+	2026-03-15T21:30:25.5952157Z,,,0
+	2026-03-15T21:30:25.6240630Z,Running 'npm run build'...,,0
+	2026-03-15T21:30:25.6448087Z,,,0
+	2026-03-15T21:30:26.2968347Z,,,0
+	2026-03-15T21:30:26.3363702Z,> restaurant-pos-client@0.1.0 build,,0
+	2026-03-15T21:30:26.4045405Z,> next build,,0
+	2026-03-15T21:30:26.4267537Z,,,0
+	2026-03-15T21:30:29.9105764Z,⚠ Installing TypeScript as it was not found while loading "next.config.ts".,,1
+	2026-03-15T21:30:30.0421060Z,,,0
+	2026-03-15T21:30:30.0733297Z,Installing devDependencies (npm):,,0
+	2026-03-15T21:30:30.1044730Z,- typescript,,0
+	2026-03-15T21:30:30.1451118Z,,,0
+	2026-03-15T21:31:31.0955273Z,,,0
+	2026-03-15T21:31:31.2472149Z,added 328 packages&comma; and audited 516 packages in 1m,,0
+	2026-03-15T21:31:31.4572556Z,,,0
+	2026-03-15T21:31:31.5164426Z,150 packages are looking for funding,,0
+	2026-03-15T21:31:31.5665934Z,  run `npm fund` for details,,0
+	2026-03-15T21:31:31.6154836Z,,,0
+	2026-03-15T21:31:31.6275177Z,4 vulnerabilities (1 moderate&comma; 3 high),,0
+	2026-03-15T21:31:31.6357085Z,⨯ Failed to load next.config.ts&comma; see more info here https://nextjs.org/docs/messages/next-config-error,,1
+	2026-03-15T21:31:31.7166921Z,,,0
+	2026-03-15T21:31:31.7464835Z,To address issues that do not require attention&comma; run:,,0
+	2026-03-15T21:31:31.7496134Z,,,1
+	2026-03-15T21:31:31.7695815Z,  npm audit fix,,0
+	2026-03-15T21:31:31.8154240Z,> Build error occurred,,1
+	2026-03-15T21:31:31.9061341Z,,,0
+	2026-03-15T21:31:31.9168674Z,Error: Failed to transpile "next.config.ts".,,1
+	2026-03-15T21:31:31.9298950Z,    at ignore-listed frames {,,1
+	2026-03-15T21:31:31.9463536Z,To address all issues&comma; run:,,0
+	2026-03-15T21:31:31.9690751Z,  [cause]: Error: Cannot find module 'typescript',,1
+	2026-03-15T21:31:32.1094689Z,  npm audit fix --force,,0
+	2026-03-15T21:31:32.1206228Z,  Require stack:,,1
+	2026-03-15T21:31:32.1279710Z,  - /tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js,,1
+	2026-03-15T21:31:32.1354532Z,  - /tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js,,1
+	2026-03-15T21:31:32.1401307Z,,,0
+	2026-03-15T21:31:32.1510731Z,  - /tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js,,1
+	2026-03-15T21:31:32.1700099Z,Run `npm audit` for details.,,0
+	2026-03-15T21:31:32.1870842Z,  - /tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next,,1
+	2026-03-15T21:31:32.2092589Z,,,0
+	2026-03-15T21:31:32.2281713Z,      at ignore-listed frames {,,1
+	2026-03-15T21:31:32.2766168Z,    code: 'MODULE_NOT_FOUND'&comma;,,1
+	2026-03-15T21:31:32.3082646Z,    requireStack: [,,1
+	2026-03-15T21:31:32.3274932Z,      '/tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js'&comma;,,1
+	2026-03-15T21:31:32.3408196Z,      '/tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js'&comma;,,1
+	2026-03-15T21:31:32.3591466Z,      '/tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js'&comma;,,1
+	2026-03-15T21:31:32.3778079Z,      '/tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next',,1
+	2026-03-15T21:31:32.4033745Z,    ],,1
+	2026-03-15T21:31:32.4187661Z,  },,1
+	2026-03-15T21:31:32.4386568Z,},,1
+	2026-03-15T21:31:33.2619538Z,⚠ Installing TypeScript as it was not found while loading "next.config.ts".\n⨯ Failed to load next.config.ts&comma; see more info here https://nextjs.org/docs/messages/next-config-error\n\n> Build error occurred\nError: Failed to transpile "next.config.ts".\n    at ignore-listed frames {\n  [cause]: Error: Cannot find module 'typescript'\n  Require stack:\n  - /tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js\n  - /tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js\n  - /tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js\n  - /tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next\n      at ignore-listed frames {\n    code: 'MODULE_NOT_FOUND'&comma;\n    requireStack: [\n      '/tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js'&comma;\n      '/tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js'&comma;\n      '/tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js'&comma;\n      '/tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next'\n    ]\n  }\n}\n/bin/bash -c "oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de82d9e18af5b0 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS ",,2
+2026-03-15T21:31:33.4394301Z,,639cd647-5522-4af1-88c1-58fb07840678,0
+2026-03-15T21:31:33.5769982Z,Generating summary of Oryx build,3a63a61f-c4e4-49c2-ae09-980b4c6686c7,0
+2026-03-15T21:31:33.7862766Z,Parsing the build logs,8e127e86-71bc-468e-a184-12d6da977c5d,0
+2026-03-15T21:31:33.9475230Z,Found 0 issue(s),a05de00c-2f5f-4860-93c4-6aec8f3ae5c0,0
+2026-03-15T21:31:34.1038672Z,,6a7688a3-9342-4102-9f7e-5c3bef5e750a,0
+2026-03-15T21:31:34.2398826Z,Build Summary :,57fa8954-86e8-495d-93bf-fa377c9fed6a,0
+2026-03-15T21:31:34.4155614Z,===============,b2c76c92-f918-4aa9-863d-682a8cbeb250,0
+2026-03-15T21:31:34.5488378Z,Errors (0),b1048ee2-08ba-4093-80d5-4d73e22c8eb2,0
+2026-03-15T21:31:34.7080792Z,Warnings (0),9122f900-ad5f-45c6-b083-5584ffdf6680,0
+2026-03-15T21:31:34.8857719Z,,1452f35d-67dc-4bb6-8214-c64083dfc97b,0
+2026-03-15T21:31:35.5466883Z,Deployment Failed. deployer = Push-Deployer deploymentPath = ZipDeploy. Extract zip. Remote build.,90385e61-bcd6-4184-804d-6a72a747882a,0

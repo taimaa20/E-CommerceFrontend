@@ -1,0 +1,13 @@
+@echo off
+set PORT=3100
+set HOSTNAME=127.0.0.1
+set NODE_ENV=production
+set BACKEND_URL=http://20.240.161.85:778
+set NEXT_PUBLIC_API_URL=/api/api-proxy
+set NEXT_PUBLIC_API_BASE_URL=http://20.240.161.85:778
+set NEXT_PUBLIC_SIGNALR_URL=/signalr
+set PROXY_BUFFER_RESPONSES=true
+set TENANT_ID=3fa85f64-5717-4562-b3fc-2c963f66afa6
+set NEXT_PUBLIC_TENANT_ID=3fa85f64-5717-4562-b3fc-2c963f66afa6
+cd /d "%~dp0"
+node server.js

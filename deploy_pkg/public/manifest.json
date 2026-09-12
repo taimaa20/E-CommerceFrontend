@@ -1,0 +1,43 @@
+{
+    "name": "Restaurant POS",
+    "short_name": "POS",
+    "description": "Offline-first bilingual POS for cashier, takeaway, kitchen and dine-in stations.",
+    "start_url": "/ntxcashierpos",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "any",
+    "background_color": "#ffffff",
+    "theme_color": "#E8651A",
+    "icons": [
+        {
+            "src": "/sandologo.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg",
+            "purpose": "any"
+        },
+        {
+            "src": "/sandologo.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "purpose": "any"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Cashier",
+            "url": "/ntxcashierpos"
+        },
+        {
+            "name": "Takeaway",
+            "url": "/ntxtakeawaypos"
+        },
+        {
+            "name": "Kitchen",
+            "url": "/ntxkitchenpos"
+        },
+        {
+            "name": "Dine-In",
+            "url": "/ntxdineinpos"
+        }
+    ]
+}

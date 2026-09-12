@@ -1,0 +1,80 @@
+{
+  "app\\admin\\branding\\page.tsx -> @/lib/api": {
+    "id": 15340,
+    "files": []
+  },
+  "app\\admin\\dashboard\\audit\\page.tsx -> @/lib/dashboard/export": {
+    "id": 22974,
+    "files": [
+      "static/chunks/2974.27f72824d15d8b14.js"
+    ]
+  },
+  "app\\dinein\\page.tsx -> @/lib/offline/db": {
+    "id": 74727,
+    "files": []
+  },
+  "app\\receipt\\public\\[token]\\public-receipt-client.tsx -> html2canvas": {
+    "id": 80014,
+    "files": [
+      "static/chunks/ad2866b8.9ecf9523770f589c.js"
+    ]
+  },
+  "app\\receipt\\public\\[token]\\public-receipt-client.tsx -> sonner": {
+    "id": 29094,
+    "files": [
+      "static/chunks/9094-c733b4c51c602454.js"
+    ]
+  },
+  "lib\\print-receipt-image.ts -> @/lib/print-receipt": {
+    "id": 40154,
+    "files": []
+  },
+  "lib\\print-receipt-image.ts -> @/store/brandingStore": {
+    "id": 17397,
+    "files": [
+      "static/chunks/7397.0da02c682cf47397.js"
+    ]
+  },
+  "lib\\print-receipt-image.ts -> @/store/posStore": {
+    "id": 97012,
+    "files": []
+  },
+  "lib\\print-receipt-image.ts -> @/store/settingsStore": {
+    "id": 97511,
+    "files": [
+      "static/chunks/7511.bad7dfb75cc33832.js"
+    ]
+  },
+  "lib\\print-receipt.ts -> @/lib/print-receipt-html": {
+    "id": 97247,
+    "files": [
+      "static/chunks/7247.20ff794c86bce465.js"
+    ]
+  },
+  "node_modules\\next\\dist\\client\\index.js -> ../pages/_app": {
+    "id": 23342,
+    "files": [
+      "static/chunks/3342.0a1c2833d7450d08.js"
+    ]
+  },
+  "node_modules\\next\\dist\\client\\index.js -> ../pages/_error": {
+    "id": 70971,
+    "files": [
+      "static/chunks/971.941448c68a942b40.js"
+    ]
+  },
+  "store\\brandingStore.ts -> @/lib/api": {
+    "id": 15340,
+    "files": [
+      "static/chunks/5340-db46a2aa2ba2c890.js"
+    ]
+  },
+  "store\\posStore.ts -> @/lib/print-receipt-image": {
+    "id": 76725,
+    "files": [
+      "static/chunks/ad2866b8.9ecf9523770f589c.js",
+      "static/chunks/154-f9d2e504d16286a8.js",
+      "static/chunks/6725.8e84075c61911d3f.js"
+    ]
+  }
+}

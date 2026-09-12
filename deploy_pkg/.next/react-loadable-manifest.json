@@ -1,0 +1,86 @@
+{
+  "app\\admin\\branding\\page.tsx -> @/lib/api": {
+    "id": 80842,
+    "files": []
+  },
+  "app\\admin\\customers\\dashboard\\page.tsx -> @/components/admin/CustomerAnalyticsCharts": {
+    "id": 31043,
+    "files": [
+      "static/chunks/4976-b130a9f3a605fec9.js",
+      "static/chunks/2667-c23754eab3947aca.js",
+      "static/chunks/180-7648b35bf7fc7f64.js",
+      "static/chunks/1043.3ae295973fc0690e.js"
+    ]
+  },
+  "app\\admin\\dashboard\\audit\\page.tsx -> @/lib/dashboard/export": {
+    "id": 22974,
+    "files": [
+      "static/chunks/2974.b270b8f9939bc05b.js"
+    ]
+  },
+  "app\\dinein\\page.tsx -> @/lib/offline/db": {
+    "id": 74727,
+    "files": []
+  },
+  "app\\receipt\\public\\[token]\\public-receipt-client.tsx -> html2canvas": {
+    "id": 80014,
+    "files": [
+      "static/chunks/ad2866b8.9ecf9523770f589c.js"
+    ]
+  },
+  "app\\receipt\\public\\[token]\\public-receipt-client.tsx -> sonner": {
+    "id": 29094,
+    "files": [
+      "static/chunks/9094-c733b4c51c602454.js"
+    ]
+  },
+  "lib\\print-receipt-image.ts -> @/lib/print-receipt": {
+    "id": 40154,
+    "files": []
+  },
+  "lib\\print-receipt-image.ts -> @/store/brandingStore": {
+    "id": 17397,
+    "files": [
+      "static/chunks/7397.89e19321f882a817.js"
+    ]
+  },
+  "lib\\print-receipt-image.ts -> @/store/posStore": {
+    "id": 97012,
+    "files": []
+  },
+  "lib\\print-receipt-image.ts -> @/store/settingsStore": {
+    "id": 97511,
+    "files": [
+      "static/chunks/7511.e476de6efb64e532.js"
+    ]
+  },
+  "lib\\print-receipt.ts -> @/lib/print-receipt-html": {
+    "id": 97247,
+    "files": [
+      "static/chunks/7247.f820cde9d48a0f3b.js"
+    ]
+  },
+  "node_modules\\next\\dist\\client\\index.js -> ../pages/_app": {
+    "id": 23342,
+    "files": [
+      "static/chunks/3342.0a1c2833d7450d08.js"
+    ]
+  },
+  "node_modules\\next\\dist\\client\\index.js -> ../pages/_error": {
+    "id": 70971,
+    "files": [
+      "static/chunks/971.941448c68a942b40.js"
+    ]
+  },
+  "store\\brandingStore.ts -> @/lib/api": {
+    "id": 80842,
+    "files": []
+  },
+  "store\\posStore.ts -> @/lib/print-receipt-image": {
+    "id": 76725,
+    "files": [
+      "static/chunks/ad2866b8.9ecf9523770f589c.js",
+      "static/chunks/6725.38f59f6114e3ef3e.js"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+2026-03-15T21:16:35  Fetching changes.
+2026-03-15T21:16:35    Starting  LocalZipHandler
+2026-03-15T21:16:35    Cleaning up temp folders from previous zip deployments and extracting pushed zip file /tmp/zipdeploy/ede469a9-e870-4b6c-8563-06208c9df12e.zip (0.23 MB) to /tmp/zipdeploy/extracted
+2026-03-15T21:16:39  Updating submodules.
+2026-03-15T21:16:39  Preparing deployment for commit id '3856beb9-9'.
+2026-03-15T21:16:39  PreDeployment: context.CleanOutputPath False
+2026-03-15T21:16:39  PreDeployment: context.OutputPath /home/site/wwwroot
+2026-03-15T21:16:40  Running custom deployment command...
+2026-03-15T21:16:40  Not setting execute permissions for npm install && npm start
+2026-03-15T21:16:40  Running deployment command...
+2026-03-15T21:16:40    Command: npm install && npm start
+2026-03-15T21:16:45    npm ERR! code EINVALIDTAGNAME
+2026-03-15T21:16:45    npm ERR! Invalid tag name "&&" of package "&&": Tags may not have any characters that encodeURIComponent encodes.
+2026-03-15T21:16:45    
+2026-03-15T21:16:45    npm ERR! A complete log of this run can be found in: /home/.npm/_logs/2026-03-15T21_16_42_376Z-debug-0.log
+2026-03-15T21:16:45    npm ERR! code EINVALIDTAGNAME
+npm ERR! Invalid tag name "&&" of package "&&": Tags may not have any characters that encodeURIComponent encodes.
+
+npm ERR! A complete log of this run can be found in: /home/.npm/_logs/2026-03-15T21_16_42_376Z-debug-0.log
+/opt/Kudu/Scripts/starter.sh npm install && npm start
+2026-03-15T21:16:45  
+2026-03-15T21:16:45  Deployment Failed. deployer = OneDeploy deploymentPath = OneDeploy

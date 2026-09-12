@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/discount-groups/layout,_N_T_/admin/discount-groups/page,_N_T_/admin/discount-groups"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/discount-groups/__PAGE__",
+    "/admin/discount-groups",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}

@@ -1,0 +1,116 @@
+"use client";
+
+import { Suspense, useEffect } from "react";
+import Link from "next/link";
+import StoreImage from "@/components/showcase/StoreImage";
+import MenuOrderFlow from "@/components/showcase/MenuOrderFlow";
+import StoreHeader from "@/components/showcase/StoreHeader";
+import { useLocale } from "@/components/locale-provider";
+import { createStoreText } from "@/lib/store-copy";
+import { useCartStore } from "@/store/cartStore";
+import { useSettingsStore } from "@/store/settingsStore";
+import { storefrontBrandStyle, useStorefrontStore } from "@/store/storefrontStore";
+import "@/app/shop/storefront.css";
+
+/**
+ * Chrome shared by every public storefront page: header, footer and the cart /
+ * checkout flow. Wrapped by each store page rather than by app/shop/layout.tsx
+ * so the checkout route can mount the same chrome, and so /menu/[tableId] — the
+ * dine-in QR menu, which stays on /menu — keeps its own.
+ *
+ * This is also where the tenant's configured brand colours enter the store, as the two
+ * custom properties storefront.css derives every tint from. A tenant with no configured
+ * colours renders exactly the neutral theme it did before.
+ */
+export default function StoreShell({ children }: { children: React.ReactNode }) {
+    const { locale } = useLocale();
+    const isAr = locale === "ar";
+    const fetchSettings = useSettingsStore(state => state.fetchSettings);
+    const loadContext = useStorefrontStore(state => state.loadContext);
+    const loadBranding = useStorefrontStore(state => state.loadBranding);
+    const branding = useStorefrontStore(state => state.branding);
+    const status = useStorefrontStore(state => state.status);
+    const hasCartItems = useCartStore(state => state.items.length > 0);
+
+    useEffect(() => { void fetchSettings(); }, [fetchSettings]);
+    useEffect(() => { void loadBranding(); }, [loadBranding]);
+    useEffect(() => {
+        if (status === "idle") void loadContext();
+    }, [status, loadContext]);
+
+    return (
+        <div
+            className="storefront flex min-h-dvh flex-col bg-background text-foreground"
+            dir={isAr ? "rtl" : "ltr"}
+            style={storefrontBrandStyle(branding)}
+        >
+            <Suspense fallback={<div className="h-14 border-b sm:h-16" />}>
+                <StoreHeader />
+            </Suspense>
+            <main className="flex-1 pb-6 pt-6 sm:pb-8 sm:pt-8">{children}</main>
+            <StoreFooter isAr={isAr} />
+            {/* Keeps the sticky cart bar from covering the last row of content. */}
+            {hasCartItems && <div aria-hidden className="h-[calc(4.5rem+env(safe-area-inset-bottom))]" />}
+            <MenuOrderFlow />
+        </div>
+    );
+}
+
+function StoreFooter({ isAr }: { isAr: boolean }) {
+    const text = createStoreText(isAr);
+    const settings = useSettingsStore(state => state.settings);
+    const isLoaded = useSettingsStore(state => state.isLoaded);
+    if (!isLoaded) return null;
+
+    const contact = [
+        settings.restaurantAddress && { key: "address", value: settings.restaurantAddress, href: undefined },
+        settings.restaurantPhone && { key: "phone", value: settings.restaurantPhone, href: `tel:${settings.restaurantPhone}` },
+        settings.restaurantEmail && { key: "email", value: settings.restaurantEmail, href: `mailto:${settings.restaurantEmail}` },
+    ].filter(Boolean) as { key: string; value: string; href?: string }[];
+
+    return (
+        <footer className="mt-[var(--sf-section)] border-t bg-[var(--sf-surface-sunken)]">
+            <div className="sf-container flex flex-col gap-6 py-8 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
+                <div className="flex min-w-0 items-center gap-3">
+                    {settings.logoUrl && (
+                        <StoreImage
+                            src={settings.logoUrl}
+                            alt={settings.restaurantName}
+                            fit="contain"
+                            sizes="40px"
+                            className="size-10 shrink-0 rounded-[10px] border"
+                        />
+                    )}
+                    <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold">{settings.restaurantName}</p>
+                        {settings.restaurantTagline && (
+                            <p className="sf-meta line-clamp-1">{settings.restaurantTagline}</p>
+                        )}
+                    </div>
+                </div>
+
+                <nav aria-label={text("shop")} className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                    <Link href="/shop" className="text-muted-foreground transition-colors hover:text-foreground">{text("shop")}</Link>
+                    <Link href="/shop/categories" className="text-muted-foreground transition-colors hover:text-foreground">{text("categories")}</Link>
+                    <Link href="/shop/offers" className="text-muted-foreground transition-colors hover:text-foreground">{text("offers")}</Link>
+                    <Link href="/shop/orders" className="text-muted-foreground transition-colors hover:text-foreground">{text("trackOrder")}</Link>
+                </nav>
+
+                {contact.length > 0 && (
+                    <address className="not-italic sm:text-end">
+                        <p className="mb-1.5 text-sm font-semibold">{text("contactUs")}</p>
+                        <ul className="space-y-1">
+                            {contact.map(row => (
+                                <li key={row.key} className="sf-meta break-words">
+                                    {row.href
+                                        ? <a href={row.href} dir="ltr" className="transition-colors hover:text-foreground">{row.value}</a>
+                                        : row.value}
+                                </li>
+                            ))}
+                        </ul>
+                    </address>
+                )}
+            </div>
+        </footer>
+    );
+}

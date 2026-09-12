@@ -1,0 +1,299 @@
+{
+  "categories": [
+    {
+      "id": "sandwiches",
+      "name": "Sandwiches",
+      "nameAr": "السندويشات",
+      "description": "Handcrafted sandos, bold flavors, served warm.",
+      "descriptionAr": "ساندوتشات مُعدة بعناية، نكهات قوية، تُقدَّم ساخنة."
+    },
+    {
+      "id": "boxes",
+      "name": "Boxes",
+      "nameAr": "البوكسات",
+      "description": "The Sando Box experience — all in one.",
+      "descriptionAr": "تجربة ساندو بوكس كاملة في علبة واحدة."
+    },
+    {
+      "id": "meals",
+      "name": "Meals",
+      "nameAr": "الوجبات",
+      "description": "Complete plates built to satisfy.",
+      "descriptionAr": "وجبات متكاملة تُشبع."
+    },
+    {
+      "id": "fried-chicken",
+      "name": "Fried Chicken",
+      "nameAr": "فرايد تشكن",
+      "description": "Golden, crispy, never boring.",
+      "descriptionAr": "ذهبي ومقرمش، لن يمل منه أحد."
+    },
+    {
+      "id": "shawrma",
+      "name": "Shawrma",
+      "nameAr": "شاورما",
+      "description": "Slow-marinated, wood-fired, unforgettable.",
+      "descriptionAr": "متبل بعناية ومشوي على النار، لا يُنسى."
+    },
+    {
+      "id": "drinks",
+      "name": "Drinks",
+      "nameAr": "مشروبات",
+      "description": "Chilled & crafted.",
+      "descriptionAr": "مُنعشة ومُحضَّرة بعناية."
+    }
+  ],
+  "items": [
+    {
+      "id": "sandwiche-kofta-04358c",
+      "categoryId": "sandwiches",
+      "name": "Sandwiche kofta",
+      "nameAr": "ساندوتش كفته",
+      "description": "Grilled kofta served in warm Arabic bread, layered with fresh lettuce, tomatoes, onions, and pickles, finished with creamy tahini or garlic yogurt sauce. Optional crispy fries for extra flavor.",
+      "descriptionAr": "كفتة مشوية تقدم داخل خبز عربي دافئ مع خس طازج، طماطم، بصل، ومخلل، مع صوص الطحينة أو لبن بالثوم. يمكن إضافة بطاطا مقلية لمذاق إضافي.",
+      "price": 14.2,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg",
+      "featured": true
+    },
+    {
+      "id": "quarter-chicken-with-kofta-0b4ffd",
+      "categoryId": "meals",
+      "name": "Quarter Chicken with Kofta",
+      "nameAr": "ربع فراخ مع كفتة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 23.25,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg",
+      "featured": true
+    },
+    {
+      "id": "box-1-0fd6dd",
+      "categoryId": "boxes",
+      "name": "Box 1",
+      "nameAr": "بوكس 1",
+      "description": "",
+      "descriptionAr": "",
+      "price": 35.36,
+      "image": null,
+      "featured": true
+    },
+    {
+      "id": "box-2-1540a8",
+      "categoryId": "boxes",
+      "name": "Box 2",
+      "nameAr": "بوكس 2",
+      "description": "",
+      "descriptionAr": "",
+      "price": 128,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg",
+      "featured": true
+    },
+    {
+      "id": "half-kg-kofta-500g-kofta-263f1a",
+      "categoryId": "meals",
+      "name": "Half KG Kofta (500g Kofta)",
+      "nameAr": "نص كيلو كفتة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 35,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg",
+      "featured": true
+    },
+    {
+      "id": "3-pieces-meal-431826",
+      "categoryId": "fried-chicken",
+      "name": "3 Pieces Meal",
+      "nameAr": "وجبة 3 قطعة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 120,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg",
+      "featured": true
+    },
+    {
+      "id": "2-pieces-meal-481947",
+      "categoryId": "fried-chicken",
+      "name": "2 Pieces Meal",
+      "nameAr": "وجبة 2 قطعة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 80,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg",
+      "featured": true
+    },
+    {
+      "id": "half-chicken-with-kofta-5485eb",
+      "categoryId": "meals",
+      "name": "Half Chicken with Kofta",
+      "nameAr": "نص فراخ مع كفتة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 47.5,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg"
+    },
+    {
+      "id": "item-593e9d",
+      "categoryId": "sandwiches",
+      "name": "ساندوتش سجق",
+      "nameAr": "ساندوتش سجق",
+      "description": "",
+      "descriptionAr": "",
+      "price": 6.4,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg",
+      "featured": true
+    },
+    {
+      "id": "hawawshi-meat-bread-6dce28",
+      "categoryId": "sandwiches",
+      "name": "Hawawshi Meat Bread",
+      "nameAr": "رغيف حواوشي لحمة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 54,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414185000913_881300ea1ddd4c178f9a1c43f639ad1e.jpg"
+    },
+    {
+      "id": "1kg-kofta-6e9d5f",
+      "categoryId": "meals",
+      "name": "1kg Kofta",
+      "nameAr": "كيلو كفتة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 70,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg"
+    },
+    {
+      "id": "8-pieces-meal-712654",
+      "categoryId": "fried-chicken",
+      "name": "8 Pieces Meal",
+      "nameAr": "وجبة 8 قطعة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 320,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg"
+    },
+    {
+      "id": "water-735e6c",
+      "categoryId": "drinks",
+      "name": "water",
+      "nameAr": "مياه",
+      "description": "",
+      "descriptionAr": "",
+      "price": 1.5,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg",
+      "featured": true
+    },
+    {
+      "id": "pizza-master-78f32d",
+      "categoryId": "meals",
+      "name": "pizza Master",
+      "nameAr": "بيتزا ماستر",
+      "description": "",
+      "descriptionAr": "",
+      "price": 526.31,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg"
+    },
+    {
+      "id": "item-800b5b",
+      "categoryId": "sandwiches",
+      "name": "ساندوتش صدور",
+      "nameAr": "ساندوتش صدور",
+      "description": "",
+      "descriptionAr": "",
+      "price": 0.8,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg"
+    },
+    {
+      "id": "shawrma-chekin-8e04ca",
+      "categoryId": "shawrma",
+      "name": "Shawrma chekin",
+      "nameAr": "شاورما دجاج",
+      "description": "",
+      "descriptionAr": "",
+      "price": 8.39,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg",
+      "featured": true
+    },
+    {
+      "id": "4-pieces-meal-996ac8",
+      "categoryId": "fried-chicken",
+      "name": "4 Pieces Meal",
+      "nameAr": "وجبة 4 قطعة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 160,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg"
+    },
+    {
+      "id": "sushi-box1-aeb4eb",
+      "categoryId": "boxes",
+      "name": "Sushi Box1",
+      "nameAr": "سوشي بوكس 1",
+      "description": "If you love unique and special food, you have to try Sushi Box with us\nFresh flavors, mouth-watering presentation, and a taste that keeps you coming back from the first bite",
+      "descriptionAr": "لو بتحب الأكل المختلف والمميز، يبقى لازم تجرب سوشي بوكس معانا 🤩\nنكهات فريش، شكل يفتح النفس، وطعم يخليك ترجع تاني من أول مرة",
+      "price": 5760,
+      "image": "https://thumbs.dreamstime.com/b/close-up-five-sushi-pieces-28601153.jpg?w=992"
+    },
+    {
+      "id": "2-baf673",
+      "categoryId": "boxes",
+      "name": "سوشي بوكس 2",
+      "nameAr": "سوشي بوكس 2",
+      "description": "",
+      "descriptionAr": "",
+      "price": 1085,
+      "image": "https://tse3.mm.bing.net/th/id/OIP.2j5Nsiuwl_jUU9LFJ8JW5gHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+    },
+    {
+      "id": "item-bb4d13",
+      "categoryId": "sandwiches",
+      "name": "ساندويتش كبدة",
+      "nameAr": "ساندويتش كبدة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 4.4,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg"
+    },
+    {
+      "id": "sausage-sandwich-cd22fd",
+      "categoryId": "sandwiches",
+      "name": "Sausage Sandwich",
+      "nameAr": "ساندوتش سوسيس",
+      "description": "",
+      "descriptionAr": "",
+      "price": 6.4,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg"
+    },
+    {
+      "id": "15-pieces-meal-d0a598",
+      "categoryId": "fried-chicken",
+      "name": "15 Pieces Meal",
+      "nameAr": "وجبة 15 قطعة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 600,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184911186_31d748bd299b44b1ac3c4f575ee6f96e.jpg"
+    },
+    {
+      "id": "sandwiche-shish-d30e29",
+      "categoryId": "sandwiches",
+      "name": "Sandwiche shish",
+      "nameAr": "ساندوتش شيش",
+      "description": "",
+      "descriptionAr": "",
+      "price": 8.4,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg"
+    },
+    {
+      "id": "shawrma-lahma-e7ac00",
+      "categoryId": "shawrma",
+      "name": "shawrma lahma",
+      "nameAr": "شاورما لحمة",
+      "description": "",
+      "descriptionAr": "",
+      "price": 4.05,
+      "image": "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net/uploads/images/20260414184930348_905ede9089f24832a26427096d80b39b.jpg",
+      "featured": true
+    }
+  ]
+}

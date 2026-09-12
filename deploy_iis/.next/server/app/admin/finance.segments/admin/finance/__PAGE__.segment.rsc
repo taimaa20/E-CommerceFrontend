@@ -1,0 +1,9 @@
+1:"$Sreact.fragment"
+2:I[91113,[],"ClientPageRoot"]
+3:I[11812,["1713","static/chunks/1713-2ef6abcd84b84df6.js","9094","static/chunks/9094-c733b4c51c602454.js","8495","static/chunks/8495-cf359bc003808440.js","8574","static/chunks/8574-49b119d46788cfbb.js","6311","static/chunks/6311-40c68a614c62dc24.js","5444","static/chunks/5444-ff30d5958e7a00f9.js","6462","static/chunks/6462-2f007f426f8b5a72.js","4596","static/chunks/4596-390e80366d1ffe47.js","6017","static/chunks/6017-9346d71d5b1d17b7.js","5340","static/chunks/5340-db46a2aa2ba2c890.js","6285","static/chunks/6285-829e44653cdd758b.js","7012","static/chunks/7012-608251f4230f2f01.js","7575","static/chunks/app/admin/finance/page-2325f794ed991bf8.js"],"default"]
+6:I[78937,[],"OutletBoundary"]
+7:"$Sreact.suspense"
+0:{"buildId":"I4mkMXLJN_Z3eEcncZyeq","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],null,["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+4:{}
+5:{}
+8:null

@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/cancel-log/layout,_N_T_/admin/cancel-log/page,_N_T_/admin/cancel-log"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/cancel-log/__PAGE__",
+    "/admin/cancel-log",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}

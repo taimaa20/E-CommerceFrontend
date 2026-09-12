@@ -1,0 +1,204 @@
+/* Customer-QR module — utility helpers + diner-facing brand palette.
+   Loaded only by this segment. */
+
+/* Diner brand palette: an elegant hospitality crimson over clean white.
+   Scoped to the module wrapper so it shadows the operator POS --primary
+   (which the system BrandingProvider sets inline on :root) for this subtree
+   ONLY — the rest of the POS keeps its own brand. */
+[data-feature="customer-qr"] {
+  --primary: #e11d2e;
+  --primary-foreground: #ffffff;
+  --ring: #e11d2e;
+  /* Soft premium page backdrop so the white cards lift off it. */
+  --muted: #f6f5f4;
+  --accent: #fbeaec;
+  --accent-foreground: #e11d2e;
+
+  /* Hospitality accents (scoped, display-only — never leak to the POS). */
+  --cqr-gold: #cc9c34;
+  --cqr-gold-strong: #b8860b;
+  --cqr-gold-soft: rgba(204, 156, 52, 0.12);
+  --cqr-ink: #272025;          /* twilight hero base */
+  --cqr-ink-2: #43383f;
+  --cqr-success: #2e7d32;
+  --cqr-success-soft: #e8f5e9;
+}
+.dark [data-feature="customer-qr"] {
+  --primary: #f43f5e;
+  --primary-foreground: #ffffff;
+  --ring: #f43f5e;
+  --accent: #2a1417;
+  --accent-foreground: #fda4af;
+
+  --cqr-gold: #d8af52;
+  --cqr-gold-strong: #e3bd66;
+  --cqr-gold-soft: rgba(216, 175, 82, 0.16);
+  --cqr-ink: #1b171a;
+  --cqr-ink-2: #2a242a;
+  --cqr-success: #4ade80;
+  --cqr-success-soft: rgba(34, 197, 94, 0.15);
+}
+
+/* Hide scrollbars on horizontal pill rows. */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Premium soft shadows — used on every elevated surface. */
+.cqr-shadow-card {
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 8px 24px -10px rgba(15, 23, 42, 0.10);
+}
+.cqr-shadow-lg {
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.06),
+    0 20px 50px -20px rgba(15, 23, 42, 0.18);
+}
+
+/* Phone-style outer frame on desktop. */
+.cqr-phone-frame {
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.05),
+    0 50px 120px -30px rgba(15, 23, 42, 0.30),
+    0 20px 40px -20px rgba(15, 23, 42, 0.15);
+}
+
+/* Brand-tinted gradient (uses the system primary color via color-mix). */
+.cqr-grad-brand {
+  background:
+    radial-gradient(120% 80% at 0% 0%, color-mix(in srgb, var(--primary) 35%, transparent) 0%, transparent 50%),
+    radial-gradient(120% 80% at 100% 100%, color-mix(in srgb, var(--primary) 55%, transparent) 0%, transparent 50%),
+    linear-gradient(135deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 70%, #0f172a) 100%);
+}
+
+/* Subtle hover lift used on menu cards & QR cards. */
+.cqr-lift { transition: transform 200ms ease, box-shadow 200ms ease; }
+.cqr-lift:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.06),
+    0 20px 40px -15px rgba(15, 23, 42, 0.15);
+}
+
+@keyframes cqr-success-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.cqr-success-pop { animation: cqr-success-pop 380ms cubic-bezier(.2,.7,.3,1.2) both; }
+
+@keyframes cqr-check-draw { to { stroke-dashoffset: 0; } }
+.cqr-check-path {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: cqr-check-draw 600ms ease-out 200ms forwards;
+}
+
+@keyframes cqr-shimmer {
+  0% { background-position: -120% 0; }
+  100% { background-position: 220% 0; }
+}
+.cqr-shimmer {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.35) 50%,
+    rgba(255,255,255,0) 100%);
+  background-size: 220% 100%;
+  animation: cqr-shimmer 1.6s infinite;
+}
+
+/* ── Twilight brand hero (welcome screen) ─────────────────────────── */
+.cqr-hero-twilight {
+  background:
+    radial-gradient(115% 90% at 82% -8%, color-mix(in srgb, var(--primary) 60%, transparent) 0%, transparent 58%),
+    radial-gradient(90% 70% at 8% 8%, rgba(255, 255, 255, 0.06) 0%, transparent 45%),
+    linear-gradient(160deg, #2b2228 0%, #1a1519 60%, #141013 100%);
+}
+
+/* ── Menu badges ──────────────────────────────────────────────────── */
+.cqr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+.cqr-badge-popular { background: var(--cqr-gold-soft); color: var(--cqr-gold-strong); }
+.cqr-badge-best    { background: var(--cqr-ink); color: #fff; }
+.cqr-badge-chef    { background: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--primary); }
+.cqr-badge-new     { background: #e3f2fd; color: #1565c0; }
+.cqr-badge-veg     { background: var(--cqr-success-soft); color: var(--cqr-success); }
+.cqr-badge-spicy   { background: #ffebee; color: var(--primary); }
+.dark [data-feature="customer-qr"] .cqr-badge-new { background: rgba(21, 101, 192, 0.18); color: #93c5fd; }
+.dark [data-feature="customer-qr"] .cqr-badge-spicy { background: rgba(225, 29, 46, 0.16); color: #fda4af; }
+
+/* ── Promo gradient cards ─────────────────────────────────────────── */
+.cqr-promo-grad-0 { background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 55%, #000)); }
+.cqr-promo-grad-1 { background: linear-gradient(135deg, #4a2c6e, #251338); }
+.cqr-promo-grad-2 { background: linear-gradient(135deg, var(--cqr-ink), var(--cqr-ink-2)); }
+
+/* ── Carousel dots ────────────────────────────────────────────────── */
+.cqr-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--foreground) 22%, transparent);
+  transition: all 0.2s ease;
+}
+.cqr-dot.is-active {
+  width: 18px;
+  background: var(--primary);
+}
+
+/* ── Success confetti burst ───────────────────────────────────────── */
+.cqr-confetti {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  animation: cqr-confetti 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+@keyframes cqr-confetti {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
+  100% { opacity: 0; transform: translate(var(--cqr-cx), var(--cqr-cy)) rotate(220deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cqr-confetti { animation: none; opacity: 0; }
+}
+
+/* ── Premium micro-animations ─────────────────────────────────────── */
+@keyframes cqr-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.cqr-fade-up { animation: cqr-fade-up 0.4s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+
+@keyframes cqr-scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+.cqr-scale-in { animation: cqr-scale-in 0.32s cubic-bezier(0.2, 0.7, 0.3, 1.1) both; }
+
+/* Tap feedback on any pressable surface inside the module. */
+[data-feature="customer-qr"] .cqr-press { transition: transform 0.12s ease; }
+[data-feature="customer-qr"] .cqr-press:active { transform: scale(0.97); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cqr-fade-up,
+  .cqr-scale-in { animation: none; }
+}
+
+/* Print styling for the receipt page. */
+@media print {
+  [data-feature="customer-qr"] header,
+  [data-feature="customer-qr"] footer,
+  [data-feature="customer-qr"] [data-cqr-no-print] { display: none !important; }
+  [data-feature="customer-qr"] { background: #fff !important; }
+}

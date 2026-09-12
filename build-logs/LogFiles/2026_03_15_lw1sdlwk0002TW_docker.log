@@ -1,0 +1,814 @@
+2026-03-15T21:05:26.5101187Z State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-03-15T21:05:27.6415151Z State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-03-15T21:05:27.6416055Z Container start method called.
+2026-03-15T21:05:27.6416496Z State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image 10.1.0.5:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:05:27.6416993Z Establishing network.
+2026-03-15T21:05:27.6417626Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:05:27.9943949Z Image appsvc/node:20-lts_20260115.4.tuxprod is pulled from registry 10.1.0.5:13209
+2026-03-15T21:05:28.0027884Z Container is starting.
+2026-03-15T21:05:28.0036536Z State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:05:28.0044376Z Establishing user namespace if not established already.
+2026-03-15T21:05:28.0120524Z Establishing network if not established already.
+2026-03-15T21:05:28.0125624Z Mounting volumes.
+2026-03-15T21:05:28.0129893Z Nested mountpoint 
+2026-03-15T21:05:28.0329727Z Nested mountpoint volatile/logs
+2026-03-15T21:05:28.0636043Z Nested mountpoint 
+2026-03-15T21:05:28.1424012Z Nested mountpoint 
+2026-03-15T21:05:28.1822737Z Nested mountpoint 
+2026-03-15T21:05:28.4857924Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:05:28.4929234Z Creating container.
+2026-03-15T21:05:28.4931471Z Creating pipes for streaming container io.
+2026-03-15T21:05:28.4938404Z Creating stdout named pipe at /podr/container/pipe/94fd55ecd9df_wa-pos-fe-dev1/stdout_ef62c52f5d9f4abbb8a6a67751eb83c0.
+2026-03-15T21:05:28.4946824Z Successfully created stdout named pipe at: /podr/container/pipe/94fd55ecd9df_wa-pos-fe-dev1/stdout_ef62c52f5d9f4abbb8a6a67751eb83c0.
+2026-03-15T21:05:28.4952595Z Opening named pipe /podr/container/pipe/94fd55ecd9df_wa-pos-fe-dev1/stdout_ef62c52f5d9f4abbb8a6a67751eb83c0 for reading in non-blocking mode.
+2026-03-15T21:05:28.5025701Z Successfully opened named pipe: /podr/container/pipe/94fd55ecd9df_wa-pos-fe-dev1/stdout_ef62c52f5d9f4abbb8a6a67751eb83c0.
+2026-03-15T21:05:28.5027689Z Successfully removed non-blocking flag from /podr/container/pipe/94fd55ecd9df_wa-pos-fe-dev1/stdout_ef62c52f5d9f4abbb8a6a67751eb83c0.
+2026-03-15T21:05:28.5030297Z Creating stderr named pipe at /podr/container/pipe/94fd55ecd9df_wa-pos-fe-dev1/stderr_02d2874644f54033855e0a52bd77727c.
+2026-03-15T21:05:28.5034446Z Successfully created stderr named pipe at: /podr/container/pipe/94fd55ecd9df_wa-pos-fe-dev1/stderr_02d2874644f54033855e0a52bd77727c.
+2026-03-15T21:05:28.5036489Z Opening named pipe /podr/container/pipe/94fd55ecd9df_wa-pos-fe-dev1/stderr_02d2874644f54033855e0a52bd77727c for reading in non-blocking mode.
+2026-03-15T21:05:28.5038363Z Successfully opened named pipe: /podr/container/pipe/94fd55ecd9df_wa-pos-fe-dev1/stderr_02d2874644f54033855e0a52bd77727c.
+2026-03-15T21:05:28.5040669Z Successfully removed non-blocking flag from /podr/container/pipe/94fd55ecd9df_wa-pos-fe-dev1/stderr_02d2874644f54033855e0a52bd77727c.
+2026-03-15T21:05:28.5043252Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:05:29.0128678Z Starting container: 94fd55ecd9df_wa-pos-fe-dev1.
+2026-03-15T21:05:29.0749730Z Starting watchers and probes.
+2026-03-15T21:05:29.0935845Z Starting metrics collection.
+2026-03-15T21:05:29.1033035Z Container is running.
+2026-03-15T21:05:29.1036441Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:05:29.3037677Z Container start method finished after 1662 ms.
+2026-03-15T21:05:29.3039125Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:05:29.3039283Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:05:53.9194270Z Container has finished running with exit code: 127.
+2026-03-15T21:05:53.9203835Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:05:53.9287242Z Stop and delete container. Retry count = 0
+2026-03-15T21:05:53.9288300Z Stopping container: 94fd55ecd9df_wa-pos-fe-dev1.
+2026-03-15T21:05:54.0429803Z Deleting container: 94fd55ecd9df_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:05:54.3790132Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:05:54.3796123Z Container is terminated. Total time elapsed: 458 ms.
+2026-03-15T21:05:54.3869995Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:05:54.3887739Z State: Stopping, Action: CancellingStartup, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:05:54.4277840Z Site startup probe failed after 25.1221657 seconds.
+2026-03-15T21:05:54.5390185Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:05:54.5696829Z Failed to start site. Revert by stopping site.
+2026-03-15T21:05:54.5778830Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:05:54.5882761Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:05:54.5883556Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:05:54.5991952Z State: Stopping, Action: UnmountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:05:54.8883729Z State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:05:54.9891945Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:05:54 (UTC), DetailsLevel: ERR
+2026-03-15T21:05:55.1718199Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:05:54 (UTC), DetailsLevel: ERR
+2026-03-15T21:05:55.4537041Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:05:54 (UTC), DetailsLevel: ERR
+2026-03-15T21:05:56.7850633Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:05:54 (UTC), DetailsLevel: ERR
+2026-03-15T21:05:56.7853393Z Container start method called.
+2026-03-15T21:05:56.7854276Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.5:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:05:56.7855085Z Establishing network.
+2026-03-15T21:05:56.7855743Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:05:56.9652617Z Container is starting.
+2026-03-15T21:05:56.9655939Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:05:56.9658343Z Establishing user namespace if not established already.
+2026-03-15T21:05:56.9660380Z Establishing network if not established already.
+2026-03-15T21:05:56.9662589Z Mounting volumes.
+2026-03-15T21:05:56.9754305Z Nested mountpoint 
+2026-03-15T21:05:56.9864540Z Nested mountpoint volatile/logs
+2026-03-15T21:05:57.0053986Z Nested mountpoint 
+2026-03-15T21:05:57.0058144Z Nested mountpoint 
+2026-03-15T21:05:57.0078697Z Nested mountpoint 
+2026-03-15T21:05:57.2056351Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:05:57.2057295Z Creating container.
+2026-03-15T21:05:57.2058951Z Creating pipes for streaming container io.
+2026-03-15T21:05:57.2059544Z Creating stdout named pipe at /podr/container/pipe/7dc3d0151db9_wa-pos-fe-dev1/stdout_f48b50bbc7ca4926a967e98b59af8608.
+2026-03-15T21:05:57.2060762Z Successfully created stdout named pipe at: /podr/container/pipe/7dc3d0151db9_wa-pos-fe-dev1/stdout_f48b50bbc7ca4926a967e98b59af8608.
+2026-03-15T21:05:57.2061218Z Opening named pipe /podr/container/pipe/7dc3d0151db9_wa-pos-fe-dev1/stdout_f48b50bbc7ca4926a967e98b59af8608 for reading in non-blocking mode.
+2026-03-15T21:05:57.2061842Z Successfully opened named pipe: /podr/container/pipe/7dc3d0151db9_wa-pos-fe-dev1/stdout_f48b50bbc7ca4926a967e98b59af8608.
+2026-03-15T21:05:57.2062323Z Successfully removed non-blocking flag from /podr/container/pipe/7dc3d0151db9_wa-pos-fe-dev1/stdout_f48b50bbc7ca4926a967e98b59af8608.
+2026-03-15T21:05:57.2070662Z Creating stderr named pipe at /podr/container/pipe/7dc3d0151db9_wa-pos-fe-dev1/stderr_2145d87464bd45c6ad421f1dd5974c43.
+2026-03-15T21:05:57.2071783Z Successfully created stderr named pipe at: /podr/container/pipe/7dc3d0151db9_wa-pos-fe-dev1/stderr_2145d87464bd45c6ad421f1dd5974c43.
+2026-03-15T21:05:57.2072443Z Opening named pipe /podr/container/pipe/7dc3d0151db9_wa-pos-fe-dev1/stderr_2145d87464bd45c6ad421f1dd5974c43 for reading in non-blocking mode.
+2026-03-15T21:05:57.2073985Z Successfully opened named pipe: /podr/container/pipe/7dc3d0151db9_wa-pos-fe-dev1/stderr_2145d87464bd45c6ad421f1dd5974c43.
+2026-03-15T21:05:57.2157734Z Successfully removed non-blocking flag from /podr/container/pipe/7dc3d0151db9_wa-pos-fe-dev1/stderr_2145d87464bd45c6ad421f1dd5974c43.
+2026-03-15T21:05:57.2162554Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:05:57.5465415Z Starting container: 7dc3d0151db9_wa-pos-fe-dev1.
+2026-03-15T21:05:57.5879213Z Starting watchers and probes.
+2026-03-15T21:05:57.5967618Z Starting metrics collection.
+2026-03-15T21:05:57.5971164Z Container is running.
+2026-03-15T21:05:57.5971919Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:05:57.7482240Z Container start method finished after 913 ms.
+2026-03-15T21:05:57.7489624Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:05:57.7563520Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:06:20.5755033Z Container has finished running with exit code: 127.
+2026-03-15T21:06:20.5835092Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:06:20.5843104Z Stop and delete container. Retry count = 0
+2026-03-15T21:06:20.5843754Z Stopping container: 7dc3d0151db9_wa-pos-fe-dev1.
+2026-03-15T21:06:20.6337174Z Deleting container: 7dc3d0151db9_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:06:20.8639592Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:06:20.8642169Z Container is terminated. Total time elapsed: 280 ms.
+2026-03-15T21:06:20.8642906Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:06:20.8645794Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:05:54, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:06:20.9140035Z Site startup probe failed after 23.157282 seconds.
+2026-03-15T21:06:21.0337715Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:06:21.0347124Z Failed to start site. Revert by stopping site.
+2026-03-15T21:06:21.0348064Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:06:21.0349630Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:06:21.0349850Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:06:21.0857658Z State: Stopping, Action: UnmountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:06:21.3660625Z State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:06:21.4767376Z Site: wa-pos-fe-dev1 will be blocked for 1 minutes till 03/15/2026 21:07:21
+2026-03-15T21:06:21.4843911Z State: Blocked, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site: wa-pos-fe-dev1 will be blocked for 1 minutes till 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:06:21.5048101Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:06:21 (UTC), DetailsLevel: WARN
+2026-03-15T21:06:21.6352815Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:06:21 (UTC), DetailsLevel: WARN
+2026-03-15T21:06:26.6358907Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:06:26.6359485Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:06:31.7299769Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:06:31.7302690Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:06:36.8512800Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:06:36.8513955Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:06:41.9800809Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:06:41.9801193Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:06:47.0989148Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:06:47.0989487Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:06:52.2893163Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:06:52.2893409Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:06:52.4708382Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:06:52.4709481Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:06:57.4055637Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:06:57.4056112Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:07:03.0506648Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:07:03.0506906Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:07:08.1976792Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:07:08.1977140Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:07:13.5005270Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:07:13.5005468Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:07:18.6146503Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:07:18.6146916Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:07:21.4816048Z Site: wa-pos-fe-dev1 is unblocked.
+2026-03-15T21:07:23.7077385Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:07:25.2467984Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:07:21, DetailsLevel: WARN
+2026-03-15T21:07:25.2468841Z Container start method called.
+2026-03-15T21:07:25.2469179Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.5:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:07:25.2469675Z Establishing network.
+2026-03-15T21:07:25.2470288Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:07:25.4873689Z Container is starting.
+2026-03-15T21:07:25.4875165Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:07:25.4876943Z Establishing user namespace if not established already.
+2026-03-15T21:07:25.4882610Z Establishing network if not established already.
+2026-03-15T21:07:25.4888987Z Mounting volumes.
+2026-03-15T21:07:25.4965614Z Nested mountpoint 
+2026-03-15T21:07:25.4980054Z Nested mountpoint volatile/logs
+2026-03-15T21:07:25.5168841Z Nested mountpoint 
+2026-03-15T21:07:25.5174344Z Nested mountpoint 
+2026-03-15T21:07:25.5178440Z Nested mountpoint 
+2026-03-15T21:07:25.7384067Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:07:25.7385641Z Creating container.
+2026-03-15T21:07:25.7386435Z Creating pipes for streaming container io.
+2026-03-15T21:07:25.7387314Z Creating stdout named pipe at /podr/container/pipe/39bf22502273_wa-pos-fe-dev1/stdout_48616bb1261740638cec7fe416ca6d87.
+2026-03-15T21:07:25.7388697Z Successfully created stdout named pipe at: /podr/container/pipe/39bf22502273_wa-pos-fe-dev1/stdout_48616bb1261740638cec7fe416ca6d87.
+2026-03-15T21:07:25.7389397Z Opening named pipe /podr/container/pipe/39bf22502273_wa-pos-fe-dev1/stdout_48616bb1261740638cec7fe416ca6d87 for reading in non-blocking mode.
+2026-03-15T21:07:25.7390228Z Successfully opened named pipe: /podr/container/pipe/39bf22502273_wa-pos-fe-dev1/stdout_48616bb1261740638cec7fe416ca6d87.
+2026-03-15T21:07:25.7390937Z Successfully removed non-blocking flag from /podr/container/pipe/39bf22502273_wa-pos-fe-dev1/stdout_48616bb1261740638cec7fe416ca6d87.
+2026-03-15T21:07:25.7392519Z Creating stderr named pipe at /podr/container/pipe/39bf22502273_wa-pos-fe-dev1/stderr_cecd2745aea34e34ab18f84fd5a99b57.
+2026-03-15T21:07:25.7484027Z Successfully created stderr named pipe at: /podr/container/pipe/39bf22502273_wa-pos-fe-dev1/stderr_cecd2745aea34e34ab18f84fd5a99b57.
+2026-03-15T21:07:25.7486934Z Opening named pipe /podr/container/pipe/39bf22502273_wa-pos-fe-dev1/stderr_cecd2745aea34e34ab18f84fd5a99b57 for reading in non-blocking mode.
+2026-03-15T21:07:25.7489836Z Successfully opened named pipe: /podr/container/pipe/39bf22502273_wa-pos-fe-dev1/stderr_cecd2745aea34e34ab18f84fd5a99b57.
+2026-03-15T21:07:25.7492379Z Successfully removed non-blocking flag from /podr/container/pipe/39bf22502273_wa-pos-fe-dev1/stderr_cecd2745aea34e34ab18f84fd5a99b57.
+2026-03-15T21:07:25.7573696Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:07:26.2806934Z Starting container: 39bf22502273_wa-pos-fe-dev1.
+2026-03-15T21:07:26.3392153Z Starting watchers and probes.
+2026-03-15T21:07:26.3482906Z Starting metrics collection.
+2026-03-15T21:07:26.3485892Z Container is running.
+2026-03-15T21:07:26.3591958Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:07:26.5392077Z Container start method finished after 1292 ms.
+2026-03-15T21:07:26.5393895Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:07:26.5394230Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:07:48.5950689Z Container has finished running with exit code: 127.
+2026-03-15T21:07:48.5957059Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:07:48.6035410Z Stop and delete container. Retry count = 0
+2026-03-15T21:07:48.6036029Z Stopping container: 39bf22502273_wa-pos-fe-dev1.
+2026-03-15T21:07:48.6441968Z Deleting container: 39bf22502273_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:07:48.8238078Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:07:48.8258281Z Container is terminated. Total time elapsed: 229 ms.
+2026-03-15T21:07:48.8333103Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:07:48.8339615Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:06:21, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:07:48.8630841Z Site startup probe failed after 22.3147071 seconds.
+2026-03-15T21:07:48.9541087Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:07:48.9841629Z Failed to start site. Revert by stopping site.
+2026-03-15T21:07:48.9850705Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:07:48.9933921Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:07:48.9937108Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:07:49.0136593Z State: Stopping, Action: UnmountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:07:49.3442565Z State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:07:49.4869068Z Site: wa-pos-fe-dev1 will be blocked for 1 minutes till 03/15/2026 21:08:49
+2026-03-15T21:07:49.4870585Z State: Blocked, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site: wa-pos-fe-dev1 will be blocked for 1 minutes till 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:07:49.5142593Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:07:49 (UTC), DetailsLevel: WARN
+2026-03-15T21:07:49.6371583Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:07:49 (UTC), DetailsLevel: WARN
+2026-03-15T21:07:54.7045924Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:07:54.7046139Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:07:59.8582053Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:07:59.8582874Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:04.9727893Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:04.9728316Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:08.4783479Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:08.4785557Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:10.1222433Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:10.1222796Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:15.2853834Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:15.2854382Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:20.3535239Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:20.3747686Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:21.4559662Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:21.4742611Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:21.6979561Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:21.6979761Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:25.4596797Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:25.4596984Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:30.6074198Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:30.6074366Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:35.6836230Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:35.6836405Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:40.8134437Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:40.8134801Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:45.9398623Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:45.9398849Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:08:49.4870916Z Site: wa-pos-fe-dev1 is unblocked.
+2026-03-15T21:08:51.2662172Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:52.3073987Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:08:49, DetailsLevel: WARN
+2026-03-15T21:08:52.3078342Z Container start method called.
+2026-03-15T21:08:52.3078900Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.5:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:08:52.3079520Z Establishing network.
+2026-03-15T21:08:52.3158013Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:08:52.4869949Z Container is starting.
+2026-03-15T21:08:52.4872732Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:08:52.4873855Z Establishing user namespace if not established already.
+2026-03-15T21:08:52.4876722Z Establishing network if not established already.
+2026-03-15T21:08:52.4879891Z Mounting volumes.
+2026-03-15T21:08:52.4976036Z Nested mountpoint 
+2026-03-15T21:08:52.5380383Z Nested mountpoint volatile/logs
+2026-03-15T21:08:52.5577187Z Nested mountpoint 
+2026-03-15T21:08:52.5588198Z Nested mountpoint 
+2026-03-15T21:08:52.5671101Z Nested mountpoint 
+2026-03-15T21:08:52.9193255Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:08:52.9265016Z Creating container.
+2026-03-15T21:08:52.9265692Z Creating pipes for streaming container io.
+2026-03-15T21:08:52.9266230Z Creating stdout named pipe at /podr/container/pipe/7ac7edb17910_wa-pos-fe-dev1/stdout_240f495325eb4774831a7dafe826a194.
+2026-03-15T21:08:52.9267540Z Successfully created stdout named pipe at: /podr/container/pipe/7ac7edb17910_wa-pos-fe-dev1/stdout_240f495325eb4774831a7dafe826a194.
+2026-03-15T21:08:52.9268010Z Opening named pipe /podr/container/pipe/7ac7edb17910_wa-pos-fe-dev1/stdout_240f495325eb4774831a7dafe826a194 for reading in non-blocking mode.
+2026-03-15T21:08:52.9268595Z Successfully opened named pipe: /podr/container/pipe/7ac7edb17910_wa-pos-fe-dev1/stdout_240f495325eb4774831a7dafe826a194.
+2026-03-15T21:08:52.9269091Z Successfully removed non-blocking flag from /podr/container/pipe/7ac7edb17910_wa-pos-fe-dev1/stdout_240f495325eb4774831a7dafe826a194.
+2026-03-15T21:08:52.9269883Z Creating stderr named pipe at /podr/container/pipe/7ac7edb17910_wa-pos-fe-dev1/stderr_3409342575b74be28501bd746c33856b.
+2026-03-15T21:08:52.9270588Z Successfully created stderr named pipe at: /podr/container/pipe/7ac7edb17910_wa-pos-fe-dev1/stderr_3409342575b74be28501bd746c33856b.
+2026-03-15T21:08:52.9271079Z Opening named pipe /podr/container/pipe/7ac7edb17910_wa-pos-fe-dev1/stderr_3409342575b74be28501bd746c33856b for reading in non-blocking mode.
+2026-03-15T21:08:52.9271611Z Successfully opened named pipe: /podr/container/pipe/7ac7edb17910_wa-pos-fe-dev1/stderr_3409342575b74be28501bd746c33856b.
+2026-03-15T21:08:52.9284248Z Successfully removed non-blocking flag from /podr/container/pipe/7ac7edb17910_wa-pos-fe-dev1/stderr_3409342575b74be28501bd746c33856b.
+2026-03-15T21:08:52.9286595Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:08:53.3078163Z Starting container: 7ac7edb17910_wa-pos-fe-dev1.
+2026-03-15T21:08:53.4575350Z Starting watchers and probes.
+2026-03-15T21:08:53.4577614Z Starting metrics collection.
+2026-03-15T21:08:53.4582854Z Container is running.
+2026-03-15T21:08:53.4583952Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:08:53.5493330Z Container start method finished after 1241 ms.
+2026-03-15T21:08:53.5494600Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:08:53.5494747Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:09:11.5938223Z Container has finished running with exit code: 127.
+2026-03-15T21:09:11.5942518Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:09:11.6022599Z Stop and delete container. Retry count = 0
+2026-03-15T21:09:11.6024974Z Stopping container: 7ac7edb17910_wa-pos-fe-dev1.
+2026-03-15T21:09:11.6932157Z Deleting container: 7ac7edb17910_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:09:11.9223768Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:09:11.9246967Z Container is terminated. Total time elapsed: 329 ms.
+2026-03-15T21:09:11.9319786Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:09:11.9320749Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:07:48, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:09:11.9347193Z Site startup probe failed after 18.3849606 seconds.
+2026-03-15T21:09:12.0633458Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:09:12.0731319Z Failed to start site. Revert by stopping site.
+2026-03-15T21:09:12.0732914Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:09:12.0737058Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:09:12.0743570Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:10:33.3566315Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:11:12, DetailsLevel: WARN
+2026-03-15T21:10:34.8032558Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:11:12, DetailsLevel: WARN
+2026-03-15T21:10:34.8035528Z Container start method called.
+2026-03-15T21:10:34.8112902Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:10:34.8113946Z Establishing network.
+2026-03-15T21:10:34.8114662Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:10:35.1124361Z Container is starting.
+2026-03-15T21:10:35.1125087Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:10:35.1125951Z Establishing user namespace if not established already.
+2026-03-15T21:10:35.1126508Z Establishing network if not established already.
+2026-03-15T21:10:35.1127290Z Mounting volumes.
+2026-03-15T21:10:35.1128414Z Nested mountpoint 
+2026-03-15T21:10:35.1218833Z Nested mountpoint volatile/logs
+2026-03-15T21:10:35.1632950Z Nested mountpoint 
+2026-03-15T21:10:35.2033612Z Nested mountpoint 
+2026-03-15T21:10:35.2135770Z Nested mountpoint 
+2026-03-15T21:10:35.6625200Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:10:35.6626408Z Creating container.
+2026-03-15T21:10:35.6630980Z Creating pipes for streaming container io.
+2026-03-15T21:10:35.6631860Z Creating stdout named pipe at /podr/container/pipe/692da06bace0_wa-pos-fe-dev1/stdout_d64b0864c01643a393438bb452a6c8a1.
+2026-03-15T21:10:35.6633587Z Successfully created stdout named pipe at: /podr/container/pipe/692da06bace0_wa-pos-fe-dev1/stdout_d64b0864c01643a393438bb452a6c8a1.
+2026-03-15T21:10:35.6634209Z Opening named pipe /podr/container/pipe/692da06bace0_wa-pos-fe-dev1/stdout_d64b0864c01643a393438bb452a6c8a1 for reading in non-blocking mode.
+2026-03-15T21:10:35.6634854Z Successfully opened named pipe: /podr/container/pipe/692da06bace0_wa-pos-fe-dev1/stdout_d64b0864c01643a393438bb452a6c8a1.
+2026-03-15T21:10:35.6635342Z Successfully removed non-blocking flag from /podr/container/pipe/692da06bace0_wa-pos-fe-dev1/stdout_d64b0864c01643a393438bb452a6c8a1.
+2026-03-15T21:10:35.6646855Z Creating stderr named pipe at /podr/container/pipe/692da06bace0_wa-pos-fe-dev1/stderr_abc91d1bdd0d44eaa34e1c855259a923.
+2026-03-15T21:10:35.6820204Z Successfully created stderr named pipe at: /podr/container/pipe/692da06bace0_wa-pos-fe-dev1/stderr_abc91d1bdd0d44eaa34e1c855259a923.
+2026-03-15T21:10:35.6834600Z Opening named pipe /podr/container/pipe/692da06bace0_wa-pos-fe-dev1/stderr_abc91d1bdd0d44eaa34e1c855259a923 for reading in non-blocking mode.
+2026-03-15T21:10:35.6838980Z Successfully opened named pipe: /podr/container/pipe/692da06bace0_wa-pos-fe-dev1/stderr_abc91d1bdd0d44eaa34e1c855259a923.
+2026-03-15T21:10:35.7019896Z Successfully removed non-blocking flag from /podr/container/pipe/692da06bace0_wa-pos-fe-dev1/stderr_abc91d1bdd0d44eaa34e1c855259a923.
+2026-03-15T21:10:35.7023677Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:10:36.5235029Z Starting container: 692da06bace0_wa-pos-fe-dev1.
+2026-03-15T21:10:36.6029358Z Starting watchers and probes.
+2026-03-15T21:10:36.6136375Z Starting metrics collection.
+2026-03-15T21:10:36.6143478Z Container is running.
+2026-03-15T21:10:36.6144353Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:10:36.8827586Z Container start method finished after 2079 ms.
+2026-03-15T21:10:36.8829258Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:10:36.8829594Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:11:06.2819282Z Container has finished running with exit code: 127.
+2026-03-15T21:11:06.2830166Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:11:06.2917117Z Stop and delete container. Retry count = 0
+2026-03-15T21:11:06.2924638Z Stopping container: 692da06bace0_wa-pos-fe-dev1.
+2026-03-15T21:11:06.3740407Z Deleting container: 692da06bace0_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:11:06.6191539Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:11:06.6277872Z Container is terminated. Total time elapsed: 336 ms.
+2026-03-15T21:11:06.6283259Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:11:06.6286826Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:09:12, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:06.6384048Z Site startup probe failed after 29.7338624 seconds.
+2026-03-15T21:11:06.7692650Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:06.7965076Z Failed to start site. Revert by stopping site.
+2026-03-15T21:11:06.7973981Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:06.7981128Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:06.7986660Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:11:06.8267510Z State: Stopping, Action: UnmountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:07.1373925Z State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:07.2892347Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:11:07 (UTC), DetailsLevel: ERR
+2026-03-15T21:11:07.4083538Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:11:07 (UTC), DetailsLevel: ERR
+2026-03-15T21:11:12.5097433Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:11:07 (UTC), DetailsLevel: ERR
+2026-03-15T21:11:13.4718260Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:11:07 (UTC), DetailsLevel: ERR
+2026-03-15T21:11:13.4718997Z Container start method called.
+2026-03-15T21:11:13.4719307Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:11:13.4719796Z Establishing network.
+2026-03-15T21:11:13.5098511Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:11:13.6649316Z Container is starting.
+2026-03-15T21:11:13.6698197Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:11:13.6706932Z Establishing user namespace if not established already.
+2026-03-15T21:11:13.6713527Z Establishing network if not established already.
+2026-03-15T21:11:13.6719564Z Mounting volumes.
+2026-03-15T21:11:13.6800698Z Nested mountpoint 
+2026-03-15T21:11:13.7198295Z Nested mountpoint volatile/logs
+2026-03-15T21:11:13.7724244Z Nested mountpoint 
+2026-03-15T21:11:13.7912135Z Nested mountpoint 
+2026-03-15T21:11:13.8109533Z Nested mountpoint 
+2026-03-15T21:11:14.0603387Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:11:14.0613978Z Creating container.
+2026-03-15T21:11:14.0622601Z Creating pipes for streaming container io.
+2026-03-15T21:11:14.0702725Z Creating stdout named pipe at /podr/container/pipe/db9fe15a9f4a_wa-pos-fe-dev1/stdout_f9900ca248744d2699cd397a68528004.
+2026-03-15T21:11:14.0707436Z Successfully created stdout named pipe at: /podr/container/pipe/db9fe15a9f4a_wa-pos-fe-dev1/stdout_f9900ca248744d2699cd397a68528004.
+2026-03-15T21:11:14.0708331Z Opening named pipe /podr/container/pipe/db9fe15a9f4a_wa-pos-fe-dev1/stdout_f9900ca248744d2699cd397a68528004 for reading in non-blocking mode.
+2026-03-15T21:11:14.0712129Z Successfully opened named pipe: /podr/container/pipe/db9fe15a9f4a_wa-pos-fe-dev1/stdout_f9900ca248744d2699cd397a68528004.
+2026-03-15T21:11:14.0717867Z Successfully removed non-blocking flag from /podr/container/pipe/db9fe15a9f4a_wa-pos-fe-dev1/stdout_f9900ca248744d2699cd397a68528004.
+2026-03-15T21:11:14.0722581Z Creating stderr named pipe at /podr/container/pipe/db9fe15a9f4a_wa-pos-fe-dev1/stderr_d3b27092f5184eb7b7696fb405a8fad6.
+2026-03-15T21:11:14.0806987Z Successfully created stderr named pipe at: /podr/container/pipe/db9fe15a9f4a_wa-pos-fe-dev1/stderr_d3b27092f5184eb7b7696fb405a8fad6.
+2026-03-15T21:11:14.0818376Z Opening named pipe /podr/container/pipe/db9fe15a9f4a_wa-pos-fe-dev1/stderr_d3b27092f5184eb7b7696fb405a8fad6 for reading in non-blocking mode.
+2026-03-15T21:11:14.0897005Z Successfully opened named pipe: /podr/container/pipe/db9fe15a9f4a_wa-pos-fe-dev1/stderr_d3b27092f5184eb7b7696fb405a8fad6.
+2026-03-15T21:11:14.0912829Z Successfully removed non-blocking flag from /podr/container/pipe/db9fe15a9f4a_wa-pos-fe-dev1/stderr_d3b27092f5184eb7b7696fb405a8fad6.
+2026-03-15T21:11:14.1001747Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:11:14.4417460Z Starting container: db9fe15a9f4a_wa-pos-fe-dev1.
+2026-03-15T21:11:14.5308543Z Starting watchers and probes.
+2026-03-15T21:11:14.5311331Z Starting metrics collection.
+2026-03-15T21:11:14.5314228Z Container is running.
+2026-03-15T21:11:14.5314717Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:11:14.5532053Z Container start method finished after 1081 ms.
+2026-03-15T21:11:14.5534927Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:11:14.5535815Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:11:33.7190660Z Container has finished running with exit code: 127.
+2026-03-15T21:11:33.7273526Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:11:33.7281800Z Stop and delete container. Retry count = 0
+2026-03-15T21:11:33.7565445Z Stopping container: db9fe15a9f4a_wa-pos-fe-dev1.
+2026-03-15T21:11:33.8169845Z Deleting container: db9fe15a9f4a_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:11:33.9882948Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:11:33.9889215Z Container is terminated. Total time elapsed: 261 ms.
+2026-03-15T21:11:33.9894154Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:11:33.9966844Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:06, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:34.0570669Z Site startup probe failed after 19.3770644 seconds.
+2026-03-15T21:11:34.1478779Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:34.1487001Z Failed to start site. Revert by stopping site.
+2026-03-15T21:11:34.1495807Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:34.1697979Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:34.1792876Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:11:34.1874915Z State: Stopping, Action: UnmountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:34.4704304Z State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:11:34.5829726Z Site: wa-pos-fe-dev1 will be blocked for 1 minutes till 03/15/2026 21:12:34
+2026-03-15T21:11:34.5831052Z State: Blocked, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site: wa-pos-fe-dev1 will be blocked for 1 minutes till 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:11:34.5833261Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:11:34 (UTC), DetailsLevel: WARN
+2026-03-15T21:11:34.7241758Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:11:34 (UTC), DetailsLevel: WARN
+2026-03-15T21:11:39.8105833Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:11:39.8109657Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:11:44.9191909Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:11:44.9192919Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:11:50.0293875Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:11:50.0294260Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:11:55.0993071Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:11:55.0993288Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:12:00.2096973Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:12:00.2097369Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:12:05.2954149Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:12:05.2954966Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:12:10.4466648Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:12:10.4467039Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:12:15.6165090Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:12:15.6165292Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:12:20.7872824Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:12:20.7874056Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:12:25.9604171Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:12:25.9605818Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:12:31.0956499Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:12:31.0956914Z Start site prohibitted because the site is being blocked.
+2026-03-15T21:12:34.5935401Z Site: wa-pos-fe-dev1 is unblocked.
+2026-03-15T21:12:36.2214723Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:12:37.3842549Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:12:34, DetailsLevel: WARN
+2026-03-15T21:12:37.3848770Z Container start method called.
+2026-03-15T21:12:37.3852010Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:12:37.3855746Z Establishing network.
+2026-03-15T21:12:37.3858419Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:12:37.5757226Z Container is starting.
+2026-03-15T21:12:37.5832980Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:12:37.5838862Z Establishing user namespace if not established already.
+2026-03-15T21:12:37.5845526Z Establishing network if not established already.
+2026-03-15T21:12:37.5849619Z Mounting volumes.
+2026-03-15T21:12:37.5856558Z Nested mountpoint 
+2026-03-15T21:12:37.6242374Z Nested mountpoint volatile/logs
+2026-03-15T21:12:37.6537373Z Nested mountpoint 
+2026-03-15T21:12:37.6938159Z Nested mountpoint 
+2026-03-15T21:12:37.7143093Z Nested mountpoint 
+2026-03-15T21:12:38.1045239Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:12:38.1059175Z Creating container.
+2026-03-15T21:12:38.1137686Z Creating pipes for streaming container io.
+2026-03-15T21:12:38.1138603Z Creating stdout named pipe at /podr/container/pipe/812ce2f679f9_wa-pos-fe-dev1/stdout_a393d2e12d8f4a368e7c6f65a039abd2.
+2026-03-15T21:12:38.1140193Z Successfully created stdout named pipe at: /podr/container/pipe/812ce2f679f9_wa-pos-fe-dev1/stdout_a393d2e12d8f4a368e7c6f65a039abd2.
+2026-03-15T21:12:38.1140908Z Opening named pipe /podr/container/pipe/812ce2f679f9_wa-pos-fe-dev1/stdout_a393d2e12d8f4a368e7c6f65a039abd2 for reading in non-blocking mode.
+2026-03-15T21:12:38.1141817Z Successfully opened named pipe: /podr/container/pipe/812ce2f679f9_wa-pos-fe-dev1/stdout_a393d2e12d8f4a368e7c6f65a039abd2.
+2026-03-15T21:12:38.1145611Z Successfully removed non-blocking flag from /podr/container/pipe/812ce2f679f9_wa-pos-fe-dev1/stdout_a393d2e12d8f4a368e7c6f65a039abd2.
+2026-03-15T21:12:38.1147107Z Creating stderr named pipe at /podr/container/pipe/812ce2f679f9_wa-pos-fe-dev1/stderr_75e2b443e4764d37a9bfaadaaed51b80.
+2026-03-15T21:12:38.1150340Z Successfully created stderr named pipe at: /podr/container/pipe/812ce2f679f9_wa-pos-fe-dev1/stderr_75e2b443e4764d37a9bfaadaaed51b80.
+2026-03-15T21:12:38.1152542Z Opening named pipe /podr/container/pipe/812ce2f679f9_wa-pos-fe-dev1/stderr_75e2b443e4764d37a9bfaadaaed51b80 for reading in non-blocking mode.
+2026-03-15T21:12:38.1154816Z Successfully opened named pipe: /podr/container/pipe/812ce2f679f9_wa-pos-fe-dev1/stderr_75e2b443e4764d37a9bfaadaaed51b80.
+2026-03-15T21:12:38.1156963Z Successfully removed non-blocking flag from /podr/container/pipe/812ce2f679f9_wa-pos-fe-dev1/stderr_75e2b443e4764d37a9bfaadaaed51b80.
+2026-03-15T21:12:38.1236382Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:12:38.5398667Z Starting container: 812ce2f679f9_wa-pos-fe-dev1.
+2026-03-15T21:12:38.6386889Z Starting watchers and probes.
+2026-03-15T21:12:38.6495598Z Starting metrics collection.
+2026-03-15T21:12:38.6580977Z Container is running.
+2026-03-15T21:12:38.6589638Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:12:38.7793003Z Container start method finished after 1394 ms.
+2026-03-15T21:12:38.8082543Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:12:38.8083198Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:12:59.4741550Z Container has finished running with exit code: 127.
+2026-03-15T21:12:59.4746086Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:12:59.4755740Z Stop and delete container. Retry count = 0
+2026-03-15T21:12:59.4758465Z Stopping container: 812ce2f679f9_wa-pos-fe-dev1.
+2026-03-15T21:12:59.5548164Z Deleting container: 812ce2f679f9_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:12:59.8965916Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:12:59.8970279Z Container is terminated. Total time elapsed: 422 ms.
+2026-03-15T21:12:59.9049229Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:12:59.9054040Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:11:34, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:12:59.9253472Z Site startup probe failed after 21.1166425 seconds.
+2026-03-15T21:13:00.1663871Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:13:00.1766535Z Failed to start site. Revert by stopping site.
+2026-03-15T21:13:00.1772908Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:13:00.1959055Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:13:00.1959239Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:13:53.1510377Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:14:00, DetailsLevel: WARN
+2026-03-15T21:13:58.3919451Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:14:00, DetailsLevel: WARN
+2026-03-15T21:14:03.4665317Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:14:00, DetailsLevel: WARN
+2026-03-15T21:14:08.5441020Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:14:00, DetailsLevel: WARN
+2026-03-15T21:14:13.6319199Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:14:00, DetailsLevel: WARN
+2026-03-15T21:14:18.7229393Z State: Blocked, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:14:00, DetailsLevel: WARN
+2026-03-15T21:14:46.6595730Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:14:00, DetailsLevel: WARN
+2026-03-15T21:14:47.6916497Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:14:00, DetailsLevel: WARN
+2026-03-15T21:14:47.6917249Z Container start method called.
+2026-03-15T21:14:47.6917567Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:14:47.6918055Z Establishing network.
+2026-03-15T21:14:47.6918648Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:14:47.9130816Z Container is starting.
+2026-03-15T21:14:47.9131408Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:14:47.9131929Z Establishing user namespace if not established already.
+2026-03-15T21:14:47.9132422Z Establishing network if not established already.
+2026-03-15T21:14:47.9133049Z Mounting volumes.
+2026-03-15T21:14:47.9133927Z Nested mountpoint 
+2026-03-15T21:14:47.9231110Z Nested mountpoint volatile/logs
+2026-03-15T21:14:47.9251068Z Nested mountpoint 
+2026-03-15T21:14:47.9254525Z Nested mountpoint 
+2026-03-15T21:14:47.9742937Z Nested mountpoint 
+2026-03-15T21:14:48.2754934Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:14:48.2755603Z Creating container.
+2026-03-15T21:14:48.2756091Z Creating pipes for streaming container io.
+2026-03-15T21:14:48.2756599Z Creating stdout named pipe at /podr/container/pipe/d44ffac94d75_wa-pos-fe-dev1/stdout_0bd9db9c27154ee090ef0fcf189c2186.
+2026-03-15T21:14:48.2846821Z Successfully created stdout named pipe at: /podr/container/pipe/d44ffac94d75_wa-pos-fe-dev1/stdout_0bd9db9c27154ee090ef0fcf189c2186.
+2026-03-15T21:14:48.2847432Z Opening named pipe /podr/container/pipe/d44ffac94d75_wa-pos-fe-dev1/stdout_0bd9db9c27154ee090ef0fcf189c2186 for reading in non-blocking mode.
+2026-03-15T21:14:48.2848058Z Successfully opened named pipe: /podr/container/pipe/d44ffac94d75_wa-pos-fe-dev1/stdout_0bd9db9c27154ee090ef0fcf189c2186.
+2026-03-15T21:14:48.2848527Z Successfully removed non-blocking flag from /podr/container/pipe/d44ffac94d75_wa-pos-fe-dev1/stdout_0bd9db9c27154ee090ef0fcf189c2186.
+2026-03-15T21:14:48.2849339Z Creating stderr named pipe at /podr/container/pipe/d44ffac94d75_wa-pos-fe-dev1/stderr_8585e4320e6446b1912eed87d1a69f31.
+2026-03-15T21:14:48.2928556Z Successfully created stderr named pipe at: /podr/container/pipe/d44ffac94d75_wa-pos-fe-dev1/stderr_8585e4320e6446b1912eed87d1a69f31.
+2026-03-15T21:14:48.2929855Z Opening named pipe /podr/container/pipe/d44ffac94d75_wa-pos-fe-dev1/stderr_8585e4320e6446b1912eed87d1a69f31 for reading in non-blocking mode.
+2026-03-15T21:14:48.2930780Z Successfully opened named pipe: /podr/container/pipe/d44ffac94d75_wa-pos-fe-dev1/stderr_8585e4320e6446b1912eed87d1a69f31.
+2026-03-15T21:14:48.2931305Z Successfully removed non-blocking flag from /podr/container/pipe/d44ffac94d75_wa-pos-fe-dev1/stderr_8585e4320e6446b1912eed87d1a69f31.
+2026-03-15T21:14:48.2932314Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:14:49.1409351Z Starting container: d44ffac94d75_wa-pos-fe-dev1.
+2026-03-15T21:14:49.2035584Z Starting watchers and probes.
+2026-03-15T21:14:49.2139668Z Starting metrics collection.
+2026-03-15T21:14:49.2330093Z Container is running.
+2026-03-15T21:14:49.2335896Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:14:49.4343905Z Container start method finished after 1742 ms.
+2026-03-15T21:14:49.4621522Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:14:49.4621724Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:15:09.6275446Z Container has finished running with exit code: 127.
+2026-03-15T21:15:09.6276335Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:15:09.6285473Z Stop and delete container. Retry count = 0
+2026-03-15T21:15:09.6286046Z Stopping container: d44ffac94d75_wa-pos-fe-dev1.
+2026-03-15T21:15:09.7072950Z Deleting container: d44ffac94d75_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:15:09.9093261Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:15:09.9102175Z Container is terminated. Total time elapsed: 282 ms.
+2026-03-15T21:15:09.9176852Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:15:09.9190661Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:13:00, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:09.9579777Z Site startup probe failed after 20.4948389 seconds.
+2026-03-15T21:15:10.1187321Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:10.1382801Z Failed to start site. Revert by stopping site.
+2026-03-15T21:15:10.1388661Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:10.1395490Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:10.1397560Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:15:10.1575600Z State: Stopping, Action: UnmountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:10.4312331Z State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:10.5307084Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:15:10 (UTC), DetailsLevel: ERR
+2026-03-15T21:15:10.6205203Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:15:10 (UTC), DetailsLevel: ERR
+2026-03-15T21:15:10.9637926Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:15:10 (UTC), DetailsLevel: ERR
+2026-03-15T21:15:11.8063627Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:15:10 (UTC), DetailsLevel: ERR
+2026-03-15T21:15:11.8241750Z Container start method called.
+2026-03-15T21:15:11.8252111Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:15:11.8260214Z Establishing network.
+2026-03-15T21:15:11.8537354Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:15:12.0771804Z Container is starting.
+2026-03-15T21:15:12.0773256Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:15:12.0775830Z Establishing user namespace if not established already.
+2026-03-15T21:15:12.0776739Z Establishing network if not established already.
+2026-03-15T21:15:12.0783266Z Mounting volumes.
+2026-03-15T21:15:12.0788177Z Nested mountpoint 
+2026-03-15T21:15:12.1184637Z Nested mountpoint volatile/logs
+2026-03-15T21:15:12.1294892Z Nested mountpoint 
+2026-03-15T21:15:12.1299630Z Nested mountpoint 
+2026-03-15T21:15:12.1780336Z Nested mountpoint 
+2026-03-15T21:15:12.4585332Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:15:12.4591327Z Creating container.
+2026-03-15T21:15:12.4596910Z Creating pipes for streaming container io.
+2026-03-15T21:15:12.4781453Z Creating stdout named pipe at /podr/container/pipe/f692a852de0a_wa-pos-fe-dev1/stdout_ada90f86a14d4291951665ef5c33c91d.
+2026-03-15T21:15:12.4792200Z Successfully created stdout named pipe at: /podr/container/pipe/f692a852de0a_wa-pos-fe-dev1/stdout_ada90f86a14d4291951665ef5c33c91d.
+2026-03-15T21:15:12.4798724Z Opening named pipe /podr/container/pipe/f692a852de0a_wa-pos-fe-dev1/stdout_ada90f86a14d4291951665ef5c33c91d for reading in non-blocking mode.
+2026-03-15T21:15:12.4894764Z Successfully opened named pipe: /podr/container/pipe/f692a852de0a_wa-pos-fe-dev1/stdout_ada90f86a14d4291951665ef5c33c91d.
+2026-03-15T21:15:12.4895408Z Successfully removed non-blocking flag from /podr/container/pipe/f692a852de0a_wa-pos-fe-dev1/stdout_ada90f86a14d4291951665ef5c33c91d.
+2026-03-15T21:15:12.5077567Z Creating stderr named pipe at /podr/container/pipe/f692a852de0a_wa-pos-fe-dev1/stderr_74468fe44d394956b2480148d3820b38.
+2026-03-15T21:15:12.5089039Z Successfully created stderr named pipe at: /podr/container/pipe/f692a852de0a_wa-pos-fe-dev1/stderr_74468fe44d394956b2480148d3820b38.
+2026-03-15T21:15:12.5095262Z Opening named pipe /podr/container/pipe/f692a852de0a_wa-pos-fe-dev1/stderr_74468fe44d394956b2480148d3820b38 for reading in non-blocking mode.
+2026-03-15T21:15:12.5181458Z Successfully opened named pipe: /podr/container/pipe/f692a852de0a_wa-pos-fe-dev1/stderr_74468fe44d394956b2480148d3820b38.
+2026-03-15T21:15:12.5191066Z Successfully removed non-blocking flag from /podr/container/pipe/f692a852de0a_wa-pos-fe-dev1/stderr_74468fe44d394956b2480148d3820b38.
+2026-03-15T21:15:12.5197511Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:15:13.1189634Z Starting container: f692a852de0a_wa-pos-fe-dev1.
+2026-03-15T21:15:13.1898465Z Starting watchers and probes.
+2026-03-15T21:15:13.1980267Z Starting metrics collection.
+2026-03-15T21:15:13.1981113Z Container is running.
+2026-03-15T21:15:13.1981838Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:15:13.3189636Z Container start method finished after 1475 ms.
+2026-03-15T21:15:13.3485295Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:15:13.3486993Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:15:32.0821795Z Container has finished running with exit code: 127.
+2026-03-15T21:15:32.0832114Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:15:32.0844312Z Stop and delete container. Retry count = 0
+2026-03-15T21:15:32.0846040Z Stopping container: f692a852de0a_wa-pos-fe-dev1.
+2026-03-15T21:15:32.1521763Z Deleting container: f692a852de0a_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:15:32.3245779Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:15:32.3321173Z Container is terminated. Total time elapsed: 248 ms.
+2026-03-15T21:15:32.3325953Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:15:32.3329109Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:10, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:32.3936541Z Site startup probe failed after 19.0255459 seconds.
+2026-03-15T21:15:32.5418941Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:32.5432122Z Failed to start site. Revert by stopping site.
+2026-03-15T21:15:32.5438207Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:32.5831820Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:32.5832033Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:15:32.6029523Z State: Stopping, Action: UnmountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:32.8339879Z State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:15:32.9250960Z Site: wa-pos-fe-dev1 will be blocked for 1 minutes till 03/15/2026 21:16:32
+2026-03-15T21:15:32.9259018Z State: Blocked, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site: wa-pos-fe-dev1 will be blocked for 1 minutes till 03/15/2026 21:16:32, DetailsLevel: WARN
+2026-03-15T21:15:32.9333687Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:15:32 (UTC), DetailsLevel: WARN
+2026-03-15T21:15:33.0244231Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:15:32 (UTC), DetailsLevel: WARN
+2026-03-15T21:16:32.9252826Z Site: wa-pos-fe-dev1 is unblocked.
+2026-03-15T21:19:01.0216614Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:15:32 (UTC), DetailsLevel: WARN
+2026-03-15T21:19:02.4678088Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:15:32 (UTC), DetailsLevel: WARN
+2026-03-15T21:19:02.4678756Z Container start method called.
+2026-03-15T21:19:02.4757485Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:19:02.4759469Z Establishing network.
+2026-03-15T21:19:02.4762409Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:19:02.6989021Z Container is starting.
+2026-03-15T21:19:02.6989787Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:19:02.6990509Z Establishing user namespace if not established already.
+2026-03-15T21:19:02.6991078Z Establishing network if not established already.
+2026-03-15T21:19:02.7077402Z Mounting volumes.
+2026-03-15T21:19:02.7079052Z Nested mountpoint 
+2026-03-15T21:19:02.7167929Z Nested mountpoint volatile/logs
+2026-03-15T21:19:02.7378147Z Nested mountpoint 
+2026-03-15T21:19:02.7388066Z Nested mountpoint 
+2026-03-15T21:19:02.7582012Z Nested mountpoint 
+2026-03-15T21:19:02.9463384Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:19:02.9472000Z Creating container.
+2026-03-15T21:19:02.9472574Z Creating pipes for streaming container io.
+2026-03-15T21:19:02.9473109Z Creating stdout named pipe at /podr/container/pipe/ed159f244b72_wa-pos-fe-dev1/stdout_81856fda5db64f6bbb07bba48e174683.
+2026-03-15T21:19:02.9483333Z Successfully created stdout named pipe at: /podr/container/pipe/ed159f244b72_wa-pos-fe-dev1/stdout_81856fda5db64f6bbb07bba48e174683.
+2026-03-15T21:19:02.9484207Z Opening named pipe /podr/container/pipe/ed159f244b72_wa-pos-fe-dev1/stdout_81856fda5db64f6bbb07bba48e174683 for reading in non-blocking mode.
+2026-03-15T21:19:02.9487282Z Successfully opened named pipe: /podr/container/pipe/ed159f244b72_wa-pos-fe-dev1/stdout_81856fda5db64f6bbb07bba48e174683.
+2026-03-15T21:19:02.9490504Z Successfully removed non-blocking flag from /podr/container/pipe/ed159f244b72_wa-pos-fe-dev1/stdout_81856fda5db64f6bbb07bba48e174683.
+2026-03-15T21:19:02.9562191Z Creating stderr named pipe at /podr/container/pipe/ed159f244b72_wa-pos-fe-dev1/stderr_3ae7958388064958a0d86aa6a921b440.
+2026-03-15T21:19:02.9563317Z Successfully created stderr named pipe at: /podr/container/pipe/ed159f244b72_wa-pos-fe-dev1/stderr_3ae7958388064958a0d86aa6a921b440.
+2026-03-15T21:19:02.9565640Z Opening named pipe /podr/container/pipe/ed159f244b72_wa-pos-fe-dev1/stderr_3ae7958388064958a0d86aa6a921b440 for reading in non-blocking mode.
+2026-03-15T21:19:02.9566606Z Successfully opened named pipe: /podr/container/pipe/ed159f244b72_wa-pos-fe-dev1/stderr_3ae7958388064958a0d86aa6a921b440.
+2026-03-15T21:19:02.9567285Z Successfully removed non-blocking flag from /podr/container/pipe/ed159f244b72_wa-pos-fe-dev1/stderr_3ae7958388064958a0d86aa6a921b440.
+2026-03-15T21:19:02.9568696Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:19:03.3104168Z Starting container: ed159f244b72_wa-pos-fe-dev1.
+2026-03-15T21:19:03.3667882Z Starting watchers and probes.
+2026-03-15T21:19:03.3767395Z Starting metrics collection.
+2026-03-15T21:19:03.3782634Z Container is running.
+2026-03-15T21:19:03.3865387Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:19:03.5967392Z Container start method finished after 1128 ms.
+2026-03-15T21:19:03.5977076Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:19:03.5989079Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:19:26.5224723Z Container has finished running with exit code: 127.
+2026-03-15T21:19:26.5227958Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:19:26.5246816Z Stop and delete container. Retry count = 0
+2026-03-15T21:19:26.5251977Z Stopping container: ed159f244b72_wa-pos-fe-dev1.
+2026-03-15T21:19:26.5835727Z Deleting container: ed159f244b72_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:19:26.8132364Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:19:26.8142331Z Container is terminated. Total time elapsed: 290 ms.
+2026-03-15T21:19:26.8148022Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:19:26.8155050Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:15:32, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:19:26.8354771Z Site startup probe failed after 23.2263215 seconds.
+2026-03-15T21:19:26.9943696Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:19:27.0046889Z Failed to start site. Revert by stopping site.
+2026-03-15T21:19:27.0053516Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:19:27.0245397Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:19:27.0249981Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:24:06.1228901Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:19:27 (UTC), DetailsLevel: WARN
+2026-03-15T21:24:10.4064639Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:19:27 (UTC), DetailsLevel: WARN
+2026-03-15T21:24:10.4069429Z Container start method called.
+2026-03-15T21:24:10.4167501Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:24:10.4169248Z Establishing network.
+2026-03-15T21:24:10.4253599Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:24:11.3644577Z Container is starting.
+2026-03-15T21:24:11.3651130Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:24:11.3654865Z Establishing user namespace if not established already.
+2026-03-15T21:24:11.3661398Z Establishing network if not established already.
+2026-03-15T21:24:11.3943021Z Mounting volumes.
+2026-03-15T21:24:11.3955015Z Nested mountpoint 
+2026-03-15T21:24:11.4732633Z Nested mountpoint volatile/logs
+2026-03-15T21:24:11.4759586Z Nested mountpoint 
+2026-03-15T21:24:11.5153133Z Nested mountpoint 
+2026-03-15T21:24:11.5736769Z Nested mountpoint 
+2026-03-15T21:24:12.2633681Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:24:12.2640968Z Creating container.
+2026-03-15T21:24:12.2852708Z Creating pipes for streaming container io.
+2026-03-15T21:24:12.2853954Z Creating stdout named pipe at /podr/container/pipe/6b295098e0f6_wa-pos-fe-dev1/stdout_12e0f0da59084236808cfa6db414d007.
+2026-03-15T21:24:12.3037591Z Successfully created stdout named pipe at: /podr/container/pipe/6b295098e0f6_wa-pos-fe-dev1/stdout_12e0f0da59084236808cfa6db414d007.
+2026-03-15T21:24:12.3039123Z Opening named pipe /podr/container/pipe/6b295098e0f6_wa-pos-fe-dev1/stdout_12e0f0da59084236808cfa6db414d007 for reading in non-blocking mode.
+2026-03-15T21:24:12.3043007Z Successfully opened named pipe: /podr/container/pipe/6b295098e0f6_wa-pos-fe-dev1/stdout_12e0f0da59084236808cfa6db414d007.
+2026-03-15T21:24:12.3048647Z Successfully removed non-blocking flag from /podr/container/pipe/6b295098e0f6_wa-pos-fe-dev1/stdout_12e0f0da59084236808cfa6db414d007.
+2026-03-15T21:24:12.3056708Z Creating stderr named pipe at /podr/container/pipe/6b295098e0f6_wa-pos-fe-dev1/stderr_cfb0d3affc224cccb4c2881ec34978aa.
+2026-03-15T21:24:12.3058412Z Successfully created stderr named pipe at: /podr/container/pipe/6b295098e0f6_wa-pos-fe-dev1/stderr_cfb0d3affc224cccb4c2881ec34978aa.
+2026-03-15T21:24:12.3137055Z Opening named pipe /podr/container/pipe/6b295098e0f6_wa-pos-fe-dev1/stderr_cfb0d3affc224cccb4c2881ec34978aa for reading in non-blocking mode.
+2026-03-15T21:24:12.3143674Z Successfully opened named pipe: /podr/container/pipe/6b295098e0f6_wa-pos-fe-dev1/stderr_cfb0d3affc224cccb4c2881ec34978aa.
+2026-03-15T21:24:12.3146992Z Successfully removed non-blocking flag from /podr/container/pipe/6b295098e0f6_wa-pos-fe-dev1/stderr_cfb0d3affc224cccb4c2881ec34978aa.
+2026-03-15T21:24:12.3258168Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:24:14.5607037Z Starting container: 6b295098e0f6_wa-pos-fe-dev1.
+2026-03-15T21:24:14.7023889Z Starting watchers and probes.
+2026-03-15T21:24:14.7304646Z Starting metrics collection.
+2026-03-15T21:24:14.7329106Z Container is running.
+2026-03-15T21:24:14.7333484Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:24:14.8925352Z Container start method finished after 4485 ms.
+2026-03-15T21:24:14.8926826Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:24:14.8927047Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:24:49.1841860Z Container has finished running with exit code: 127.
+2026-03-15T21:24:49.1853295Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:24:49.2151783Z Stop and delete container. Retry count = 0
+2026-03-15T21:24:49.2157147Z Stopping container: 6b295098e0f6_wa-pos-fe-dev1.
+2026-03-15T21:24:49.3143440Z Deleting container: 6b295098e0f6_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:24:49.6629074Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:24:49.6845535Z Container is terminated. Total time elapsed: 490 ms.
+2026-03-15T21:24:49.6951761Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:24:49.7035761Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:19:26, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:24:49.9040900Z Site startup probe failed after 34.9511261 seconds.
+2026-03-15T21:24:50.3845499Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:24:50.4028739Z Failed to start site. Revert by stopping site.
+2026-03-15T21:24:50.5152511Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:24:50.5328713Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:24:50.5335534Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:24:50.5427146Z State: Stopping, Action: UnmountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:24:51.2927383Z State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:24:51.8143689Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:24:51 (UTC), DetailsLevel: ERR
+2026-03-15T21:24:52.0842001Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:24:51 (UTC), DetailsLevel: ERR
+2026-03-15T21:25:50.6426476Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:24:51 (UTC), DetailsLevel: ERR
+2026-03-15T21:25:53.6619962Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 03/15/2026 21:24:51 (UTC), DetailsLevel: ERR
+2026-03-15T21:25:53.6627805Z Container start method called.
+2026-03-15T21:25:53.6705602Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:25:53.6712793Z Establishing network.
+2026-03-15T21:25:53.6714004Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:25:54.2910491Z Container is starting.
+2026-03-15T21:25:54.2911063Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:25:54.2911648Z Establishing user namespace if not established already.
+2026-03-15T21:25:54.2912224Z Establishing network if not established already.
+2026-03-15T21:25:54.2912935Z Mounting volumes.
+2026-03-15T21:25:54.2989573Z Nested mountpoint 
+2026-03-15T21:25:54.3403249Z Nested mountpoint volatile/logs
+2026-03-15T21:25:54.3606769Z Nested mountpoint 
+2026-03-15T21:25:54.4210449Z Nested mountpoint 
+2026-03-15T21:25:54.4391549Z Nested mountpoint 
+2026-03-15T21:25:54.8614298Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:25:54.8901623Z Creating container.
+2026-03-15T21:25:54.8911693Z Creating pipes for streaming container io.
+2026-03-15T21:25:54.8987988Z Creating stdout named pipe at /podr/container/pipe/39eb0529ab75_wa-pos-fe-dev1/stdout_2af0e886425d4215ad26aaf498e10725.
+2026-03-15T21:25:54.8997101Z Successfully created stdout named pipe at: /podr/container/pipe/39eb0529ab75_wa-pos-fe-dev1/stdout_2af0e886425d4215ad26aaf498e10725.
+2026-03-15T21:25:54.9003250Z Opening named pipe /podr/container/pipe/39eb0529ab75_wa-pos-fe-dev1/stdout_2af0e886425d4215ad26aaf498e10725 for reading in non-blocking mode.
+2026-03-15T21:25:54.9011284Z Successfully opened named pipe: /podr/container/pipe/39eb0529ab75_wa-pos-fe-dev1/stdout_2af0e886425d4215ad26aaf498e10725.
+2026-03-15T21:25:54.9114374Z Successfully removed non-blocking flag from /podr/container/pipe/39eb0529ab75_wa-pos-fe-dev1/stdout_2af0e886425d4215ad26aaf498e10725.
+2026-03-15T21:25:54.9203517Z Creating stderr named pipe at /podr/container/pipe/39eb0529ab75_wa-pos-fe-dev1/stderr_3aae534d41d944bcbade5b1f0ecfd1ad.
+2026-03-15T21:25:54.9298105Z Successfully created stderr named pipe at: /podr/container/pipe/39eb0529ab75_wa-pos-fe-dev1/stderr_3aae534d41d944bcbade5b1f0ecfd1ad.
+2026-03-15T21:25:54.9313153Z Opening named pipe /podr/container/pipe/39eb0529ab75_wa-pos-fe-dev1/stderr_3aae534d41d944bcbade5b1f0ecfd1ad for reading in non-blocking mode.
+2026-03-15T21:25:54.9393421Z Successfully opened named pipe: /podr/container/pipe/39eb0529ab75_wa-pos-fe-dev1/stderr_3aae534d41d944bcbade5b1f0ecfd1ad.
+2026-03-15T21:25:54.9484684Z Successfully removed non-blocking flag from /podr/container/pipe/39eb0529ab75_wa-pos-fe-dev1/stderr_3aae534d41d944bcbade5b1f0ecfd1ad.
+2026-03-15T21:25:54.9493024Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:25:56.0506227Z Starting container: 39eb0529ab75_wa-pos-fe-dev1.
+2026-03-15T21:25:56.4501346Z Starting watchers and probes.
+2026-03-15T21:25:56.4599958Z Starting metrics collection.
+2026-03-15T21:25:56.4605030Z Container is running.
+2026-03-15T21:25:56.4606282Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:25:56.6207148Z Container start method finished after 2950 ms.
+2026-03-15T21:25:56.6208972Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:25:56.6209326Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:26:24.8455299Z Container has finished running with exit code: 127.
+2026-03-15T21:26:24.8461258Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:26:24.8669261Z Stop and delete container. Retry count = 0
+2026-03-15T21:26:24.8857891Z Stopping container: 39eb0529ab75_wa-pos-fe-dev1.
+2026-03-15T21:26:25.0253097Z Deleting container: 39eb0529ab75_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:26:25.4445904Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:26:25.4447170Z Container is terminated. Total time elapsed: 597 ms.
+2026-03-15T21:26:25.4447763Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:26:25.4456230Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:24:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:26:25.5262559Z Site startup probe failed after 28.9048645 seconds.
+2026-03-15T21:26:25.8237561Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:26:25.8264236Z Failed to start site. Revert by stopping site.
+2026-03-15T21:26:25.8462528Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:26:25.8655124Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:26:25.8660649Z Site: wa-pos-fe-dev1 stopped.
+2026-03-15T21:30:30.6664470Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:27:26, DetailsLevel: WARN
+2026-03-15T21:30:33.3895378Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 03/15/2026 21:27:26, DetailsLevel: WARN
+2026-03-15T21:30:33.3983698Z Container start method called.
+2026-03-15T21:30:33.4005491Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.5:13209/appsvc/node:20-lts_20260115.4.tuxprod for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:30:33.4085625Z Establishing network.
+2026-03-15T21:30:33.4098007Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-03-15T21:30:34.8196875Z Container is starting.
+2026-03-15T21:30:34.8201431Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for wa-pos-fe-dev1., DetailsLevel: INFO
+2026-03-15T21:30:34.8209783Z Establishing user namespace if not established already.
+2026-03-15T21:30:34.8212239Z Establishing network if not established already.
+2026-03-15T21:30:34.8302611Z Mounting volumes.
+2026-03-15T21:30:34.8489172Z Nested mountpoint 
+2026-03-15T21:30:34.9888585Z Nested mountpoint volatile/logs
+2026-03-15T21:30:35.8009673Z Nested mountpoint 
+2026-03-15T21:30:35.8686742Z Nested mountpoint 
+2026-03-15T21:30:35.9500567Z Nested mountpoint 
+2026-03-15T21:30:37.2809467Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for wa-pos-fe-dev1. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-03-15T21:30:37.2816391Z Creating container.
+2026-03-15T21:30:37.2919830Z Creating pipes for streaming container io.
+2026-03-15T21:30:37.2997888Z Creating stdout named pipe at /podr/container/pipe/de5a8b71f377_wa-pos-fe-dev1/stdout_1ffe79b77d8a4a57b5300c96082f9218.
+2026-03-15T21:30:37.3094037Z Successfully created stdout named pipe at: /podr/container/pipe/de5a8b71f377_wa-pos-fe-dev1/stdout_1ffe79b77d8a4a57b5300c96082f9218.
+2026-03-15T21:30:37.3095518Z Opening named pipe /podr/container/pipe/de5a8b71f377_wa-pos-fe-dev1/stdout_1ffe79b77d8a4a57b5300c96082f9218 for reading in non-blocking mode.
+2026-03-15T21:30:37.3096603Z Successfully opened named pipe: /podr/container/pipe/de5a8b71f377_wa-pos-fe-dev1/stdout_1ffe79b77d8a4a57b5300c96082f9218.
+2026-03-15T21:30:37.3100467Z Successfully removed non-blocking flag from /podr/container/pipe/de5a8b71f377_wa-pos-fe-dev1/stdout_1ffe79b77d8a4a57b5300c96082f9218.
+2026-03-15T21:30:37.3110145Z Creating stderr named pipe at /podr/container/pipe/de5a8b71f377_wa-pos-fe-dev1/stderr_9a3a12e538b54a4d86b47fa4021d1acd.
+2026-03-15T21:30:37.3114007Z Successfully created stderr named pipe at: /podr/container/pipe/de5a8b71f377_wa-pos-fe-dev1/stderr_9a3a12e538b54a4d86b47fa4021d1acd.
+2026-03-15T21:30:37.3115957Z Opening named pipe /podr/container/pipe/de5a8b71f377_wa-pos-fe-dev1/stderr_9a3a12e538b54a4d86b47fa4021d1acd for reading in non-blocking mode.
+2026-03-15T21:30:37.3193382Z Successfully opened named pipe: /podr/container/pipe/de5a8b71f377_wa-pos-fe-dev1/stderr_9a3a12e538b54a4d86b47fa4021d1acd.
+2026-03-15T21:30:37.3202243Z Successfully removed non-blocking flag from /podr/container/pipe/de5a8b71f377_wa-pos-fe-dev1/stderr_9a3a12e538b54a4d86b47fa4021d1acd.
+2026-03-15T21:30:37.3217600Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-03-15T21:30:39.1922636Z Starting container: de5a8b71f377_wa-pos-fe-dev1.
+2026-03-15T21:30:39.3512862Z Starting watchers and probes.
+2026-03-15T21:30:39.4198392Z Starting metrics collection.
+2026-03-15T21:30:39.4302433Z Container is running.
+2026-03-15T21:30:39.4305790Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:30:39.5819837Z Container start method finished after 6183 ms.
+2026-03-15T21:30:39.6425051Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container wa-pos-fe-dev1 successfully created and is running., DetailsLevel: INFO
+2026-03-15T21:30:39.6427211Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-03-15T21:31:23.2715438Z Container has finished running with exit code: 127.
+2026-03-15T21:31:23.2726878Z Container is terminating. Grace period: 5 seconds.
+2026-03-15T21:31:23.2837521Z Stop and delete container. Retry count = 0
+2026-03-15T21:31:23.3012961Z Stopping container: de5a8b71f377_wa-pos-fe-dev1.
+2026-03-15T21:31:23.5125282Z Deleting container: de5a8b71f377_wa-pos-fe-dev1. Retry count = 0
+2026-03-15T21:31:24.3938136Z Container spec TerminationMessagePolicy  path 
+2026-03-15T21:31:24.4025995Z Container is terminated. Total time elapsed: 1128 ms.
+2026-03-15T21:31:24.4031886Z Site container: wa-pos-fe-dev1 terminated during site startup.
+2026-03-15T21:31:24.4121018Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:26:25, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:31:24.6615972Z Site startup probe failed after 44.9815598 seconds.
+2026-03-15T21:31:24.9832971Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:31:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:31:25.0044989Z Failed to start site. Revert by stopping site.
+2026-03-15T21:31:25.0614938Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:31:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:31:25.0822982Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 03/15/2026 21:31:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: wa-pos-fe-dev1 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-03-15T21:31:25.0823213Z Site: wa-pos-fe-dev1 stopped.

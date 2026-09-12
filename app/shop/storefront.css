@@ -1,0 +1,737 @@
+/*
+ * Public storefront design system.
+ *
+ * Everything here is scoped under `.storefront` (set once by StoreShell) so the
+ * POS, admin and QR-menu surfaces keep their own tokens untouched. Components
+ * use these classes for the *visual* treatment (surface, control, media) and
+ * Tailwind for layout, which keeps one consistent look across every store page
+ * without a second design system.
+ *
+ * COLOUR
+ * ------
+ * Two colours drive the whole store and both come from the tenant's configured
+ * branding (Tenants.PrimaryColor / AccentColor, served by /menu/public/branding):
+ *
+ *   --sf-brand   the action colour  — buttons, cart, current page, focus rings
+ *   --sf-accent  the merchandising colour — section grounds, rails, quiet marks
+ *
+ * StoreShell writes both as inline custom properties when the business has
+ * configured them; the fallbacks below keep an unconfigured tenant looking
+ * exactly like the neutral theme it has today. Nothing else in the storefront
+ * may introduce a raw hex — derive from these two.
+ */
+
+.storefront {
+    /* Layout rhythm — every section aligns to the same container and gutters. */
+    --sf-max: 1280px;
+    --sf-gutter: clamp(1rem, 3.5vw, 2rem);
+    --sf-gap: clamp(0.625rem, 1.4vw, 1rem);
+    --sf-section: clamp(1.75rem, 3.4vw, 2.75rem);
+
+    /* Brand. Overridden inline by StoreShell from the tenant's configuration. */
+    --sf-brand: var(--primary);
+    --sf-brand-foreground: var(--primary-foreground);
+    --sf-accent: var(--primary);
+
+    /* Derived brand tints. Every one is a mix, so a change of brand colour
+       carries through the whole store without touching another rule. */
+    --sf-brand-soft: color-mix(in srgb, var(--sf-brand) 8%, var(--background));
+    --sf-accent-soft: color-mix(in srgb, var(--sf-accent) 12%, var(--background));
+    --sf-accent-softer: color-mix(in srgb, var(--sf-accent) 6%, var(--background));
+    --sf-accent-line: color-mix(in srgb, var(--sf-accent) 30%, transparent);
+    --sf-accent-ink: color-mix(in srgb, var(--sf-accent) 72%, var(--foreground));
+
+    /* Sale. The ONE promotional colour, and the only one in the store that is not
+       derived from the tenant's brand: a discount has to read as a discount in any
+       brand palette, and a gold "−25%" on cream does not. It is reserved for genuine
+       reduction semantics — never for navigation, headings or general merchandising,
+       which stay on the brand/accent colours above. Everything else here is a mix of
+       it, so the whole promotional language moves with one value. */
+    --sf-sale: #d62b23;
+    --sf-sale-foreground: #ffffff;
+    --sf-sale-soft: color-mix(in srgb, var(--sf-sale) 10%, var(--background));
+    --sf-sale-line: color-mix(in srgb, var(--sf-sale) 28%, transparent);
+    --sf-sale-ink: color-mix(in srgb, var(--sf-sale) 78%, var(--foreground));
+
+    /* Surfaces & lines — hairlines instead of heavy cards. */
+    --sf-line: color-mix(in srgb, var(--foreground) 11%, transparent);
+    --sf-line-strong: color-mix(in srgb, var(--foreground) 20%, transparent);
+    --sf-line-soft: color-mix(in srgb, var(--foreground) 7%, transparent);
+    --sf-surface: var(--card);
+    --sf-surface-sunken: color-mix(in srgb, var(--foreground) 3%, var(--background));
+    --sf-media: color-mix(in srgb, var(--foreground) 3.5%, var(--background));
+    --sf-shadow-hover: 0 10px 28px -14px color-mix(in srgb, var(--foreground) 55%, transparent);
+    --sf-shadow-raised: 0 18px 44px -26px color-mix(in srgb, var(--foreground) 60%, transparent);
+
+    --sf-radius: 14px;
+    --sf-radius-sm: 10px;
+    --sf-radius-lg: 20px;
+    --sf-control: 44px;
+    --sf-control-sm: 38px;
+
+    /* One motion scale, so every transition in the store agrees. */
+    --sf-motion: 180ms;
+    --sf-motion-slow: 240ms;
+    --sf-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Everything below sits in Tailwind's `components` layer so utility classes
+   such as `hidden`, `md:hidden` or `sm:inline-flex` always win a conflict. */
+@layer components {
+/* ── Layout ─────────────────────────────────────────────────────────── */
+
+.sf-container {
+    width: 100%;
+    max-width: var(--sf-max);
+    margin-inline: auto;
+    padding-inline: var(--sf-gutter);
+}
+
+/* Full-bleed band: breaks out of the container so a section ground can run
+   edge to edge while its contents stay on the grid. */
+.sf-band {
+    padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+/* Home hero. A fixed responsive height rather than an aspect ratio, because an aspect
+   ratio ties the banner's height to the viewport width and produces a full-screen cover
+   on a phone and a letterbox on a wide desktop. A merchandising banner should be the
+   opening of the page, not the whole of it: the first row of products stays reachable
+   within a short scroll at every width. */
+.sf-hero {
+    height: 220px;
+}
+
+@media (min-width: 640px) {
+    .sf-hero { height: 300px; }
+}
+
+@media (min-width: 1024px) {
+    /* Tops out at 400px — inside the 360–430px the desktop banner is meant to occupy. */
+    .sf-hero { height: clamp(340px, 30vw, 400px); }
+}
+
+.sf-band--tint { background: var(--sf-accent-softer); }
+.sf-band--sunken { background: var(--sf-surface-sunken); }
+.sf-band--brand { background: var(--sf-brand-soft); }
+
+/* ── Surfaces ───────────────────────────────────────────────────────── */
+
+.sf-card {
+    background: var(--sf-surface);
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius);
+}
+
+.sf-panel {
+    background: var(--sf-surface);
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius);
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.sf-divide > * + * {
+    border-top: 1px solid var(--sf-line-soft);
+}
+
+/* Interactive card: no shadow at rest, a restrained lift on pointer devices. */
+.sf-card-link {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--sf-surface);
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius);
+    overflow: hidden;
+    transition:
+        border-color var(--sf-motion) var(--sf-ease),
+        box-shadow var(--sf-motion) var(--sf-ease),
+        transform var(--sf-motion) var(--sf-ease);
+}
+
+@media (hover: hover) {
+    .sf-card-link:hover {
+        border-color: var(--sf-accent-line);
+        box-shadow: var(--sf-shadow-hover);
+        transform: translateY(-2px);
+    }
+
+    .sf-card-link:hover .sf-media img {
+        transform: scale(1.045);
+    }
+
+    /* The card's action is always present — hiding the only way to buy would cost
+       more than the calm it buys back. Hover just brings it forward. */
+    .sf-card-link:hover .sf-action {
+        border-color: var(--sf-accent-line);
+        background: var(--sf-accent-softer);
+    }
+}
+
+.sf-card-link:active { transform: translateY(0); }
+
+.sf-card-link:focus-within {
+    border-color: var(--sf-brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sf-brand) 22%, transparent);
+}
+
+/* ── Media ──────────────────────────────────────────────────────────── */
+
+.sf-media {
+    position: relative;
+    overflow: hidden;
+    background: var(--sf-media);
+    /* Lets the empty-state monogram scale with the slot instead of the viewport. */
+    container-type: inline-size;
+}
+
+.sf-media img {
+    transition: transform var(--sf-motion-slow) var(--sf-ease);
+}
+
+/* ── Controls ───────────────────────────────────────────────────────── */
+
+.sf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: var(--sf-control);
+    padding-inline: 1rem;
+    border-radius: var(--sf-radius-sm);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    transition:
+        background-color var(--sf-motion) var(--sf-ease),
+        border-color var(--sf-motion) var(--sf-ease),
+        color var(--sf-motion) var(--sf-ease),
+        transform 90ms var(--sf-ease),
+        opacity var(--sf-motion) var(--sf-ease);
+}
+
+.sf-btn:active:not(:disabled) { transform: scale(0.978); }
+.sf-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.sf-btn:focus-visible { outline: 2px solid var(--sf-brand); outline-offset: 2px; }
+
+.sf-btn--primary { background: var(--sf-brand); color: var(--sf-brand-foreground); }
+@media (hover: hover) { .sf-btn--primary:hover:not(:disabled) { background: color-mix(in srgb, var(--sf-brand) 86%, var(--foreground)); } }
+
+.sf-btn--accent { background: var(--sf-accent); color: #ffffff; }
+@media (hover: hover) { .sf-btn--accent:hover:not(:disabled) { background: color-mix(in srgb, var(--sf-accent) 88%, black); } }
+
+.sf-btn--outline { border: 1px solid var(--sf-line); background: var(--sf-surface); color: var(--foreground); }
+@media (hover: hover) {
+    .sf-btn--outline:hover:not(:disabled) {
+        background: var(--sf-accent-softer);
+        border-color: var(--sf-accent-line);
+    }
+}
+
+.sf-btn--quiet { color: var(--muted-foreground); }
+@media (hover: hover) { .sf-btn--quiet:hover:not(:disabled) { color: var(--foreground); background: var(--sf-surface-sunken); } }
+
+.sf-btn--sm { min-height: var(--sf-control-sm); padding-inline: 0.75rem; font-size: 0.8125rem; }
+.sf-btn--lg { min-height: 50px; padding-inline: 1.5rem; font-size: 0.9375rem; }
+
+/* Add-to-cart confirmation: a short, non-blocking state change on the button. */
+.sf-btn--done {
+    background: var(--sf-accent) !important;
+    border-color: var(--sf-accent) !important;
+    color: #ffffff !important;
+}
+
+/* Icon-only header/toolbar action. */
+.sf-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--sf-control);
+    height: var(--sf-control);
+    border-radius: var(--sf-radius-sm);
+    color: var(--foreground);
+    transition: background-color var(--sf-motion) var(--sf-ease), color var(--sf-motion) var(--sf-ease);
+}
+@media (hover: hover) { .sf-icon-btn:hover { background: var(--sf-surface-sunken); } }
+.sf-icon-btn:focus-visible { outline: 2px solid var(--sf-brand); outline-offset: 2px; }
+
+.sf-field {
+    width: 100%;
+    min-height: var(--sf-control);
+    padding-inline: 0.875rem;
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius-sm);
+    background: var(--sf-surface);
+    color: var(--foreground);
+    font-size: 0.9375rem;
+    transition: border-color var(--sf-motion) var(--sf-ease), box-shadow var(--sf-motion) var(--sf-ease);
+}
+
+.sf-field::placeholder { color: color-mix(in srgb, var(--muted-foreground) 85%, transparent); }
+
+.sf-field:focus,
+.sf-field:focus-visible {
+    outline: none;
+    border-color: var(--sf-brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sf-brand) 18%, transparent);
+}
+
+textarea.sf-field { padding-block: 0.625rem; line-height: 1.5; }
+
+.sf-label {
+    display: block;
+    margin-bottom: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--muted-foreground);
+}
+
+/* ── Checkout ───────────────────────────────────────────────────────── */
+
+/* One heading rule for every checkout section, so contact, fulfilment, payment and
+   notes read as steps of one form rather than four separately styled blocks. */
+.sf-checkout-heading {
+    margin-bottom: 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+}
+
+/* A selectable option. `--compact` is a single-line toggle (ASAP / Scheduled);
+   `--card` carries an icon and a supporting line (pickup vs delivery, cash vs card). */
+.sf-choice {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    width: 100%;
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius-sm);
+    background: var(--sf-surface);
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: start;
+    transition: border-color var(--sf-motion) var(--sf-ease),
+        background-color var(--sf-motion) var(--sf-ease),
+        box-shadow var(--sf-motion) var(--sf-ease);
+}
+
+.sf-choice--compact {
+    justify-content: center;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+}
+
+.sf-choice--card {
+    align-items: flex-start;
+    padding: 0.75rem;
+}
+
+.sf-choice:hover:not(:disabled) { background: var(--sf-surface-sunken); }
+
+.sf-choice:focus-visible {
+    outline: none;
+    border-color: var(--sf-brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sf-brand) 18%, transparent);
+}
+
+.sf-choice--on,
+.sf-choice--on:hover:not(:disabled) {
+    border-color: var(--sf-brand);
+    background: var(--sf-brand-soft);
+    color: var(--foreground);
+}
+
+.sf-choice:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.sf-choice__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--sf-radius-sm);
+    background: var(--sf-surface-sunken);
+    color: var(--muted-foreground);
+}
+
+.sf-choice--on .sf-choice__icon {
+    background: var(--sf-brand);
+    color: var(--sf-brand-foreground);
+}
+
+.sf-choice__hint {
+    display: block;
+    margin-top: 0.125rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--muted-foreground);
+}
+
+/* Search combines a field and an inline icon. */
+.sf-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: var(--sf-control);
+    padding-inline: 0.875rem;
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius-sm);
+    background: var(--sf-surface);
+    transition: border-color var(--sf-motion) var(--sf-ease), box-shadow var(--sf-motion) var(--sf-ease);
+}
+
+.sf-search:focus-within {
+    border-color: var(--sf-brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sf-brand) 18%, transparent);
+}
+
+.sf-search input {
+    min-width: 0;
+    flex: 1;
+    background: transparent;
+    font-size: 0.9375rem;
+    outline: none;
+}
+
+.sf-search input::-webkit-search-cancel-button { cursor: pointer; }
+
+/* Suggestion panel under the search field. */
+.sf-suggest {
+    position: absolute;
+    inset-inline: 0;
+    top: calc(100% + 0.375rem);
+    z-index: 50;
+    overflow: hidden;
+    background: var(--sf-surface);
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius);
+    box-shadow: var(--sf-shadow-raised);
+    animation: sf-drop 140ms var(--sf-ease);
+}
+
+.sf-suggest-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    text-align: start;
+    transition: background-color 120ms var(--sf-ease);
+}
+
+.sf-suggest-row:hover,
+.sf-suggest-row[data-active="true"] { background: var(--sf-accent-softer); }
+.sf-suggest-row:focus-visible { outline: 2px solid var(--sf-brand); outline-offset: -2px; }
+
+@keyframes sf-drop {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* ── Typography ─────────────────────────────────────────────────────── */
+
+.sf-page-title {
+    font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+}
+
+.sf-section-title {
+    font-size: clamp(1.0625rem, 1.7vw, 1.25rem);
+    font-weight: 650;
+    letter-spacing: -0.012em;
+}
+
+.sf-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--sf-accent-ink);
+}
+
+.sf-meta { font-size: 0.8125rem; color: var(--muted-foreground); }
+
+.sf-price {
+    font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+}
+
+.sf-price--was {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--muted-foreground);
+    text-decoration: line-through;
+}
+
+/* Latin product names inside an Arabic page must still read left-to-right. */
+.sf-bidi { unicode-bidi: plaintext; }
+
+/* ── States ─────────────────────────────────────────────────────────── */
+
+.sf-skel {
+    background: linear-gradient(
+        90deg,
+        var(--sf-media) 0%,
+        color-mix(in srgb, var(--foreground) 7%, var(--background)) 50%,
+        var(--sf-media) 100%
+    );
+    background-size: 200% 100%;
+    animation: sf-shimmer 1.4s ease-in-out infinite;
+    border-radius: 6px;
+}
+
+@keyframes sf-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.sf-empty {
+    border: 1px dashed var(--sf-line);
+    border-radius: var(--sf-radius);
+    padding: clamp(2rem, 6vw, 3.5rem) 1.25rem;
+    text-align: center;
+}
+
+/* ── Badges & chips ─────────────────────────────────────────────────── */
+
+.sf-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    padding-inline: 0.4375rem;
+    border-radius: 5px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.sf-badge--sale { background: var(--sf-sale); color: var(--sf-sale-foreground); }
+.sf-badge--accent { background: var(--sf-accent); color: #ffffff; }
+.sf-badge--muted { background: var(--sf-surface-sunken); color: var(--muted-foreground); border: 1px solid var(--sf-line-soft); }
+
+/* Quiet mark for a product that belongs to a live bundle. It is a signpost to the
+   offer, not a price claim, so it stays on the accent colour rather than the sale
+   colour — only an actual reduction is allowed to look like one. */
+.sf-badge--offer {
+    background: color-mix(in srgb, var(--sf-accent) 16%, var(--background));
+    color: var(--sf-accent-ink);
+    border: 1px solid var(--sf-accent-line);
+    gap: 0.25rem;
+}
+
+/* ── Discount language ──────────────────────────────────────────────────
+   Three marks, used in the same order everywhere a reduction appears: the
+   percentage on the image, the saving under the price, the offer's own
+   deadline. Sharing them is what makes a discount look identical on a card,
+   in a department and on the product page. */
+
+/* The percentage. Deliberately larger and heavier than `.sf-badge` — this is the
+   one mark a shopper is meant to catch from across the page. */
+.sf-deal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    height: 28px;
+    padding-inline: 0.5rem;
+    border-radius: 7px;
+    background: var(--sf-sale);
+    color: var(--sf-sale-foreground);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 4px 12px -6px color-mix(in srgb, var(--sf-sale) 80%, transparent);
+}
+
+.sf-deal-badge--lg { height: 34px; padding-inline: 0.6875rem; font-size: 0.9375rem; }
+
+/* A bare "−25%" is a number, a sign and a symbol with no strong direction of their own,
+   so bidi reordering moves the minus to the far side and Arabic reads "25%-". Isolating
+   the run keeps the mark identical in both languages. Localized phrases such as
+   "Up to 30% off" are NOT wrapped in this — they must follow the page direction. */
+.sf-pct {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+.sf-deal-badge--sm { height: 24px; padding-inline: 0.4375rem; font-size: 0.75rem; border-radius: 6px; }
+
+/* The money saved, as a quiet pill so it supports the price instead of competing
+   with it. */
+.sf-save {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding-inline: 0.4375rem;
+    border-radius: 6px;
+    background: var(--sf-sale-soft);
+    color: var(--sf-sale-ink);
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* Department mark. Sits over the top of a tile, so it carries its own contrast
+   rather than relying on the photo behind it. */
+.sf-cat-deal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    height: 24px;
+    padding-inline: 0.5rem;
+    border-radius: 7px;
+    font-size: 0.71875rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    background: var(--sf-sale);
+    color: var(--sf-sale-foreground);
+    box-shadow: 0 4px 12px -7px rgb(0 0 0 / 0.6);
+}
+
+/* A department with a live bundle but no reduced product of its own makes no
+   percentage claim — it only says there is something to look at. */
+.sf-cat-deal--offer {
+    background: color-mix(in srgb, var(--background) 88%, var(--sf-accent));
+    color: var(--sf-accent-ink);
+}
+
+/* ── Offer merchandising ────────────────────────────────────────────────
+   The deals row is a rail whose cards keep one width, so two offers and six
+   offers produce the same card — only the number of them on screen changes. */
+
+.sf-deal-rail > * { flex: 0 0 min(20rem, 82vw); }
+
+@media (min-width: 1024px) {
+    .sf-deal-rail > * { flex-basis: 20.5rem; }
+}
+
+/* Rail stepper. Round, over the cards, and only rendered when the rail can
+   actually move — an arrow that does nothing is worse than no arrow. */
+.sf-rail-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: 1px solid var(--sf-line);
+    background: var(--sf-surface);
+    color: var(--foreground);
+    box-shadow: var(--sf-shadow-hover);
+    transition:
+        background-color var(--sf-motion) var(--sf-ease),
+        border-color var(--sf-motion) var(--sf-ease),
+        opacity var(--sf-motion) var(--sf-ease);
+}
+
+@media (hover: hover) {
+    .sf-rail-nav:hover:not(:disabled) {
+        border-color: var(--sf-accent-line);
+        background: var(--sf-accent-softer);
+    }
+}
+
+.sf-rail-nav:disabled { opacity: 0; pointer-events: none; }
+.sf-rail-nav:focus-visible { outline: 2px solid var(--sf-brand); outline-offset: 2px; }
+
+/* Bundle contents. A packshot plus a name — the same row shape on a compact tile
+   and on the featured panel, only the thumbnail size changes. */
+.sf-thumb {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: 1px solid var(--sf-line-soft);
+    overflow: hidden;
+}
+
+.sf-thumb--lg { width: 46px; height: 46px; border-radius: 9px; }
+
+.sf-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    height: 34px;
+    padding-inline: 0.75rem;
+    border: 1px solid var(--sf-line);
+    border-radius: 999px;
+    background: var(--sf-surface);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background-color var(--sf-motion) var(--sf-ease), border-color var(--sf-motion) var(--sf-ease);
+}
+
+@media (hover: hover) {
+    .sf-chip:hover { border-color: var(--sf-accent-line); background: var(--sf-accent-softer); }
+}
+
+/* Horizontal rails hide their scrollbar but stay swipeable/keyboard scrollable. */
+.sf-rail {
+    display: flex;
+    gap: var(--sf-gap);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.sf-rail::-webkit-scrollbar { display: none; }
+.sf-rail > * { scroll-snap-align: start; }
+
+/* Merchandising track. Cards keep one width at every viewport and the row scrolls,
+   which is what keeps a discovery row full: a grid whose last line is a third full
+   reads as a section that ran out, and no product count divides evenly into three,
+   four and five columns at once. Card width is set by the modifier class. */
+.sf-rail-track {
+    display: flex;
+    gap: var(--sf-gap);
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.sf-rail-track::-webkit-scrollbar { display: none; }
+.sf-rail-track > * { scroll-snap-align: start; }
+
+.sf-product-rail > * { flex: 0 0 10.5rem; }
+
+@media (min-width: 640px) {
+    .sf-product-rail > * { flex-basis: 12.5rem; }
+}
+
+@media (min-width: 1024px) {
+    .sf-product-rail > * { flex-basis: 13.5rem; }
+}
+
+/* ── Motion preferences ─────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .storefront * ,
+    .storefront *::before,
+    .storefront *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+
+    .sf-card-link:hover { transform: none; }
+    .sf-card-link:hover .sf-media img { transform: none; }
+}
+}

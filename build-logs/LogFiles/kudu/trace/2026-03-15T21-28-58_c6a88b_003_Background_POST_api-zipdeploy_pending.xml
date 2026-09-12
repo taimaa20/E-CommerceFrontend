@@ -1,0 +1,189 @@
+<step title="BackgroundTrace" date="2026-03-15T21:28:58.175" instance="c6a88b" url="/api/zipdeploy" method="POST" >
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2026-03-15T21:28:58.316" /><!-- duration: 3ms -->
+  <step title="Creating temporary deployment" date="2026-03-15T21:28:58.326" /><!-- duration: 98ms -->
+  <step title="Performing fetch based deployment" date="2026-03-15T21:28:58.474" >
+    <step title="Cleaning up temp folders from previous zip deployments and extracting pushed zip file /tmp/zipdeploy/58decc2a-6d79-4fa6-9216-ce11add5a258.zip (0.23 MB) to /tmp/zipdeploy/extracted" date="2026-03-15T21:28:59.692" >
+      <step title="ChmodRecursive Process exited with total time taken in ms: 50" date="2026-03-15T21:28:59.838" /><!-- duration: 11ms -->
+    </step><!-- duration: 162ms -->
+    <step title="Deployment timer started" date="2026-03-15T21:29:01.862" >
+      <step title="DeploymentManager.Deploy(id:ba4f6af6-eb09-4448-9a53-000acbd965a4)" date="2026-03-15T21:29:01.869" >
+        <step title="Collecting changeset information" date="2026-03-15T21:29:01.909" /><!-- duration: 99ms -->
+        <step title="Updating submodules" date="2026-03-15T21:29:02.015" /><!-- duration: 1204ms -->
+        <step title="Determining deployment builder" date="2026-03-15T21:29:03.598" >
+          <step title="Builder is OryxBuilder" date="2026-03-15T21:29:03.628" /><!-- duration: 12ms -->
+        </step><!-- duration: 60ms -->
+        <step title="PreDeployment: context.CleanOutputPath False" date="2026-03-15T21:29:03.778" >
+          <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2026-03-15T21:29:03.938" >
+            <step title="Building" date="2026-03-15T21:29:04.124" >
+              <step title="Executing external process" date="2026-03-15T21:29:04.533" type="process" path="bash" arguments="-c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de82d9e18af5b0 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" >
+                <step title="Cpu: npm install(978,35.670s)+build.sh(885,0.040s)+oryx(866,4.660s)+tee(867,0.000s)+bash(865,0.000s)=total(40.370s)" date="2026-03-15T21:30:19.158" /><!-- duration: 9ms -->
+                <step title="bash: no io activity for 61s, prev-cpu=-1.000s, current-cpu=40.370s" date="2026-03-15T21:30:19.189" /><!-- duration: 20ms -->
+                <step title="Cpu: npm install typescript(1049,21.040s)+node(1037,2.490s)+sh(1035,0.000s)+npm run build(1023,0.460s)+build.sh(885,0.040s)+oryx(866,5.040s)+tee(867,0.010s)+bash(865,0.000s)=total(29.030s)" date="2026-03-15T21:31:31.087" /><!-- duration: 130ms -->
+                <step title="bash: no io activity for 61s, prev-cpu=-1.000s, current-cpu=29.030s" date="2026-03-15T21:31:31.457" /><!-- duration: 28ms -->
+                <step title="Process dump" date="2026-03-15T21:31:33.225" exitCode="1" type="processOutput" /><!-- duration: 8ms -->
+              </step><!-- duration: 148706ms -->
+              <step title="Error occurred" date="2026-03-15T21:31:33.274" type="error" text="⚠ Installing TypeScript as it was not found while loading &quot;next.config.ts&quot;.
+⨯ Failed to load next.config.ts, see more info here https://nextjs.org/docs/messages/next-config-error
+
+&gt; Build error occurred
+Error: Failed to transpile &quot;next.config.ts&quot;.
+    at ignore-listed frames {
+  [cause]: Error: Cannot find module &apos;typescript&apos;
+  Require stack:
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next
+      at ignore-listed frames {
+    code: &apos;MODULE_NOT_FOUND&apos;,
+    requireStack: [
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next&apos;
+    ]
+  }
+}
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de82d9e18af5b0 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135" /><!-- duration: 6ms -->
+              <step title="Error occurred" date="2026-03-15T21:31:33.316" type="error" text="⚠ Installing TypeScript as it was not found while loading &quot;next.config.ts&quot;.
+⨯ Failed to load next.config.ts, see more info here https://nextjs.org/docs/messages/next-config-error
+
+&gt; Build error occurred
+Error: Failed to transpile &quot;next.config.ts&quot;.
+    at ignore-listed frames {
+  [cause]: Error: Cannot find module &apos;typescript&apos;
+  Require stack:
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next
+      at ignore-listed frames {
+    code: &apos;MODULE_NOT_FOUND&apos;,
+    requireStack: [
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next&apos;
+    ]
+  }
+}
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de82d9e18af5b0 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 295
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 136
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771" /><!-- duration: 6ms -->
+              <step title="Using GenericDeploymentLogParser" date="2026-03-15T21:31:33.615" /><!-- duration: 4ms -->
+              <step title="Purge deployment items" date="2026-03-15T21:31:35.363" >
+                <step title="Remove 4a6c4a43-, Failed, received at 03/15/2026 21:23:20" date="2026-03-15T21:31:35.435" /><!-- duration: 5ms -->
+              </step><!-- duration: 80ms -->
+            </step><!-- duration: 151325ms -->
+          </step><!-- duration: 151517ms -->
+          <step title="Error occurred" date="2026-03-15T21:31:35.460" type="error" text="⚠ Installing TypeScript as it was not found while loading &quot;next.config.ts&quot;.
+⨯ Failed to load next.config.ts, see more info here https://nextjs.org/docs/messages/next-config-error
+
+&gt; Build error occurred
+Error: Failed to transpile &quot;next.config.ts&quot;.
+    at ignore-listed frames {
+  [cause]: Error: Cannot find module &apos;typescript&apos;
+  Require stack:
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next
+      at ignore-listed frames {
+    code: &apos;MODULE_NOT_FOUND&apos;,
+    requireStack: [
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next&apos;
+    ]
+  }
+}
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de82d9e18af5b0 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 295
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 136
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840" /><!-- duration: 4ms -->
+          <step title="Cleaning up temp files" date="2026-03-15T21:31:35.555" /><!-- duration: 4000ms -->
+          <step title="Cleaning up temp files" date="2026-03-15T21:31:39.568" /><!-- duration: 521ms -->
+          <step title="Error occurred" date="2026-03-15T21:31:40.155" type="error" text="⚠ Installing TypeScript as it was not found while loading &quot;next.config.ts&quot;.
+⨯ Failed to load next.config.ts, see more info here https://nextjs.org/docs/messages/next-config-error
+
+&gt; Build error occurred
+Error: Failed to transpile &quot;next.config.ts&quot;.
+    at ignore-listed frames {
+  [cause]: Error: Cannot find module &apos;typescript&apos;
+  Require stack:
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next
+      at ignore-listed frames {
+    code: &apos;MODULE_NOT_FOUND&apos;,
+    requireStack: [
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next&apos;
+    ]
+  }
+}
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de82d9e18af5b0 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 295
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 136
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840
+   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 266" /><!-- duration: 6ms -->
+        </step><!-- duration: 156388ms -->
+        <step title="Reloading status file with latest updates" date="2026-03-15T21:31:40.219" >
+          <step title="WebHooksManager.PublishEventAsync: PostDeployment" date="2026-03-15T21:31:40.224" /><!-- duration: 149ms -->
+        </step><!-- duration: 161ms -->
+        <step title="Error occurred" date="2026-03-15T21:31:40.401" type="error" text="⚠ Installing TypeScript as it was not found while loading &quot;next.config.ts&quot;.
+⨯ Failed to load next.config.ts, see more info here https://nextjs.org/docs/messages/next-config-error
+
+&gt; Build error occurred
+Error: Failed to transpile &quot;next.config.ts&quot;.
+    at ignore-listed frames {
+  [cause]: Error: Cannot find module &apos;typescript&apos;
+  Require stack:
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js
+  - /tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next
+      at ignore-listed frames {
+    code: &apos;MODULE_NOT_FOUND&apos;,
+    requireStack: [
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/build/next-config-ts/transpile-config.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/server/config.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/cli/next-test.js&apos;,
+      &apos;/tmp/8de82d9e18af5b0/node_modules/next/dist/bin/next&apos;
+    ]
+  }
+}
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de82d9e18af5b0 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 295
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 136
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840
+   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 266" /><!-- duration: 20ms -->
+        <step title="Marking deployment as failed and cleaning up the temp deployment" date="2026-03-15T21:31:40.559" /><!-- duration: 4ms -->
+      </step><!-- duration: 158840ms -->
+      <step title="Error occurred" date="2026-03-15T21:31:40.766" type="error" text="One or more errors occurred. (Deployment failed)" stackTrace="   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at Kudu.Core.Deployment.FetchDeploymentManager.&lt;&gt;c__DisplayClass22_1.&lt;PerformBackgroundDeployment&gt;b__3() in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 414
+   at Kudu.Contracts.Infrastructure.LockExtensions.TryLockOperation(IOperationLock lockObj, Action operation, String operationName, TimeSpan timeout) in /tmp/KuduLite/Kudu.Contracts/Infrastructure/LockExtensions.cs:line 34
+   at Kudu.Contracts.Infrastructure.LockExtensions.LockOperation(IOperationLock lockObj, Action operation, String operationName, TimeSpan timeout) in /tmp/KuduLite/Kudu.Contracts/Infrastructure/LockExtensions.cs:line 46
+   at Kudu.Core.Deployment.FetchDeploymentManager.&lt;&gt;c__DisplayClass22_0.&lt;PerformBackgroundDeployment&gt;b__1() in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 393" innerText="Deployment failed" innerStackTrace="   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 307
+   at Kudu.Core.Deployment.FetchDeploymentManager.PerformDeployment(DeploymentInfoBase deploymentInfo, IDisposable tempDeployment, ChangeSet tempChangeSet, DeployStatusApiResult updateStatusObj) in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 230" /><!-- duration: 5ms -->
+    </step><!-- duration: 158914ms -->
