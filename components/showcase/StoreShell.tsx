@@ -5,11 +5,13 @@ import Link from "next/link";
 import StoreImage from "@/components/showcase/StoreImage";
 import MenuOrderFlow from "@/components/showcase/MenuOrderFlow";
 import StoreHeader from "@/components/showcase/StoreHeader";
+import StoreWhatsAppLink from "@/components/showcase/StoreWhatsAppLink";
 import { useLocale } from "@/components/locale-provider";
 import { createStoreText } from "@/lib/store-copy";
+import { resolveWhatsAppContact, whatsAppHref, WHATSAPP_PURPOSE } from "@/lib/whatsapp";
 import { useCartStore } from "@/store/cartStore";
 import { useSettingsStore } from "@/store/settingsStore";
-import { storefrontBrandStyle, useStorefrontStore } from "@/store/storefrontStore";
+import { storefrontBrandStyle, storefrontLogoUrl, useStorefrontStore } from "@/store/storefrontStore";
 import "@/app/shop/storefront.css";
 
 /**
@@ -28,12 +30,14 @@ export default function StoreShell({ children }: { children: React.ReactNode }) 
     const fetchSettings = useSettingsStore(state => state.fetchSettings);
     const loadContext = useStorefrontStore(state => state.loadContext);
     const loadBranding = useStorefrontStore(state => state.loadBranding);
+    const loadWhatsAppContacts = useStorefrontStore(state => state.loadWhatsAppContacts);
     const branding = useStorefrontStore(state => state.branding);
     const status = useStorefrontStore(state => state.status);
     const hasCartItems = useCartStore(state => state.items.length > 0);
 
     useEffect(() => { void fetchSettings(); }, [fetchSettings]);
     useEffect(() => { void loadBranding(); }, [loadBranding]);
+    useEffect(() => { void loadWhatsAppContacts(); }, [loadWhatsAppContacts]);
     useEffect(() => {
         if (status === "idle") void loadContext();
     }, [status, loadContext]);
@@ -60,7 +64,14 @@ function StoreFooter({ isAr }: { isAr: boolean }) {
     const text = createStoreText(isAr);
     const settings = useSettingsStore(state => state.settings);
     const isLoaded = useSettingsStore(state => state.isLoaded);
+    const branding = useStorefrontStore(state => state.branding);
+    const whatsAppContacts = useStorefrontStore(state => state.whatsAppContacts);
+    const logoUrl = storefrontLogoUrl(branding, settings.logoUrl);
     if (!isLoaded) return null;
+
+    // Asked of the same resolver the link itself uses, so the block appears exactly when the
+    // link inside it will render — never an empty "Contact us" heading.
+    const hasWhatsApp = !!whatsAppHref(resolveWhatsAppContact(whatsAppContacts, WHATSAPP_PURPOSE.general), isAr);
 
     const contact = [
         settings.restaurantAddress && { key: "address", value: settings.restaurantAddress, href: undefined },
@@ -72,9 +83,9 @@ function StoreFooter({ isAr }: { isAr: boolean }) {
         <footer className="mt-[var(--sf-section)] border-t bg-[var(--sf-surface-sunken)]">
             <div className="sf-container flex flex-col gap-6 py-8 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
                 <div className="flex min-w-0 items-center gap-3">
-                    {settings.logoUrl && (
+                    {logoUrl && (
                         <StoreImage
-                            src={settings.logoUrl}
+                            src={logoUrl}
                             alt={settings.restaurantName}
                             fit="contain"
                             sizes="40px"
@@ -93,11 +104,12 @@ function StoreFooter({ isAr }: { isAr: boolean }) {
                     <Link href="/shop" className="text-muted-foreground transition-colors hover:text-foreground">{text("shop")}</Link>
                     <Link href="/shop/categories" className="text-muted-foreground transition-colors hover:text-foreground">{text("categories")}</Link>
                     <Link href="/shop/offers" className="text-muted-foreground transition-colors hover:text-foreground">{text("offers")}</Link>
+                    <Link href="/shop/favorites" className="text-muted-foreground transition-colors hover:text-foreground">{text("favorites")}</Link>
                     <Link href="/shop/orders" className="text-muted-foreground transition-colors hover:text-foreground">{text("trackOrder")}</Link>
                 </nav>
 
-                {contact.length > 0 && (
-                    <address className="not-italic sm:text-end">
+                {(contact.length > 0 || hasWhatsApp) && (
+                    <address className="self-start not-italic sm:self-auto sm:text-end">
                         <p className="mb-1.5 text-sm font-semibold">{text("contactUs")}</p>
                         <ul className="space-y-1">
                             {contact.map(row => (
@@ -107,6 +119,11 @@ function StoreFooter({ isAr }: { isAr: boolean }) {
                                         : row.value}
                                 </li>
                             ))}
+                            {hasWhatsApp && (
+                                <li className="flex justify-center pt-1">
+                                    <StoreWhatsAppLink isAr={isAr} variant="icon" />
+                                </li>
+                            )}
                         </ul>
                     </address>
                 )}

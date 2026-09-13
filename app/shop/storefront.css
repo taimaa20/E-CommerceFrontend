@@ -232,6 +232,12 @@
 .sf-btn--quiet { color: var(--muted-foreground); }
 @media (hover: hover) { .sf-btn--quiet:hover:not(:disabled) { color: var(--foreground); background: var(--sf-surface-sunken); } }
 
+/* WhatsApp call to action. Brand-owned colour, deliberately outside the tenant palette:
+   the point of the control is that a shopper recognises where it leads before reading it. */
+.sf-btn--whatsapp { background: #25d366; color: #06241a; }
+@media (hover: hover) { .sf-btn--whatsapp:hover:not(:disabled) { background: #1fba59; } }
+.sf-btn--whatsapp:focus-visible { outline-color: #128c7e; }
+
 .sf-btn--sm { min-height: var(--sf-control-sm); padding-inline: 0.75rem; font-size: 0.8125rem; }
 .sf-btn--lg { min-height: 50px; padding-inline: 1.5rem; font-size: 0.9375rem; }
 

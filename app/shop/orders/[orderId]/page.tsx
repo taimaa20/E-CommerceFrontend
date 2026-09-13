@@ -17,10 +17,12 @@ import {
 import { toast } from "sonner";
 import StoreOrderTimeline from "@/components/showcase/StoreOrderTimeline";
 import StoreShell from "@/components/showcase/StoreShell";
+import StoreWhatsAppLink from "@/components/showcase/StoreWhatsAppLink";
 import { useLocale } from "@/components/locale-provider";
 import { formatCurrency } from "@/lib/currencies";
 import { onlineShoppingApi, type OnlineOrderStatus } from "@/lib/api-online-shopping";
 import { createStoreText } from "@/lib/store-copy";
+import { WHATSAPP_PURPOSE } from "@/lib/whatsapp";
 import {
     getOnlineOrderStatus,
     ONLINE_ORDER_POLL_INTERVAL_MS,
@@ -203,6 +205,15 @@ function OnlineOrderTrackingContent() {
                         <Printer className="size-4" />
                         {isAr ? "طباعة الإيصال" : "Print receipt"}
                     </button>
+                    {/* After-sale help belongs to the order, so the destination is the
+                        customer-service one and the message carries the order number. */}
+                    <StoreWhatsAppLink
+                        purpose={WHATSAPP_PURPOSE.customerService}
+                        context={{ orderNumber: order.orderNumber }}
+                        isAr={isAr}
+                        variant="brand"
+                        className="sf-btn--sm"
+                    />
                     <Link href="/shop" className="sf-btn sf-btn--quiet sf-btn--sm ms-auto">
                         {text("continueShopping")}
                     </Link>

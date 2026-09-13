@@ -178,6 +178,40 @@ const COPY = {
     youSave: ["You save", "توفّر"],
     offerValidUntil: ["Offer ends", "ينتهي العرض"],
 
+    // Favourites — device-local until customer accounts exist, which is what the page says.
+    favorites: ["Favourites", "المفضلة"],
+    addToFavorites: ["Add to favourites", "أضف إلى المفضلة"],
+    removeFromFavorites: ["Remove from favourites", "إزالة من المفضلة"],
+    favoritesEmpty: ["You have no favourites yet", "لا توجد لديك مفضلة بعد"],
+    favoritesEmptyHint: [
+        "Tap the heart on any product to keep it here.",
+        "اضغط على القلب في أي منتج للاحتفاظ به هنا.",
+    ],
+    favoritesHint: [
+        "Saved on this device. Prices and availability are always the store's current ones.",
+        "محفوظة على هذا الجهاز. الأسعار والتوفر تُعرض دائماً حسب حالة المتجر الحالية.",
+    ],
+    favoritesUnavailableNote: [
+        "Some products you saved are no longer listed and are not shown here.",
+        "بعض المنتجات المحفوظة لم تعد مدرجة ولا تظهر هنا.",
+    ],
+    clearFavorites: ["Clear favourites", "مسح المفضلة"],
+
+    // WhatsApp — the button labels only. Every message sent is the business's own template.
+    whatsApp: ["WhatsApp", "واتساب"],
+    chatOnWhatsApp: ["Chat on WhatsApp", "تواصل عبر واتساب"],
+    askAboutProduct: ["Ask about this product", "استفسر عن هذا المنتج"],
+    askAboutCategory: ["Ask about this department", "استفسر عن هذا القسم"],
+    orderHelpOnWhatsApp: ["Help with my order", "مساعدة بخصوص طلبي"],
+    categoryWhatsAppHint: [
+        "Prefer to ask first? Send us a message about this department and we will reply on WhatsApp.",
+        "تفضّل الاستفسار أولاً؟ أرسل لنا رسالة عن هذا القسم وسنرد عليك عبر واتساب.",
+    ],
+    orderHelpHint: [
+        "Cannot find your order, or something looks wrong? Message customer service and we will check it for you.",
+        "لم تجد طلبك، أو هناك ما لا يبدو صحيحاً؟ راسل خدمة العملاء وسنتحقق من ذلك لك.",
+    ],
+
     // Search suggestions
     suggestions: ["Suggestions", "اقتراحات"],
     seeAllResults: ["See all results", "عرض كل النتائج"],

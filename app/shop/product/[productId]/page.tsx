@@ -5,12 +5,14 @@ import { useParams } from "next/navigation";
 import { ChevronRight, RefreshCw, Tag } from "lucide-react";
 import StoreBrandMark from "@/components/showcase/StoreBrandMark";
 import StoreBuyBox from "@/components/showcase/StoreBuyBox";
+import StoreFavoriteButton from "@/components/showcase/StoreFavoriteButton";
 import StoreGallery, { type GalleryImage } from "@/components/showcase/StoreGallery";
 import StoreOfferShelf from "@/components/showcase/StoreOfferShelf";
 import StorePriceBlock from "@/components/showcase/StorePriceBlock";
 import StoreProductRail from "@/components/showcase/StoreProductRail";
 import StoreSectionHeading from "@/components/showcase/StoreSectionHeading";
 import StoreShell from "@/components/showcase/StoreShell";
+import StoreWhatsAppLink from "@/components/showcase/StoreWhatsAppLink";
 import { useLocale } from "@/components/locale-provider";
 import { formatCurrency } from "@/lib/currencies";
 import { productImage } from "@/lib/product-image";
@@ -21,6 +23,7 @@ import { useStoreProduct } from "@/lib/use-store-home";
 import { useOfferCart, useStoreOffers } from "@/lib/use-store-offers";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useStorefrontStore } from "@/store/storefrontStore";
+import { WHATSAPP_PURPOSE } from "@/lib/whatsapp";
 
 const LOW_STOCK_THRESHOLD = 5;
 /** A blank line ends the lead paragraph; the rest belongs to the full description. */
@@ -101,6 +104,13 @@ function ProductDetail() {
         details.countryOfOrigin && { key: "origin", label: text("origin"), value: details.countryOfOrigin },
         details.sku && { key: "sku", label: text("itemCode"), value: details.sku },
     ].filter(Boolean) as { key: string; label: string; value: string }[];
+
+    // Absolute, so the address pasted into a chat opens for the person receiving it. Built
+    // from the browser's own origin rather than a configured base URL, which keeps a staging
+    // link pointing at staging and a live link at live.
+    const productUrl = typeof window === "undefined"
+        ? undefined
+        : `${window.location.origin}/shop/product/${product.id}`;
 
     const relatedDetails = new Map(data.relatedDetails.map(row => [row.productId, row]));
     const summary = description?.split(SUMMARY_BREAK)[0]?.trim();
@@ -198,6 +208,27 @@ function ProductDetail() {
                         onAdd={cart.add}
                         justAdded={cart.justAddedId === product.id}
                     />
+
+                    {/* Secondary actions, below the buy controls so neither competes with it.
+                        The enquiry link carries this product's real name, code and address —
+                        the wording around them is the business's own configured template. */}
+                    {/* Both labels are full sentences and the button style never wraps text, so
+                        they get a row each until there is genuinely room for two — the same
+                        breakpoint the buy button uses to reveal its running total. */}
+                    <div className="grid gap-2 min-[420px]:grid-cols-2">
+                        <StoreFavoriteButton
+                            productId={product.id}
+                            isAr={isAr}
+                            variant="button"
+                            className="w-full"
+                        />
+                        <StoreWhatsAppLink
+                            purpose={WHATSAPP_PURPOSE.productInquiry}
+                            context={{ productName: name, sku: details.sku, productUrl: productUrl }}
+                            isAr={isAr}
+                            className="w-full"
+                        />
+                    </div>
                 </div>
             </div>
 

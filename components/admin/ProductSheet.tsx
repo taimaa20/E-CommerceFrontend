@@ -34,6 +34,7 @@ import { useLocale } from "@/components/locale-provider"
 import ProductGalleryEditor, { type GalleryEntry } from "@/components/admin/ProductGalleryEditor"
 import { InventoryCostingFields, emptyInventoryCostingForm, inventoryCostingFormFromDetail, inventoryCostingPayloadFromForm, type InventoryCostingFormState } from "@/components/products/InventoryCostingFields"
 import { ProductInventoryBehaviourField, type ProductInventoryBehaviour } from "@/components/products/ProductInventoryBehaviourField"
+import { ExistingInventoryItemPicker, LinkedInventoryItemCard } from "@/components/products/ExistingInventoryItemField"
 import { ProcurementApi, type Supplier } from "@/lib/api-procurement"
 import { ProductDto, ModifierGroupDto, ModifierDto, StationRouting, AllergenType, RecipeItemDto, RecipeItemAlternativeDto, CategoryDto, ModifierGroupLibraryDto, ProductOptionDto, ProductOptionRecipeItemDto, RecipeItemAlternativePricingType } from "@/types/pos"
 import { createProduct, updateProduct, getProducts, getRawMaterials, RawMaterial, UnitLabels, addRecipeItem, deleteRecipeItem, updateRecipeItem, uploadImage, getCategories, getModifierGroups, getProductOptions, createProductOption, updateProductOption, deleteProductOption, addProductOptionRecipeItem, updateProductOptionRecipeItem, deleteProductOptionRecipeItem, createRecipeItemAlternative, updateRecipeItemAlternative, deleteRecipeItemAlternative, getKitchens, getPrinters, KitchenDto, PrinterDto } from "@/lib/api"
@@ -58,6 +59,8 @@ interface ProductSheetProps {
     onOpenChange: (open: boolean) => void
     onSuccess: () => void
     editProduct?: ProductDto | null
+    /** Opens an already-stocked Product for editing instead of creating a new one. */
+    onConfigureExistingProduct?: (product: ProductDto) => void
 }
 
 type AlternativeDraftState = {
@@ -96,7 +99,7 @@ const createAlternativeDraftState = (): AlternativeDraftState => ({
     isDefault: false,
 })
 
-export default function ProductSheet({ open, onOpenChange, onSuccess, editProduct }: ProductSheetProps) {
+export default function ProductSheet({ open, onOpenChange, onSuccess, editProduct, onConfigureExistingProduct }: ProductSheetProps) {
     const { t, locale } = useLocale()
     const currency = usePosStore((s) => s.currency)
     // Tab 1: Genel Bilgiler
@@ -1197,15 +1200,21 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
     // otherwise lose one of them from view without anyone deciding to.
     const showRecipeTab = !isFinishedGood || recipeItems.length > 0
     const showCalories = !isFinishedGood || productCalories.trim() !== ""
-    const behaviourLockReason = editProduct?.retail
+    // A product with its own stock record shows that record instead of this choice, so only the
+    // recipe lock can apply here.
+    const behaviourLockReason = recipeItems.length > 0
         ? (locale === "ar"
-            ? "هذا المنتج له سجل مخزون وحركات. لا يمكن إلغاء ذلك من هنا."
-            : "This product already keeps its own stock record and movement history. That cannot be undone from here.")
-        : recipeItems.length > 0
-            ? (locale === "ar"
-                ? "لهذا المنتج وصفة، لذا يُحضَّر من مكوّنات. احذف الوصفة أولاً لتخزينه كمنتج جاهز."
-                : "This product has a recipe, so it is made from ingredients. Remove the recipe first to stock it as a finished product.")
-            : undefined
+            ? "لهذا المنتج وصفة، لذا يُحضَّر من مكوّنات. احذف الوصفة أولاً لتخزينه كمنتج جاهز."
+            : "This product has a recipe, so it is made from ingredients. Remove the recipe first to stock it as a finished product.")
+        : undefined
+
+    // The picked item already IS a Product, so the form switches to editing it. The create-mode
+    // draft is discarded first so nothing typed before the pick leaks into that product.
+    const configureExistingProduct = (product: ProductDto) => {
+        resetForm()
+        setValidationErrors({})
+        onConfigureExistingProduct?.(product)
+    }
 
     const visibleTabCount = 4
         + (config.deliveryPartnersEnabled ? 1 : 0)
@@ -1736,11 +1745,18 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
 
                     {/* TAB 1: Genel Bilgiler */}
                     <TabsContent value="general" className="space-y-4 mt-4">
-                        <ProductInventoryBehaviourField
-                            value={inventoryBehaviour}
-                            onChange={changeInventoryBehaviour}
-                            disabledReason={behaviourLockReason}
-                        />
+                        {!editProduct && onConfigureExistingProduct && (
+                            <ExistingInventoryItemPicker onSelect={configureExistingProduct} />
+                        )}
+                        {editProduct?.retail ? (
+                            <LinkedInventoryItemCard detail={editProduct.retail} />
+                        ) : (
+                            <ProductInventoryBehaviourField
+                                value={inventoryBehaviour}
+                                onChange={changeInventoryBehaviour}
+                                disabledReason={behaviourLockReason}
+                            />
+                        )}
                         <Card>
                             <CardHeader>
                                 <CardTitle className="text-lg">{t("basicProductInfoTitle")}</CardTitle>

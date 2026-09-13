@@ -557,6 +557,7 @@ export default function ProductsPage() {
                 onOpenChange={handleSheetClose}
                 onSuccess={fetchProducts}
                 editProduct={editProduct}
+                onConfigureExistingProduct={handleEdit}
             />
         </div>
     )

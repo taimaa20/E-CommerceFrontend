@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/inventory/layout,_N_T_/admin/inventory/retail/layout,_N_T_/admin/inventory/retail/page,_N_T_/admin/inventory/retail"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/inventory/retail/__PAGE__",
+    "/admin/inventory/retail",
+    "/admin/inventory",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}

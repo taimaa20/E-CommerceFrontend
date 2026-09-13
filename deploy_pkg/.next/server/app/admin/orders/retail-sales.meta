@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/orders/layout,_N_T_/admin/orders/retail-sales/layout,_N_T_/admin/orders/retail-sales/page,_N_T_/admin/orders/retail-sales"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/orders/retail-sales/__PAGE__",
+    "/admin/orders/retail-sales",
+    "/admin/orders",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}

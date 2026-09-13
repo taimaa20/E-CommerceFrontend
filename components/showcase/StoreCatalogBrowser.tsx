@@ -31,6 +31,7 @@ export default function StoreCatalogBrowser({
     basePath,
     categoryId,
     header,
+    footer,
     emptyAction,
     inOffer,
 }: {
@@ -42,6 +43,12 @@ export default function StoreCatalogBrowser({
      * time just to learn its own name.
      */
     header?: (state: { category?: OnlineStoreCategory; loading: boolean }) => React.ReactNode;
+    /**
+     * Optional block closing the page, below the grid and pagination. It receives the same
+     * resolved department as `header`, so a department-scoped action can name the department
+     * without a second request.
+     */
+    footer?: (state: { category?: OnlineStoreCategory; loading: boolean }) => React.ReactNode;
     emptyAction?: React.ReactNode;
     /**
      * Products a live bundle contains, so a tile in the grid can point at the offer. The
@@ -203,6 +210,8 @@ export default function StoreCatalogBrowser({
                     />
                 </>
             )}
+
+            {!error && footer?.({ category, loading })}
         </section>
     );
 }

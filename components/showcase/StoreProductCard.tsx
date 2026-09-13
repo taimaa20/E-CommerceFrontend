@@ -5,6 +5,7 @@ import { Check, Plus, Tag } from "lucide-react";
 import { productImage } from "@/lib/product-image";
 import StoreImage from "@/components/showcase/StoreImage";
 import StoreBrandMark from "@/components/showcase/StoreBrandMark";
+import StoreFavoriteButton from "@/components/showcase/StoreFavoriteButton";
 import StorePriceBlock from "@/components/showcase/StorePriceBlock";
 import { createStoreText } from "@/lib/store-copy";
 import { productPricing } from "@/lib/store-pricing";
@@ -57,7 +58,7 @@ export default function StoreProductCard({
     const galleryCount = details?.images.length ?? 0;
 
     return (
-        <article className="sf-card-link group h-full">
+        <article className="sf-card-link group relative h-full">
             <Link href={`/shop/product/${product.id}`} className="flex min-w-0 flex-1 flex-col outline-none">
                 <span className="relative block w-full">
                     <StoreImage
@@ -117,6 +118,14 @@ export default function StoreProductCard({
                     </span>
                 </span>
             </Link>
+
+            {/* Outside the link on purpose: a link may not contain a button, and saving a
+                product must never navigate to it. The opposite corner from the sale badge. */}
+            <StoreFavoriteButton
+                productId={product.id}
+                isAr={isAr}
+                className="absolute end-2 top-2 z-10"
+            />
 
             <div className="px-2.5 pb-2.5 sm:px-3 sm:pb-3">
                 {canQuickAdd ? (

@@ -1,7 +1,7 @@
 {
-    "name": "Restaurant POS",
+    "name": "Retail POS",
     "short_name": "POS",
-    "description": "Offline-first bilingual POS for cashier, takeaway, kitchen and dine-in stations.",
+    "description": "Offline-first bilingual retail POS for till, cashier and back-office stations.",
     "start_url": "/ntxcashierpos",
     "scope": "/",
     "display": "standalone",
@@ -28,16 +28,12 @@
             "url": "/ntxcashierpos"
         },
         {
-            "name": "Takeaway",
+            "name": "POS",
             "url": "/ntxtakeawaypos"
         },
         {
-            "name": "Kitchen",
-            "url": "/ntxkitchenpos"
-        },
-        {
-            "name": "Dine-In",
-            "url": "/ntxdineinpos"
+            "name": "Shop",
+            "url": "/shop"
         }
     ]
 }

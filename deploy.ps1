@@ -5,9 +5,9 @@
 # ============================================
 
 # --- CONFIGURATION (CHANGE THESE) ---
-$RG   = "RG-ntxProducts-POS-Dev"
-$APP  = "WA-POS-FE-DEV"
-$BACKEND = "https://wa-pos-be-dev-fpf9hte4hveyhrf0.swedencentral-01.azurewebsites.net"
+$RG   = "SRX-Retail-Wafeer"
+$APP  = "WA-EC-FE-DEV"
+$BACKEND = "https://wa-ec-be-dev-hrfvd8bkdub4h9d9.swedencentral-01.azurewebsites.net"
 $TENANT_ID = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
 
 $env:NODE_ENV = "production"

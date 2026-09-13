@@ -19,6 +19,7 @@ import { usePosStore } from "@/store/posStore";
 import { useNotificationStore } from "@/store/notificationStore";
 import { useSettingsStore, type SystemSettings } from "@/store/settingsStore";
 import { formatCurrency, SUPPORTED_CURRENCIES } from "@/lib/currencies";
+import { currencyApi, type CurrencyLookup } from "@/lib/api-currencies";
 import type { Locale } from "@/lib/translations";
 import { getVoucherAuditToday, type VoucherAuditSummary } from "@/lib/api";
 import type { DuplicateInvoiceBehavior } from "@/lib/api-expense-invoices";
@@ -81,6 +82,9 @@ export default function SettingsPage() {
 
     // Finance
     const [selectedCurrency, setSelectedCurrency] = useState("JOD");
+    // The selectable currencies now come from the managed lookup rather than a fixed list in
+    // the bundle, so adding or withdrawing one is a back-office change, not a deployment.
+    const [currencyOptions, setCurrencyOptions] = useState<CurrencyLookup[]>([]);
     const [taxRate, setTaxRate] = useState("16");
     const [serviceCharge, setServiceCharge] = useState("0");
     const [enableDiscount, setEnableDiscount] = useState(true);
@@ -167,6 +171,16 @@ export default function SettingsPage() {
         void fetchSettings();
     }, [fetchSettings]);
 
+    // Active currencies only — the lookup decides what is selectable so this screen never
+    // filters the list itself. A failure leaves the field showing the currency already saved.
+    useEffect(() => {
+        let cancelled = false;
+        currencyApi.list(true)
+            .then(rows => { if (!cancelled) setCurrencyOptions(rows); })
+            .catch(() => { if (!cancelled) setCurrencyOptions([]); });
+        return () => { cancelled = true; };
+    }, []);
+
     // Populate form fields when settings load from backend
     useEffect(() => {
         if (!isLoaded) return;
@@ -186,6 +200,23 @@ export default function SettingsPage() {
     const handleCurrencyChange = (newCurrency: string) => {
         setSelectedCurrency(newCurrency);
     };
+
+    /**
+     * What the currency field may offer: the active lookup rows, plus the currency already
+     * saved if it is not among them. Keeping the saved value present matters — a field that
+     * cannot represent its own value would silently change the store's currency on the next
+     * save of this section.
+     */
+    const currencyChoices = (() => {
+        const choices = currencyOptions.map(row => ({ code: row.code, label: row.displayName || row.name }));
+        if (selectedCurrency && !choices.some(choice => choice.code === selectedCurrency)) {
+            choices.unshift({
+                code: selectedCurrency,
+                label: SUPPORTED_CURRENCIES[selectedCurrency]?.name ?? selectedCurrency,
+            });
+        }
+        return choices;
+    })();
 
     const handleSave = async (section: string) => {
         setSavingSection(section);
@@ -495,11 +526,11 @@ export default function SettingsPage() {
                                     <Select value={selectedCurrency} onValueChange={handleCurrencyChange}>
                                         <SelectTrigger><SelectValue /></SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="JOD">JOD – {SUPPORTED_CURRENCIES.JOD.name}</SelectItem>
-                                            <SelectItem value="USD">USD – {SUPPORTED_CURRENCIES.USD.name}</SelectItem>
-                                            <SelectItem value="EGP">EGP – {SUPPORTED_CURRENCIES.EGP.name}</SelectItem>
-                                            <SelectItem value="SAR">SAR – {SUPPORTED_CURRENCIES.SAR.name}</SelectItem>
-                                            <SelectItem value="QAR">QAR – {SUPPORTED_CURRENCIES.QAR.name}</SelectItem>
+                                            {currencyChoices.map(choice => (
+                                                <SelectItem key={choice.code} value={choice.code}>
+                                                    {choice.code} – {choice.label}
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                 </div>

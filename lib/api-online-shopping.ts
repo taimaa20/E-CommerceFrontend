@@ -174,6 +174,39 @@ export interface OnlineStoreCatalog {
     totalPages: number;
 }
 
+/**
+ * The catalogue rows for an explicit set of product ids.
+ *
+ * Favourites live on the shopper's device as ids only; everything else about a product — its
+ * price, its reduction, its stock, its imagery — still comes from here, so a favourite can
+ * never display a price the store no longer charges. Ids that no longer resolve are simply
+ * absent from `products`.
+ */
+export interface OnlineStoreProductSet {
+    products: ProductDto[];
+    productAvailability: OnlineProductAvailability[];
+    productDetails: OnlineStoreProductDetails[];
+}
+
+/** Mirrors WhatsAppContactPurpose on the API: 0 general, 1 product inquiry, 2 customer service. */
+export type OnlineWhatsAppPurpose = 0 | 1 | 2;
+
+/**
+ * One configured WhatsApp destination, in both languages.
+ *
+ * The store switches language without reloading, so the template is picked per render rather
+ * than fetched per language — the same reason every other storefront payload carries its own
+ * Arabic field.
+ */
+export interface OnlineWhatsAppContact {
+    /** Digits only, ready for the wa.me URL. */
+    phone: string;
+    purpose: OnlineWhatsAppPurpose;
+    /** The business's own template, placeholders unresolved. Empty means no prefilled text. */
+    messageTemplate: string;
+    messageTemplateAr: string;
+}
+
 /** Stable keys the storefront maps to a localized heading. */
 export type OnlineStoreSectionKey = "onSale" | "newArrivals" | "explore";
 
@@ -353,6 +386,18 @@ export const onlineShoppingApi = {
             undefined,
             branchId,
         ),
+
+    /** Current catalogue rows for ids the caller already holds — the favourites list. */
+    getProductSet: (productIds: readonly string[], branchId?: string) =>
+        request<OnlineStoreProductSet>(
+            `/online-shopping/catalog/products?ids=${encodeURIComponent(productIds.join(","))}`,
+            undefined,
+            branchId,
+        ),
+
+    /** WhatsApp destinations the business configured. An empty list means none is offered. */
+    getWhatsAppContacts: () =>
+        request<OnlineWhatsAppContact[]>("/online-shopping/whatsapp-contacts"),
 
     /** Live bundle offers. `productId` narrows it to the offers containing that product. */
     getOffers: (branchId?: string, productId?: string) =>

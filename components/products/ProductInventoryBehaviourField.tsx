@@ -58,8 +58,8 @@ export function ProductInventoryBehaviourField({
                     title={ar ? "منتج جاهز يُباع كما هو" : "Finished product, sold as itself"}
                     body={
                         ar
-                            ? "يُشترى جاهزًا ويُخزَّن بذاته — له رمز SKU وتكلفة شراء. البيع يخصم قطعة من المخزون."
-                            : "Bought ready-made and stocked as itself — it gets a SKU and a purchase cost. Selling it takes one off the shelf."
+                            ? "لصنف جديد غير موجود في المخزون بعد — يُنشئ له سجل مخزون جديدًا برمز SKU وتكلفة شراء. البيع يخصم قطعة من المخزون."
+                            : "Only for an item that is not in inventory yet — it creates a new stock record with its own SKU and purchase cost. Selling it takes one off the shelf."
                     }
                     onClick={() => onChange("finished")}
                     disabled={Boolean(disabledReason)}

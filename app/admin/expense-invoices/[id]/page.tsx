@@ -44,7 +44,8 @@ import {
 } from "@/components/ui/dialog";
 
 import { useLocale } from "@/components/locale-provider";
-import { formatCurrency, SUPPORTED_CURRENCIES } from "@/lib/currencies";
+import { formatCurrency } from "@/lib/currencies";
+import { useSelectableCurrencies } from "@/lib/use-selectable-currencies";
 import { useExpenseInvoiceDetailsStore } from "@/store/expenseInvoicesStore";
 import {
     expenseInvoicesApi,
@@ -111,6 +112,7 @@ const labels = {
     balance:         { en: "Remaining Balance",     ar: "الرصيد المتبقي" },
     relatedPurchase: { en: "Related Purchase",      ar: "عملية الشراء" },
     currency:        { en: "Currency",              ar: "العملة" },
+    currencyInactive:{ en: "inactive",              ar: "غير مفعّلة" },
     payment:         { en: "Payment Method",        ar: "طريقة الدفع" },
     paymentDetail:   { en: "Payment Reference",     ar: "مرجع الدفع" },
     status:          { en: "Status",                ar: "الحالة" },
@@ -169,6 +171,10 @@ export default function ExpenseInvoiceDetailsPage() {
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
     const [categories, setCategories] = useState<ExpenseCategory[]>([]);
     const [errors, setErrors] = useState<InvoiceFieldErrors>({});
+    // Selectable currencies come from the managed Currency lookup. The invoice's own saved code
+    // is passed in, so an invoice written in a currency that has since been deactivated stays
+    // readable and editable in that currency instead of being re-pointed at an active one.
+    const { options: currencyOptions } = useSelectableCurrencies(form?.currencyCode);
     const [duplicateWarning, setDuplicateWarning] =
         useState<ExpenseInvoiceDuplicateWarning | null>(null);
     const fileInput = useRef<HTMLInputElement>(null);
@@ -476,9 +482,10 @@ export default function ExpenseInvoiceDetailsPage() {
                                 >
                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                     <SelectContent>
-                                        {Object.values(SUPPORTED_CURRENCIES).map((c) => (
+                                        {currencyOptions.map((c) => (
                                             <SelectItem key={c.code} value={c.code}>
-                                                {c.code} – {c.name}
+                                                {c.label && c.label !== c.code ? `${c.code} – ${c.label}` : c.code}
+                                                {c.isInactive ? ` (${t("currencyInactive")})` : ""}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>

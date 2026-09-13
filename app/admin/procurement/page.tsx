@@ -43,7 +43,7 @@ import { useLocale } from "@/components/locale-provider";
 import { usePosStore } from "@/store/posStore";
 import { useActiveBranchVersion } from "@/store/branchContextStore";
 import { formatCurrency } from "@/lib/currencies";
-import { DEFAULT_CURRENCY, SUPPORTED_CURRENCIES } from "@/lib/currencies";
+import { formatCurrencyAmount } from "@/lib/currencies";
 import { PurchaseOrdersPanel } from "@/components/purchasing/PurchaseOrdersPanel";
 
 // Unit ID to Name Mapping
@@ -74,16 +74,10 @@ const isValidPurchaseUnitPriceInput = (value: string): boolean => (
     PURCHASE_UNIT_PRICE_PATTERN.test(value.trim())
 );
 
-const formatPurchaseCurrency = (amount: number, currencyCode: string): string => {
-    const currency = SUPPORTED_CURRENCIES[currencyCode]?.code ?? DEFAULT_CURRENCY;
-
-    return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency,
-        minimumFractionDigits: 3,
-        maximumFractionDigits: 3,
-    }).format(amount);
-};
+// Purchasing prices carry three decimals; only the precision is local to this screen, the
+// meaning of the currency code is not. Previously an unrecognised code was formatted as USD.
+const formatPurchaseCurrency = (amount: number, currencyCode: string): string =>
+    formatCurrencyAmount(amount, currencyCode, { minimumFractionDigits: 3, maximumFractionDigits: 3 });
 
 // Helper function to detect Arabic characters
 const isArabic = (text: string | undefined): boolean => {

@@ -5,9 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronRight, Loader2, PackageSearch, Receipt, Search, Trash2 } from "lucide-react";
 import StoreShell from "@/components/showcase/StoreShell";
+import StoreWhatsAppLink from "@/components/showcase/StoreWhatsAppLink";
 import { useLocale } from "@/components/locale-provider";
 import { onlineShoppingApi } from "@/lib/api-online-shopping";
 import { createStoreText } from "@/lib/store-copy";
+import { WHATSAPP_PURPOSE } from "@/lib/whatsapp";
 import {
     buildOnlineOrderTrackingUrl,
     forgetOnlineOrder,
@@ -158,6 +160,17 @@ export default function StoreOrdersPage() {
                             {text("findOrder")}
                         </button>
                     </form>
+                    {/* A shopper who cannot find their order is exactly who the
+                        customer-service destination exists for. */}
+                    <div className="mt-4 flex flex-col gap-3 border-t pt-4 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="sf-meta max-w-prose">{text("orderHelpHint")}</p>
+                        <StoreWhatsAppLink
+                            purpose={WHATSAPP_PURPOSE.customerService}
+                            isAr={isAr}
+                            variant="brand"
+                            className="w-full shrink-0 sm:w-auto"
+                        />
+                    </div>
                 </section>
             </div>
             </div>

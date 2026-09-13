@@ -1,8 +1,10 @@
 import { create } from 'zustand';
+import { normalizeImageSrc } from '@/lib/normalize-image-src';
 import {
     onlineShoppingApi,
     type OnlineMenuOrderContext,
     type OnlineStoreBranding,
+    type OnlineWhatsAppContact,
 } from '@/lib/api-online-shopping';
 
 /**
@@ -14,11 +16,18 @@ import {
 interface StorefrontState {
     context: OnlineMenuOrderContext | null;
     branding: OnlineStoreBranding | null;
+    /**
+     * WhatsApp destinations the business configured, loaded once by the shell. Null means
+     * "not loaded yet"; an empty array means the business offers none, and every WhatsApp
+     * control is then simply absent rather than dead.
+     */
+    whatsAppContacts: OnlineWhatsAppContact[] | null;
     branchId?: string;
     status: 'idle' | 'loading' | 'ready' | 'error';
     cartOpen: boolean;
     loadContext: () => Promise<void>;
     loadBranding: () => Promise<void>;
+    loadWhatsAppContacts: () => Promise<void>;
     setBranchId: (branchId: string) => void;
     setCartOpen: (open: boolean) => void;
 }
@@ -26,6 +35,7 @@ interface StorefrontState {
 export const useStorefrontStore = create<StorefrontState>()((set, get) => ({
     context: null,
     branding: null,
+    whatsAppContacts: null,
     branchId: undefined,
     status: 'idle',
     cartOpen: false,
@@ -48,6 +58,16 @@ export const useStorefrontStore = create<StorefrontState>()((set, get) => ({
             /* keep the neutral fallback palette */
         }
     },
+    // Contact details are decoration in the same sense branding is: a failure leaves the store
+    // with no WhatsApp control instead of blocking the page.
+    loadWhatsAppContacts: async () => {
+        if (get().whatsAppContacts) return;
+        try {
+            set({ whatsAppContacts: await onlineShoppingApi.getWhatsAppContacts() });
+        } catch {
+            set({ whatsAppContacts: [] });
+        }
+    },
     setBranchId: (branchId) => {
         if (get().branchId === branchId) return;
         set({ branchId });
@@ -61,6 +81,25 @@ export function activeStorefrontBranchId(state: Pick<StorefrontState, 'context' 
     return state.branchId
         ?? state.context?.branches.find(branch => branch.isMainBranch)?.id
         ?? state.context?.branches[0]?.id;
+}
+
+/**
+ * The shop's own logo, from wherever the business configured it.
+ *
+ * The back office writes it to the tenant's branding, which the public branding endpoint
+ * already serves and the shell already loads — so the store reads that first and never gains a
+ * logo setting of its own. The older per-restaurant settings logo answers for tenants who
+ * filled that in instead, and a tenant with neither gets null so the caller draws its
+ * placeholder.
+ *
+ * The URL is normalised the same way every other stored image is: rows written against a dev
+ * backend carry that machine's origin, which no other machine can reach.
+ */
+export function storefrontLogoUrl(
+    branding: OnlineStoreBranding | null,
+    settingsLogoUrl?: string | null,
+): string | undefined {
+    return normalizeImageSrc(branding?.logoUrl) ?? normalizeImageSrc(settingsLogoUrl);
 }
 
 /**

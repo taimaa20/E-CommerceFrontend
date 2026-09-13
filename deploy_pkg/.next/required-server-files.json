@@ -99,7 +99,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "D:\\Taimaa-NTX\\source\\POS NTX\\POS-Frontend",
+    "outputFileTracingRoot": "D:\\Taimaa-NTX\\source\\E-Commerce\\POS-Frontend",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -293,7 +293,7 @@
     "configFileName": "next.config.mjs",
     "reactCompiler": true,
     "turbopack": {
-      "root": "D:\\Taimaa-NTX\\source\\POS NTX\\POS-Frontend"
+      "root": "D:\\Taimaa-NTX\\source\\E-Commerce\\POS-Frontend"
     },
     "distDirRoot": ".next",
     "_originalRewrites": {
@@ -357,9 +357,61 @@
         }
       ],
       "fallback": []
-    }
+    },
+    "_originalRedirects": [
+      {
+        "source": "/menu",
+        "destination": "/shop",
+        "permanent": true
+      },
+      {
+        "source": "/menu/order",
+        "destination": "/shop",
+        "permanent": true
+      },
+      {
+        "source": "/menu/all",
+        "destination": "/shop/all",
+        "permanent": true
+      },
+      {
+        "source": "/menu/categories",
+        "destination": "/shop/categories",
+        "permanent": true
+      },
+      {
+        "source": "/menu/offers",
+        "destination": "/shop/offers",
+        "permanent": true
+      },
+      {
+        "source": "/menu/orders",
+        "destination": "/shop/orders",
+        "permanent": true
+      },
+      {
+        "source": "/menu/checkout",
+        "destination": "/shop/checkout",
+        "permanent": true
+      },
+      {
+        "source": "/menu/orders/:orderId",
+        "destination": "/shop/orders/:orderId",
+        "permanent": true
+      },
+      {
+        "source": "/menu/category/:categoryId",
+        "destination": "/shop/category/:categoryId",
+        "permanent": true
+      },
+      {
+        "source": "/menu/product/:productId",
+        "destination": "/shop/product/:productId",
+        "permanent": true
+      }
+    ]
   },
-  "appDir": "D:\\Taimaa-NTX\\source\\POS NTX\\POS-Frontend",
+  "appDir": "D:\\Taimaa-NTX\\source\\E-Commerce\\POS-Frontend",
   "relativeAppDir": "",
   "files": [
     ".next\\routes-manifest.json",

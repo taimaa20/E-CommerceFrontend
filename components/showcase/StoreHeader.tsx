@@ -3,21 +3,23 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Menu, Package, ShoppingBag, Store } from "lucide-react";
+import { Heart, Menu, Package, ShoppingBag, Store } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import StoreImage from "@/components/showcase/StoreImage";
 import StoreSearchField from "@/components/showcase/StoreSearchField";
 import { useLocale } from "@/components/locale-provider";
 import { formatCurrency } from "@/lib/currencies";
 import { createStoreText } from "@/lib/store-copy";
+import { useStoreFavorites } from "@/lib/use-store-favorites";
 import { useCartStore } from "@/store/cartStore";
 import { useSettingsStore } from "@/store/settingsStore";
-import { activeStorefrontBranchId, useStorefrontStore } from "@/store/storefrontStore";
+import { activeStorefrontBranchId, storefrontLogoUrl, useStorefrontStore } from "@/store/storefrontStore";
 
 const NAV_LINKS = [
     { href: "/shop", key: "shop" as const, exact: true },
     { href: "/shop/categories", key: "categories" as const, exact: false },
     { href: "/shop/offers", key: "offers" as const, exact: false },
+    { href: "/shop/favorites", key: "favorites" as const, exact: false },
     { href: "/shop/orders", key: "myOrders" as const, exact: false },
 ];
 
@@ -32,9 +34,14 @@ export default function StoreHeader() {
     const itemCount = useCartStore(state => state.items.reduce((total, item) => total + item.quantity, 0));
     const setCartOpen = useStorefrontStore(state => state.setCartOpen);
     const context = useStorefrontStore(state => state.context);
+    const branding = useStorefrontStore(state => state.branding);
     const branchId = useStorefrontStore(state => state.branchId);
     const setBranchId = useStorefrontStore(state => state.setBranchId);
     const activeBranch = activeStorefrontBranchId({ context, branchId });
+    const logoUrl = storefrontLogoUrl(branding, settings.logoUrl);
+    // Server-rendered as zero and filled in on the client, so a shared page never ships one
+    // shopper's saved count to another.
+    const favoriteCount = useStoreFavorites().count;
     const [menuOpen, setMenuOpen] = useState(false);
 
     // Keyed by the URL query, so a shared /shop?q=… link, a browser back navigation
@@ -74,8 +81,8 @@ export default function StoreHeader() {
                     </button>
 
                     <Link href="/shop" className="flex min-w-0 shrink-0 items-center gap-2.5 md:w-52">
-                        {settingsLoaded && settings.logoUrl
-                            ? <StoreImage src={settings.logoUrl} alt={settings.restaurantName} fit="contain" sizes="40px" className="size-9 shrink-0 rounded-[10px] border" />
+                        {logoUrl
+                            ? <StoreImage src={logoUrl} alt={settings.restaurantName} fit="contain" sizes="40px" className="size-9 shrink-0 rounded-[10px] border" />
                             : <span className="flex size-9 shrink-0 items-center justify-center rounded-[10px] border text-muted-foreground"><Package className="size-[18px]" /></span>}
                         <span className="min-w-0">
                             <span className="block truncate text-[15px] font-semibold leading-tight">
@@ -99,6 +106,18 @@ export default function StoreHeader() {
                         </button>
                         <Link href="/shop/orders" className="sf-btn sf-btn--quiet sf-btn--sm hidden lg:inline-flex">
                             {text("trackOrder")}
+                        </Link>
+                        <Link
+                            href="/shop/favorites"
+                            aria-label={`${text("favorites")} (${favoriteCount})`}
+                            className="sf-icon-btn relative"
+                        >
+                            <Heart className="size-[21px]" />
+                            {favoriteCount > 0 && (
+                                <span className="absolute end-1 top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[var(--sf-accent)] px-1 text-[10px] font-bold leading-none text-white">
+                                    {favoriteCount > 99 ? "99+" : favoriteCount}
+                                </span>
+                            )}
                         </Link>
                         <button
                             type="button"

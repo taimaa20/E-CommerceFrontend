@@ -9,6 +9,7 @@ import StoreImage from "@/components/showcase/StoreImage";
 import StoreOfferShelf from "@/components/showcase/StoreOfferShelf";
 import StoreSectionHeading from "@/components/showcase/StoreSectionHeading";
 import StoreShell from "@/components/showcase/StoreShell";
+import StoreWhatsAppLink from "@/components/showcase/StoreWhatsAppLink";
 import { useLocale } from "@/components/locale-provider";
 import type { OnlineStoreCategory, OnlineStoreOffer } from "@/lib/api-online-shopping";
 import { formatCurrency } from "@/lib/currencies";
@@ -16,6 +17,7 @@ import { createStoreText } from "@/lib/store-copy";
 import { categoryDealPercent, offerProductIds, summariseOffersByCategory } from "@/lib/store-pricing";
 import type { CategoryOfferSummary } from "@/lib/store-pricing";
 import { useOfferCart, useSellableOffers, type OfferCartHelpers } from "@/lib/use-store-offers";
+import { WHATSAPP_PURPOSE } from "@/lib/whatsapp";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useStorefrontStore } from "@/store/storefrontStore";
 
@@ -86,10 +88,46 @@ function CategoryBrowser() {
                     )}
                 </>
             )}
+            // The catalogue enquiry destination belongs to the department a shopper is actually
+            // standing in, not to the global header: what they want to ask about is this
+            // department, and the message says so.
+            footer={({ category }) => <CategoryWhatsApp category={category} isAr={isAr} />}
             emptyAction={
                 <Link href="/shop/categories" className="sf-btn sf-btn--outline">{text("categories")}</Link>
             }
         />
+    );
+}
+
+/**
+ * The department's WhatsApp call to action, closing the page under its products.
+ *
+ * It asks for the catalogue-enquiry destination and hands it this department by name and by
+ * link, so a business whose template mentions the department sends a message naming it and one
+ * whose template does not is unaffected. Nothing renders until the department has resolved, so
+ * the message can never go out without the department it is about.
+ */
+function CategoryWhatsApp({ category, isAr }: { category?: OnlineStoreCategory; isAr: boolean }) {
+    const text = createStoreText(isAr);
+    if (!category) return null;
+
+    const name = isAr ? category.nameAr || category.name : category.name;
+    const url = typeof window === "undefined"
+        ? undefined
+        : `${window.location.origin}/shop/category/${category.id}`;
+
+    return (
+        <section className="mt-[var(--sf-section)] flex flex-col items-start gap-3 border-t pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="sf-meta max-w-prose">{text("categoryWhatsAppHint")}</p>
+            <StoreWhatsAppLink
+                purpose={WHATSAPP_PURPOSE.productInquiry}
+                context={{ categoryName: name, categoryUrl: url }}
+                label={text("askAboutCategory")}
+                isAr={isAr}
+                variant="brand"
+                className="w-full shrink-0 sm:w-auto"
+            />
+        </section>
     );
 }
 
