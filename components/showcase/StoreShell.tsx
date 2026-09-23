@@ -4,6 +4,7 @@ import { Suspense, useEffect } from "react";
 import Link from "next/link";
 import StoreImage from "@/components/showcase/StoreImage";
 import MenuOrderFlow from "@/components/showcase/MenuOrderFlow";
+import StoreBottomNav from "@/components/showcase/StoreBottomNav";
 import StoreHeader from "@/components/showcase/StoreHeader";
 import StoreWhatsAppLink from "@/components/showcase/StoreWhatsAppLink";
 import { useLocale } from "@/components/locale-provider";
@@ -48,13 +49,19 @@ export default function StoreShell({ children }: { children: React.ReactNode }) 
             dir={isAr ? "rtl" : "ltr"}
             style={storefrontBrandStyle(branding)}
         >
-            <Suspense fallback={<div className="h-14 border-b sm:h-16" />}>
+            <Suspense fallback={<div className="h-[52px] border-b sm:h-16" />}>
                 <StoreHeader />
             </Suspense>
-            <main className="flex-1 pb-6 pt-6 sm:pb-8 sm:pt-8">{children}</main>
+            <main className="flex-1 pb-6 pt-4 sm:pb-8 sm:pt-8">{children}</main>
             <StoreFooter isAr={isAr} />
-            {/* Keeps the sticky cart bar from covering the last row of content. */}
-            {hasCartItems && <div aria-hidden className="h-[calc(4.5rem+env(safe-area-inset-bottom))]" />}
+            {/* Keeps the sticky cart bar from covering the last row of content. On a phone
+                that bar now sits on top of the tab bar, whose own spacer below already
+                accounts for the device safe area. */}
+            {hasCartItems && <div aria-hidden className="h-[4.5rem] md:h-[calc(4.5rem+env(safe-area-inset-bottom))]" />}
+            {/* Same, for the tab bar itself — nothing in the page may end underneath it,
+                including under the centre mark that rises out of it. */}
+            <div aria-hidden className="h-[calc(var(--sf-bottom-nav)+var(--sf-tabbar-lift))]" />
+            <StoreBottomNav />
             <MenuOrderFlow />
         </div>
     );

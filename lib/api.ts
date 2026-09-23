@@ -2352,6 +2352,7 @@ async function invalidateCategoryCaches() {
 export async function createSubcategory(categoryId: string, data: {
     name: string;
     nameAr?: string;
+    imageUrl?: string;
     displayOrder?: number;
     isActive?: boolean;
 }): Promise<SubcategoryDto> {
@@ -2363,6 +2364,7 @@ export async function createSubcategory(categoryId: string, data: {
 export async function updateSubcategory(id: string, data: {
     name: string;
     nameAr?: string;
+    imageUrl?: string;
     displayOrder: number;
     isActive: boolean;
 }): Promise<SubcategoryDto> {

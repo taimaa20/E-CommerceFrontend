@@ -27,7 +27,7 @@ param(
     [string]$BackendIisPath = "C:\inetpub\wwwroot\pos-backend",
     [string]$FrontendIisPath = "C:\inetpub\wwwroot\pos-frontend",
 
-    [string]$BackendUrl = "http://4.235.120.206:775",
+    [string]$BackendUrl = "http://4.235.120.206:777",
     [string]$TenantId = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
 )
 

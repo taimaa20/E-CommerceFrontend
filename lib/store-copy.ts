@@ -5,6 +5,8 @@
  */
 const COPY = {
     shop: ["Shop", "التسوق"],
+    /** Accessible name of the bottom navigation's centre mark, which carries no visible label. */
+    home: ["Home", "الرئيسية"],
     categories: ["Categories", "الأقسام"],
     categoryOne: ["category", "قسم"],
     categoryMany: ["categories", "أقسام"],
@@ -165,6 +167,8 @@ const COPY = {
         "عروض متاحة الآن تشمل منتجات من هذا القسم",
     ],
     allProductsHeading: ["All products", "كل المنتجات"],
+    subcategories: ["Subcategories", "الأقسام الفرعية"],
+    allInCategory: ["All", "الكل"],
     inOffer: ["In an offer", "ضمن عرض"],
     offerCountOne: ["1 offer", "عرض واحد"],
     /** {n} is replaced with the number of live offers touching the department. */
@@ -201,6 +205,7 @@ const COPY = {
     whatsApp: ["WhatsApp", "واتساب"],
     chatOnWhatsApp: ["Chat on WhatsApp", "تواصل عبر واتساب"],
     askAboutProduct: ["Ask about this product", "استفسر عن هذا المنتج"],
+    askAboutProductWhatsApp: ["Ask about this product on WhatsApp", "استفسر عن هذا المنتج عبر واتساب"],
     askAboutCategory: ["Ask about this department", "استفسر عن هذا القسم"],
     orderHelpOnWhatsApp: ["Help with my order", "مساعدة بخصوص طلبي"],
     categoryWhatsAppHint: [

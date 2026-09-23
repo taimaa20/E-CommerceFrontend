@@ -9,6 +9,7 @@ import StoreCatalogBrowser from "@/components/showcase/StoreCatalogBrowser";
 import StoreCategoryCard from "@/components/showcase/StoreCategoryCard";
 import StoreImage from "@/components/showcase/StoreImage";
 import StoreOfferShelf from "@/components/showcase/StoreOfferShelf";
+import StoreProductGrid from "@/components/showcase/StoreProductGrid";
 import StoreProductRail from "@/components/showcase/StoreProductRail";
 import StoreSectionHeading from "@/components/showcase/StoreSectionHeading";
 import StoreShell from "@/components/showcase/StoreShell";
@@ -37,6 +38,12 @@ const RAIL_CATEGORY_LIMIT = 14;
  * much of the page the deals band is allowed to own, not about what the row can fit.
  */
 const HOME_OFFER_LIMIT = 8;
+/**
+ * Products per section on a phone, where the row is a two-column wall rather than a rail.
+ * Six is three complete rows — enough to judge a section, short enough that four of them
+ * still leave the page scrollable in a few flicks.
+ */
+const PHONE_SECTION_LIMIT = 6;
 
 /** Heading and sub-heading for each row the API is willing to return. */
 const SECTION_COPY: Record<OnlineStoreSectionKey, { title: StoreCopyKey; hint: StoreCopyKey }> = {
@@ -151,29 +158,9 @@ function StoreHome() {
                 />
             )}
 
-            {liveOffers.length > 0 && (
-                <section className="sf-band sf-band--tint mt-[var(--sf-section)]">
-                    <div className="sf-container">
-                        <StoreSectionHeading
-                            eyebrow={text("offers")}
-                            title={text("offersTitle")}
-                            hint={text("offersHint")}
-                            href="/shop/offers"
-                            linkLabel={text("viewAll")}
-                        />
-                        {/* The shelf, not this page, decides whether one offer becomes a
-                            featured panel and several become a rail. */}
-                        <StoreOfferShelf
-                            offers={liveOffers.slice(0, HOME_OFFER_LIMIT)}
-                            cart={offerCart}
-                            isAr={isAr}
-                            format={format}
-                            priority
-                        />
-                    </div>
-                </section>
-            )}
-
+            {/* Departments come before the deals band: a shopper who did not arrive for the
+                banner is looking for a department next, and on a phone the offers shelf is
+                tall enough to push every department below the fold. */}
             {categories.length > 0 && (
                 <section className="sf-container mt-[var(--sf-section)]">
                     <StoreSectionHeading
@@ -222,6 +209,29 @@ function StoreHome() {
                 </section>
             )}
 
+            {liveOffers.length > 0 && (
+                <section className="sf-band sf-band--tint mt-[var(--sf-section)]">
+                    <div className="sf-container">
+                        <StoreSectionHeading
+                            eyebrow={text("offers")}
+                            title={text("offersTitle")}
+                            hint={text("offersHint")}
+                            href="/shop/offers"
+                            linkLabel={text("viewAll")}
+                        />
+                        {/* The shelf, not this page, decides whether one offer becomes a
+                            featured panel and several become a rail. */}
+                        <StoreOfferShelf
+                            offers={liveOffers.slice(0, HOME_OFFER_LIMIT)}
+                            cart={offerCart}
+                            isAr={isAr}
+                            format={format}
+                            priority
+                        />
+                    </div>
+                </section>
+            )}
+
             {sections.map((section, index) => {
                 const copy = SECTION_COPY[section.key];
                 if (!copy) return null;
@@ -240,15 +250,30 @@ function StoreHome() {
                                 href="/shop/all"
                                 linkLabel={text("viewAll")}
                             />
-                            <StoreProductRail
-                                products={section.products}
-                                details={details}
-                                cart={cart}
-                                isAr={isAr}
-                                format={format}
-                                priority={index === 0}
-                                inOffer={inOffer}
-                            />
+                            {/* Phone: a two-column wall, so a whole section is comparable
+                                without swiping. Tablet and desktop keep the rail. */}
+                            <div className="sm:hidden">
+                                <StoreProductGrid
+                                    products={section.products.slice(0, PHONE_SECTION_LIMIT)}
+                                    details={details}
+                                    cart={cart}
+                                    isAr={isAr}
+                                    format={format}
+                                    priority={index === 0}
+                                    inOffer={inOffer}
+                                />
+                            </div>
+                            <div className="hidden sm:block">
+                                <StoreProductRail
+                                    products={section.products}
+                                    details={details}
+                                    cart={cart}
+                                    isAr={isAr}
+                                    format={format}
+                                    priority={index === 0}
+                                    inOffer={inOffer}
+                                />
+                            </div>
                         </div>
                     </section>
                 );

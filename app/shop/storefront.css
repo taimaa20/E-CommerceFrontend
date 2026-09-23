@@ -69,10 +69,23 @@
     --sf-control: 44px;
     --sf-control-sm: 38px;
 
+    /* Height of the phone tab bar, including the device's own safe area. One value, so
+       the bar, the spacer that keeps content clear of it and the cart summary that sits
+       above it can never disagree. Zero from `md` up, where the bar is not rendered. */
+    --sf-tabbar-h: 3.5rem;
+    /* How far the centre mark rises out of the bar. Page content is cleared by this much
+       again, so the raised disc never sits over the last row of a page or a form. */
+    --sf-tabbar-lift: 0.625rem;
+    --sf-bottom-nav: calc(var(--sf-tabbar-h) + env(safe-area-inset-bottom));
+
     /* One motion scale, so every transition in the store agrees. */
     --sf-motion: 180ms;
     --sf-motion-slow: 240ms;
     --sf-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (min-width: 768px) {
+    .storefront { --sf-bottom-nav: 0px; --sf-tabbar-lift: 0px; }
 }
 
 /* Everything below sits in Tailwind's `components` layer so utility classes
@@ -684,6 +697,137 @@ textarea.sf-field { padding-block: 0.625rem; line-height: 1.5; }
 
 @media (hover: hover) {
     .sf-chip:hover { border-color: var(--sf-accent-line); background: var(--sf-accent-softer); }
+}
+
+/* ── Phone tab bar ──────────────────────────────────────────────────────
+   The store's primary navigation below `md`, where the header has room for the
+   brand and the search field and nothing else. It carries no state of its own:
+   every count and every destination comes from the same store the header reads. */
+
+.sf-tabbar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    /* Above the cart summary bar (z-40), which the raised centre mark overlaps by
+       `--sf-tabbar-lift` — the disc has to read as sitting on top of that bar. */
+    z-index: 45;
+    border-top: 1px solid var(--sf-line);
+    background: color-mix(in srgb, var(--background) 94%, transparent);
+    padding-bottom: env(safe-area-inset-bottom);
+    backdrop-filter: blur(12px);
+}
+
+.sf-tab {
+    position: relative;
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1875rem;
+    min-width: 0;
+    height: var(--sf-tabbar-h);
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1;
+    transition: color var(--sf-motion) var(--sf-ease);
+}
+
+.sf-tab__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* The current tab is marked by ink weight and a brand-coloured rule above it, not by
+   recolouring the label: a tenant may configure a pale brand, and the one tab a shopper
+   must be able to read has to stay legible in every palette. */
+.sf-tab[aria-current="page"],
+.sf-tab[data-active="true"] {
+    color: var(--foreground);
+    font-weight: 600;
+}
+
+.sf-tab[aria-current="page"]::before,
+.sf-tab[data-active="true"]::before {
+    content: "";
+    position: absolute;
+    inset-inline: 25%;
+    top: 0;
+    height: 2px;
+    border-radius: 0 0 999px 999px;
+    background: var(--sf-brand);
+}
+
+.sf-tab:focus-visible { outline: 2px solid var(--sf-brand); outline-offset: -2px; }
+
+/* ── Centre mark ────────────────────────────────────────────────────────
+   The middle slot is the store's own logo, raised out of the bar, and it is the
+   way back to the shop front. It carries no label: the mark is the label, and a
+   word under it would make the one control that is meant to read as a button
+   read as a fifth tab. */
+
+.sf-tab--home {
+    /* The disc is absolutely placed, so the slot itself only has to hold the height. */
+    justify-content: flex-end;
+    padding-bottom: 0.5rem;
+}
+
+/* No top rule on this slot — the disc states the current page by its own ring,
+   and a hairline behind a raised circle reads as a mistake. */
+.sf-tab--home[aria-current="page"]::before { content: none; }
+
+.sf-tab__mark {
+    position: absolute;
+    /* Physical, not logical: a centre that stays centred in Arabic too. */
+    left: 50%;
+    top: calc(-1 * var(--sf-tabbar-lift));
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 999px;
+    border: 1px solid var(--sf-line);
+    background: var(--background);
+    overflow: hidden;
+    box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--foreground) 55%, transparent);
+    transition: border-color var(--sf-motion) var(--sf-ease), box-shadow var(--sf-motion) var(--sf-ease);
+}
+
+.sf-tab--home[aria-current="page"] .sf-tab__mark {
+    border-color: var(--sf-brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sf-brand) 22%, transparent),
+        0 6px 18px -8px color-mix(in srgb, var(--foreground) 55%, transparent);
+}
+
+/* The logo fills the disc without ever being cropped to it. */
+.sf-tab__mark > * {
+    width: 100%;
+    height: 100%;
+}
+
+/* Count over an icon — favourites and cart, the same mark the header uses. */
+.sf-tab__badge {
+    position: absolute;
+    inset-inline-start: 50%;
+    top: -0.3125rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    min-width: 16px;
+    margin-inline-start: 0.125rem;
+    padding-inline: 0.25rem;
+    border-radius: 999px;
+    background: var(--sf-accent);
+    color: #ffffff;
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 1;
 }
 
 /* Horizontal rails hide their scrollbar but stay swipeable/keyboard scrollable. */

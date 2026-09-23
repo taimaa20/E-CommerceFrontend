@@ -77,9 +77,12 @@ export default function CategoriesPage() {
     const [subcategoryFormData, setSubcategoryFormData] = useState({
         name: "",
         nameAr: "",
+        imageUrl: "",
         displayOrder: 0,
         isActive: true,
     });
+    const [subcategoryImageFile, setSubcategoryImageFile] = useState<File | null>(null);
+    const [subcategoryImagePreview, setSubcategoryImagePreview] = useState<string>("");
 
     const branchVersion = useActiveBranchVersion();
     useEffect(() => {
@@ -152,9 +155,12 @@ export default function CategoriesPage() {
         setSubcategoryFormData({
             name: subcategory?.name || "",
             nameAr: subcategory?.nameAr || "",
+            imageUrl: subcategory?.imageUrl || "",
             displayOrder: subcategory?.displayOrder ?? (category.subcategories?.length || 0),
             isActive: subcategory?.isActive ?? true,
         });
+        setSubcategoryImageFile(null);
+        setSubcategoryImagePreview(subcategory?.imageUrl || "");
         setSubcategoryErrors({});
         setSubcategoryDialogOpen(true);
     };
@@ -245,11 +251,23 @@ export default function CategoriesPage() {
             return;
         }
 
+        // Same upload path as the category image: the file is stored first and only its URL is saved.
+        let resolvedImageUrl = subcategoryFormData.imageUrl;
+        if (subcategoryImageFile) {
+            const uploaded = await uploadImage(subcategoryImageFile);
+            if (!uploaded) {
+                toast.error(isAr ? "تعذر رفع الصورة" : "Could not upload image");
+                return;
+            }
+            resolvedImageUrl = uploaded;
+        }
+        const dataToSave = { ...subcategoryFormData, imageUrl: resolvedImageUrl };
+
         try {
             if (editingSubcategory) {
-                await updateSubcategory(editingSubcategory.id, subcategoryFormData);
+                await updateSubcategory(editingSubcategory.id, dataToSave);
             } else {
-                await createSubcategory(activeCategoryForSubcategory.id, subcategoryFormData);
+                await createSubcategory(activeCategoryForSubcategory.id, dataToSave);
             }
             toast.success(isAr ? "تم حفظ التصنيف الفرعي" : "Subcategory saved");
             setSubcategoryDialogOpen(false);
@@ -458,6 +476,17 @@ export default function CategoriesPage() {
                                                                 key={subcategory.id}
                                                                 className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1"
                                                             >
+                                                                {subcategory.imageUrl ? (
+                                                                    <img
+                                                                        src={subcategory.imageUrl}
+                                                                        alt=""
+                                                                        className="h-6 w-6 rounded object-cover"
+                                                                    />
+                                                                ) : (
+                                                                    <span className="flex h-6 w-6 items-center justify-center rounded bg-slate-100">
+                                                                        <ImageIcon className="h-3.5 w-3.5 text-slate-400" />
+                                                                    </span>
+                                                                )}
                                                                 <span className={`text-xs font-medium ${subcategory.isActive ? "text-slate-700" : "text-slate-400"}`}>
                                                                     {subcategoryLabel(subcategory)}
                                                                 </span>
@@ -728,6 +757,44 @@ export default function CategoriesPage() {
                                 <p className="text-destructive text-sm font-medium flex items-center gap-1 mt-1">
                                     <AlertCircle className="w-3.5 h-3.5" /> {subcategoryErrors.nameAr}
                                 </p>
+                            )}
+                        </div>
+
+                        <div>
+                            <Label htmlFor="subcategoryImage">{t("imageUrlLabel")}</Label>
+                            <input
+                                id="subcategoryImage"
+                                type="file"
+                                accept="image/jpeg,image/png,image/gif,image/webp"
+                                className="block w-full text-sm text-muted-foreground file:me-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-muted file:text-foreground hover:file:bg-muted/80 cursor-pointer"
+                                onChange={(e) => {
+                                    const file = e.target.files?.[0] ?? null;
+                                    setSubcategoryImageFile(file);
+                                    setSubcategoryImagePreview(file ? URL.createObjectURL(file) : subcategoryFormData.imageUrl);
+                                }}
+                            />
+                            {subcategoryImagePreview && (
+                                <div className="mt-2 flex items-end gap-3">
+                                    <img
+                                        src={subcategoryImagePreview}
+                                        alt="Preview"
+                                        className="w-24 h-24 rounded-lg object-cover border"
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        className="text-destructive hover:text-destructive/80 hover:bg-destructive/5"
+                                        onClick={() => {
+                                            setSubcategoryImageFile(null);
+                                            setSubcategoryImagePreview("");
+                                            setSubcategoryFormData({ ...subcategoryFormData, imageUrl: "" });
+                                        }}
+                                    >
+                                        <Trash2 className="h-3.5 w-3.5 me-1" />
+                                        {isAr ? "إزالة الصورة" : "Remove image"}
+                                    </Button>
+                                </div>
                             )}
                         </div>
 

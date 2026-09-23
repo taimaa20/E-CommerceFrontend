@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { useBrandingStore } from "@/store/brandingStore";
 import { login } from "@/lib/api";
+import { normalizeImageSrc } from "@/lib/normalize-image-src";
 import { warmOfflineCache } from "@/lib/offline/preload";
 import { getDefaultRouteForRole } from "@/lib/authorization";
 import { toast } from "sonner";
@@ -20,6 +21,10 @@ export default function LoginPage() {
     // Branding is public (BrandingProvider loads it before auth), so the sign-in card can
     // name the business. Absent branding simply renders nothing extra.
     const businessName = useBrandingStore((state) => state.businessName);
+    // The same configured logo the rest of the app uses — normalised like every other
+    // stored image, because a row written against a dev backend carries that host.
+    const logoUrl = normalizeImageSrc(useBrandingStore((state) => state.logoUrl));
+    const [logoFailed, setLogoFailed] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -97,9 +102,20 @@ export default function LoginPage() {
                         </div>
                     </div>
                     <div className="flex justify-center mb-4">
-                        <div className="p-3 bg-primary/10 rounded-full">
-                            <Store className="h-10 w-10 text-primary" />
-                        </div>
+                        {logoUrl && !logoFailed ? (
+                            // Plain <img>: the box is sized by the logo's own aspect ratio, and
+                            // a wordmark must never be cropped to a circle.
+                            <img
+                                src={logoUrl}
+                                alt={businessName ?? ""}
+                                onError={() => setLogoFailed(true)}
+                                className="h-16 max-w-[70%] object-contain"
+                            />
+                        ) : (
+                            <div className="p-3 bg-primary/10 rounded-full">
+                                <Store className="h-10 w-10 text-primary" />
+                            </div>
+                        )}
                     </div>
                     {businessName ? (
                         <p className="text-sm font-semibold tracking-wide text-primary">{businessName}</p>

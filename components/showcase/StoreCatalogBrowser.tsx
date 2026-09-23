@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { PackageSearch, RefreshCw, SearchX } from "lucide-react";
 import StorePagination from "@/components/showcase/StorePagination";
 import StoreProductCard from "@/components/showcase/StoreProductCard";
+import StoreSubcategoryFilter from "@/components/showcase/StoreSubcategoryFilter";
 import { useLocale } from "@/components/locale-provider";
 import type { OnlineStoreCategory, OnlineStoreSort } from "@/lib/api-online-shopping";
 import { formatCurrency } from "@/lib/currencies";
@@ -23,7 +24,7 @@ const SORT_OPTIONS: { value: OnlineStoreSort; key: "sortRelevance" | "sortPriceL
 /**
  * The catalogue browsing screen: result count, sort, product grid and pagination.
  *
- * It owns its own URL state (`q`, `sort`, `page`) so every surface that browses products —
+ * It owns its own URL state (`q`, `sort`, `page`, and `subcategory` inside a department) so every surface that browses products —
  * the whole catalogue, a search result, a department — behaves identically and a link can be
  * shared. `basePath` is the route those query strings hang off.
  */
@@ -68,8 +69,10 @@ export default function StoreCatalogBrowser({
     const search = searchParams.get("q") ?? "";
     const page = Math.max(1, Number(searchParams.get("page") ?? "1") || 1);
     const sort = (searchParams.get("sort") ?? "Featured") as OnlineStoreSort;
+    // A subcategory only narrows a department; outside one the parameter is ignored.
+    const subcategoryId = categoryId ? searchParams.get("subcategory") || undefined : undefined;
 
-    const { catalog, loading, error, reload } = useStoreCatalog({ categoryId, search, page, sort });
+    const { catalog, loading, error, reload } = useStoreCatalog({ categoryId, subcategoryId, search, page, sort });
     const cart = useStoreCart(catalog?.productAvailability ?? [], isAr);
     const details = new Map((catalog?.productDetails ?? []).map(row => [row.productId, row]));
     const format = (value: number) =>
@@ -87,8 +90,9 @@ export default function StoreCatalogBrowser({
         }
     }, [page]);
 
-    const buildUrl = (nextSearch: string, nextPage: number, nextSort: OnlineStoreSort) => {
+    const buildUrl = (nextSearch: string, nextPage: number, nextSort: OnlineStoreSort, nextSubcategory = subcategoryId) => {
         const query = new URLSearchParams();
+        if (nextSubcategory) query.set("subcategory", nextSubcategory);
         if (nextSearch) query.set("q", nextSearch);
         if (nextSort !== "Featured") query.set("sort", nextSort);
         if (nextPage > 1) query.set("page", String(nextPage));
@@ -100,11 +104,21 @@ export default function StoreCatalogBrowser({
     const total = catalog?.totalCount ?? 0;
     const showToolbar = !error && (loading || total > 0);
     const category = categoryId ? catalog?.categories.find(row => row.id === categoryId) : undefined;
-    const context = category ? (isAr ? category.nameAr || category.name : category.name) : undefined;
+    const subcategories = category?.subcategories ?? [];
+    const subcategory = subcategories.find(row => row.id === subcategoryId);
+    const contextRow = subcategory ?? category;
+    const context = contextRow ? (isAr ? contextRow.nameAr || contextRow.name : contextRow.name) : undefined;
 
     return (
         <section>
             {header?.({ category, loading })}
+            <StoreSubcategoryFilter
+                subcategories={subcategories}
+                selectedId={subcategoryId}
+                // Picking a subcategory keeps the shopper's search and sort, and starts at page one.
+                hrefFor={next => buildUrl(search, 1, sort, next ?? "")}
+                isAr={isAr}
+            />
             <div ref={anchor} className="scroll-mt-[8.5rem] md:scroll-mt-32" />
 
             {showToolbar && (

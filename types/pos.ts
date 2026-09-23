@@ -365,6 +365,7 @@ export interface SubcategoryDto {
   name: string;
   nameAr?: string | null;
   displayName?: string;
+  imageUrl?: string | null;
   displayOrder: number;
   isActive: boolean;
 }

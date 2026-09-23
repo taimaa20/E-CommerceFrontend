@@ -391,7 +391,9 @@ export default function MenuOrderFlow() {
             {/* Compact bottom summary bar — full width with a hairline top border, so
                 it reads as store chrome rather than a floating notification. */}
             {!open && itemCount() > 0 && (
-                <div className="fixed inset-x-0 bottom-0 z-40 border-t bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur supports-[backdrop-filter]:bg-background/90">
+                // On a phone this rides directly on top of the tab bar, which already
+                // clears the device safe area — hence the padding only from `md` up.
+                <div className="fixed inset-x-0 bottom-[var(--sf-bottom-nav)] z-40 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90 md:pb-[env(safe-area-inset-bottom)]">
                     <div className="sf-container flex h-[4.5rem] items-center gap-3">
                         <div className="flex min-w-0 flex-1 items-center gap-2.5">
                             <span className="relative flex size-10 shrink-0 items-center justify-center rounded-[10px] border">

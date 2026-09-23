@@ -35,6 +35,7 @@ interface CatalogResult {
  */
 export function useStoreCatalog(params: {
     categoryId?: string;
+    subcategoryId?: string;
     search: string;
     page: number;
     sort?: OnlineStoreSort;
@@ -44,17 +45,17 @@ export function useStoreCatalog(params: {
     const branchId = useStorefrontStore(state => state.branchId);
     const [revision, setRevision] = useState(0);
     const [result, setResult] = useState<CatalogResult | null>(null);
-    const { categoryId, search, page, sort = "Featured", pageSize = STORE_PAGE_SIZE } = params;
-    const key = JSON.stringify([categoryId ?? "", search, page, sort, pageSize, branchId ?? "", revision]);
+    const { categoryId, subcategoryId, search, page, sort = "Featured", pageSize = STORE_PAGE_SIZE } = params;
+    const key = JSON.stringify([categoryId ?? "", subcategoryId ?? "", search, page, sort, pageSize, branchId ?? "", revision]);
 
     useEffect(() => {
         let cancelled = false;
         onlineShoppingApi
-            .getCatalog({ categoryId, search, page, sort, pageSize }, branchId)
+            .getCatalog({ categoryId, subcategoryId, search, page, sort, pageSize }, branchId)
             .then(catalog => { if (!cancelled) setResult({ key, catalog, error: false }); })
             .catch(() => { if (!cancelled) setResult({ key, catalog: null, error: true }); });
         return () => { cancelled = true; };
-    }, [key, categoryId, search, page, sort, pageSize, branchId]);
+    }, [key, categoryId, subcategoryId, search, page, sort, pageSize, branchId]);
 
     const loading = result?.key !== key;
     return {

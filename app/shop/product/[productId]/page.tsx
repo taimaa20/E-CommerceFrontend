@@ -212,21 +212,21 @@ function ProductDetail() {
                     {/* Secondary actions, below the buy controls so neither competes with it.
                         The enquiry link carries this product's real name, code and address —
                         the wording around them is the business's own configured template. */}
-                    {/* Both labels are full sentences and the button style never wraps text, so
-                        they get a row each until there is genuinely room for two — the same
-                        breakpoint the buy button uses to reveal its running total. */}
-                    <div className="grid gap-2 min-[420px]:grid-cols-2">
+                    {/* WhatsApp is the compact green glyph button; its sentence is the accessible
+                        name and tooltip only, so favourites keeps the rest of the row. */}
+                    <div className="flex items-stretch gap-2">
                         <StoreFavoriteButton
                             productId={product.id}
                             isAr={isAr}
                             variant="button"
-                            className="w-full"
+                            className="min-w-0 flex-1"
                         />
                         <StoreWhatsAppLink
                             purpose={WHATSAPP_PURPOSE.productInquiry}
                             context={{ productName: name, sku: details.sku, productUrl: productUrl }}
                             isAr={isAr}
-                            className="w-full"
+                            variant="icon"
+                            label={text("askAboutProductWhatsApp")}
                         />
                     </div>
                 </div>

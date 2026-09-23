@@ -68,9 +68,10 @@ export default function StoreHeader() {
 
     return (
         <header className="sticky top-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85">
-            {/* Row 1 — brand, product search (desktop) and utilities. */}
-            <div className="border-b">
-                <div className="sf-container flex h-14 items-center gap-2 sm:h-16 sm:gap-4">
+            {/* Row 1 — brand, product search (desktop) and utilities. On a phone the two
+                rows read as one compact block, so the hairline between them is dropped. */}
+            <div className="border-b max-md:border-b-0">
+                <div className="sf-container flex h-[52px] items-center gap-2 sm:h-16 sm:gap-4">
                     <button
                         type="button"
                         onClick={() => setMenuOpen(true)}
@@ -100,17 +101,19 @@ export default function StoreHeader() {
                         <button
                             type="button"
                             onClick={() => setLocale(isAr ? "en" : "ar", { reload: false })}
-                            className="sf-btn sf-btn--quiet sf-btn--sm hidden sm:inline-flex"
+                            className="sf-btn sf-btn--quiet sf-btn--sm"
                         >
                             {isAr ? "EN" : "العربية"}
                         </button>
                         <Link href="/shop/orders" className="sf-btn sf-btn--quiet sf-btn--sm hidden lg:inline-flex">
                             {text("trackOrder")}
                         </Link>
+                        {/* Below `md` these two live in the tab bar instead, which is what
+                            buys the phone header its single compact row. */}
                         <Link
                             href="/shop/favorites"
                             aria-label={`${text("favorites")} (${favoriteCount})`}
-                            className="sf-icon-btn relative"
+                            className="sf-icon-btn relative hidden md:inline-flex"
                         >
                             <Heart className="size-[21px]" />
                             {favoriteCount > 0 && (
@@ -123,7 +126,7 @@ export default function StoreHeader() {
                             type="button"
                             onClick={() => setCartOpen(true)}
                             aria-label={`${text("cart")} (${itemCount})`}
-                            className="sf-icon-btn relative -me-2"
+                            className="sf-icon-btn relative -me-2 hidden md:inline-flex"
                         >
                             <ShoppingBag className="size-[21px]" />
                             {itemCount > 0 && (
@@ -138,7 +141,7 @@ export default function StoreHeader() {
 
             {/* Row 2 (mobile) — search stays reachable while browsing. */}
             <div className="border-b md:hidden">
-                <div className="sf-container py-2">{searchField()}</div>
+                <div className="sf-container pb-2.5">{searchField()}</div>
             </div>
 
             {/* Row 2 (desktop) — browse navigation, kept visually quieter than search. */}

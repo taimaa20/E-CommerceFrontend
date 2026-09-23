@@ -139,6 +139,18 @@ export interface OnlineStoreCategory {
     discountedProductCount: number;
     /** The largest of those reductions, whole percent. 0 when nothing here is reduced. */
     maxDiscountPercent: number;
+    /** Active subcategories holding products in this branch, in display order. Empty when not subdivided. */
+    subcategories?: OnlineStoreSubcategory[];
+}
+
+export interface OnlineStoreSubcategory {
+    id: string;
+    categoryId: string;
+    name: string;
+    nameAr?: string;
+    imageUrl?: string;
+    displayOrder: number;
+    productCount: number;
 }
 
 export interface OnlineStoreImage {
@@ -168,6 +180,7 @@ export interface OnlineStoreCatalog {
     productAvailability: OnlineProductAvailability[];
     productDetails: OnlineStoreProductDetails[];
     categoryId?: string;
+    subcategoryId?: string;
     page: number;
     pageSize: number;
     totalCount: number;
@@ -319,6 +332,7 @@ export type OnlineStoreSort = "Featured" | "PriceAscending" | "PriceDescending" 
 
 export interface OnlineStoreCatalogParams {
     categoryId?: string;
+    subcategoryId?: string;
     search?: string;
     page?: number;
     pageSize?: number;
@@ -365,6 +379,7 @@ export const onlineShoppingApi = {
     getCatalog: (params: OnlineStoreCatalogParams, branchId?: string) => {
         const query = new URLSearchParams();
         if (params.categoryId) query.set("categoryId", params.categoryId);
+        if (params.subcategoryId) query.set("subcategoryId", params.subcategoryId);
         if (params.search?.trim()) query.set("search", params.search.trim());
         if (params.page) query.set("page", String(params.page));
         if (params.pageSize) query.set("pageSize", String(params.pageSize));
