@@ -3,6 +3,7 @@ import http from "http";
 import https from "https";
 import { Readable } from "stream";
 import { config } from "@/lib/config";
+import { bffTrustHeaders, forwardedClientIp, isUpstreamForwardedForTrusted } from "@/lib/server/forwarded-client-ip";
 
 export const runtime = "nodejs";
 // Ensure the route is always evaluated on-demand — responses are proxied,
@@ -14,6 +15,9 @@ const TENANT_HEADER = "X-Tenant-ID";
 const BRANCH_HEADER = "X-Branch-ID";
 const IDEMPOTENCY_HEADER = "X-Idempotency-Key";
 const PUBLIC_APP_ORIGIN_HEADER = "X-Public-App-Origin";
+const FORWARDED_FOR_HEADER = "X-Forwarded-For";
+// Opt-in per deployment: only where a reverse proxy in front of Next appends the client IP.
+const TRUST_UPSTREAM_FORWARDED_FOR = isUpstreamForwardedForTrusted(process.env);
 const DEFAULT_UPSTREAM_TIMEOUT_MS = 60_000;
 const configuredTimeoutMs = Number.parseInt(process.env.PROXY_UPSTREAM_TIMEOUT_MS ?? "", 10);
 const UPSTREAM_TIMEOUT_MS = Number.isFinite(configuredTimeoutMs) && configuredTimeoutMs > 0
@@ -60,6 +64,13 @@ async function handler(req: NextRequest, { params }: { params: Promise<{ path: s
     if (tenantId) headers[TENANT_HEADER] = tenantId;
     const branchId = req.headers.get(BRANCH_HEADER);
     if (branchId) headers[BRANCH_HEADER] = branchId;
+    // The backend rate-limits anonymous callers per client IP; without this every shopper would
+    // share the Next server's address. Only the trusted right-most hop is forwarded, and only when the
+    // deployment declares a client-IP-appending proxy in front of Next.
+    const clientIp = forwardedClientIp(req.headers.get(FORWARDED_FOR_HEADER), TRUST_UPSTREAM_FORWARDED_FOR);
+    if (clientIp) headers[FORWARDED_FOR_HEADER] = clientIp;
+    // Verified shopper IP for the backend's rate limiter (server-to-server proof; see helper).
+    Object.assign(headers, bffTrustHeaders(req.headers.get(FORWARDED_FOR_HEADER), process.env));
     const idempotencyKey = req.headers.get(IDEMPOTENCY_HEADER);
     if (idempotencyKey) headers[IDEMPOTENCY_HEADER] = idempotencyKey;
 

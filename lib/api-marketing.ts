@@ -784,3 +784,133 @@ export const rewardsApi = {
             params: { customerId, page, pageSize },
         })).data,
 };
+
+// ── Promo codes ───────────────────────────────────────────────────────────
+
+export enum PromoDiscountType {
+    Percentage = 0,
+    FixedAmount = 1,
+}
+
+export enum PromoAudience {
+    Everyone = 0,
+    SignedInCustomers = 1,
+    SpecificCustomers = 2,
+    Segment = 3,
+}
+
+export enum PromoTargetType {
+    Product = 0,
+    Category = 1,
+    Subcategory = 2,
+}
+
+export type PromoCodeStatus = "Active" | "Scheduled" | "Expired" | "Inactive" | "Exhausted";
+
+export interface PromoCodeTarget {
+    targetType: PromoTargetType;
+    targetId: string;
+    isExclusion: boolean;
+    name?: string | null;
+}
+
+export interface PromoCodeCustomer {
+    customerId: string;
+    name?: string | null;
+    phoneNumber?: string | null;
+}
+
+export interface PromoCode {
+    id: string;
+    code: string;
+    name: string;
+    nameAr?: string | null;
+    description?: string | null;
+    descriptionAr?: string | null;
+    discountType: PromoDiscountType;
+    discountValue: number;
+    maxDiscountAmount?: number | null;
+    minOrderAmount?: number | null;
+    startsAt: string;
+    endsAt?: string | null;
+    isActive: boolean;
+    status: PromoCodeStatus;
+    usageLimit?: number | null;
+    perCustomerLimit?: number | null;
+    audience: PromoAudience;
+    segmentId?: string | null;
+    segmentName?: string | null;
+    firstOrderOnly: boolean;
+    combineWithProductOffers: boolean;
+    branchId?: string | null;
+    targets: PromoCodeTarget[];
+    customers: PromoCodeCustomer[];
+    usageCount: number;
+    completedCount: number;
+    cancelledCount: number;
+    totalDiscountGranted: number;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface PromoCodeUpsert {
+    code: string;
+    name: string;
+    nameAr?: string | null;
+    description?: string | null;
+    descriptionAr?: string | null;
+    discountType: PromoDiscountType;
+    discountValue: number;
+    maxDiscountAmount?: number | null;
+    minOrderAmount?: number | null;
+    startsAt: string;
+    endsAt?: string | null;
+    isActive: boolean;
+    usageLimit?: number | null;
+    perCustomerLimit?: number | null;
+    audience: PromoAudience;
+    segmentId?: string | null;
+    firstOrderOnly: boolean;
+    combineWithProductOffers: boolean;
+    branchId?: string | null;
+    targets: PromoCodeTarget[];
+    customerIds: string[];
+}
+
+export interface PromoCodeRedemption {
+    id: string;
+    orderId: string;
+    orderNumber: string;
+    customerId?: string | null;
+    customerName?: string | null;
+    customerPhone?: string | null;
+    orderSubtotal: number;
+    discountAmount: number;
+    orderTotal: number;
+    orderStatus: string;
+    status: "Pending" | "Completed" | "Cancelled";
+    redeemedAt: string;
+}
+
+export const promoCodesApi = {
+    list: async (params: { search?: string; status?: PromoCodeStatus; page: number; pageSize: number }): Promise<PaginatedResponse<PromoCode>> =>
+        (await api.get<PaginatedResponse<PromoCode>>(`${BASE}/promo-codes`, { params })).data,
+
+    get: async (id: string): Promise<PromoCode> =>
+        (await api.get<PromoCode>(`${BASE}/promo-codes/${id}`)).data,
+
+    create: async (dto: PromoCodeUpsert): Promise<PromoCode> =>
+        (await api.post<PromoCode>(`${BASE}/promo-codes`, dto)).data,
+
+    update: async (id: string, dto: PromoCodeUpsert): Promise<PromoCode> =>
+        (await api.put<PromoCode>(`${BASE}/promo-codes/${id}`, dto)).data,
+
+    setActive: async (id: string, active: boolean): Promise<void> => {
+        await api.post(`${BASE}/promo-codes/${id}/${active ? "activate" : "deactivate"}`, {});
+    },
+
+    redemptions: async (id: string, page: number, pageSize: number): Promise<PaginatedResponse<PromoCodeRedemption>> =>
+        (await api.get<PaginatedResponse<PromoCodeRedemption>>(`${BASE}/promo-codes/${id}/redemptions`, {
+            params: { page, pageSize },
+        })).data,
+};

@@ -161,6 +161,10 @@ export interface OrderDto {
     discountGroupType?: number;
     discountGroupValue?: number;
     discountGroupAmount?: number;
+    // Storefront promo snapshot, frozen at order creation (applied after the group discount).
+    promoCodeId?: string | null;
+    promoCode?: string | null;
+    promoDiscountAmount?: number;
     discountType?: OrderDiscountType | null;
     discountValue?: number;
     discountAppliedByName?: string | null;

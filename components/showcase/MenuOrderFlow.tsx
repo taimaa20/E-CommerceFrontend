@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import StoreImage from "@/components/showcase/StoreImage";
+import PromoCodeField from "@/components/showcase/checkout/PromoCodeField";
+import { useStorefrontQuote } from "@/components/showcase/checkout/useStorefrontQuote";
 import {
     Banknote,
     CalendarClock,
@@ -26,6 +28,8 @@ import {
 import { toast } from "sonner";
 import { useLocale } from "@/components/locale-provider";
 import { createPublicOrder } from "@/lib/api";
+import { customerAccountApi, getCustomerAccessToken, type CustomerAddress } from "@/lib/api-customer-account";
+import { signInHref } from "@/lib/customer-auth-prompt";
 import { onlineShoppingApi, type OnlinePaymentMethod } from "@/lib/api-online-shopping";
 import { formatCurrency } from "@/lib/currencies";
 import {
@@ -40,6 +44,7 @@ import {
     type StoreCheckoutDetails,
 } from "@/lib/store-checkout-details";
 import { useCartStore, type CartItem } from "@/store/cartStore";
+import { customerDisplayName, useCustomerSessionStore } from "@/store/customerSessionStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { activeStorefrontBranchId, useStorefrontStore } from "@/store/storefrontStore";
 import type { OrderDto } from "@/types/order";
@@ -146,7 +151,27 @@ export default function MenuOrderFlow() {
     const [orderError, setOrderError] = useState("");
     const [confirmedOrder, setConfirmedOrder] = useState<OrderDto | null>(null);
     const [confirmedToken, setConfirmedToken] = useState("");
+    const [savedAddresses, setSavedAddresses] = useState<CustomerAddress[]>([]);
     const isAr = locale === "ar";
+    const router = useRouter();
+    const customer = useCustomerSessionStore(state => state.customer);
+    const bootstrapSession = useCustomerSessionStore(state => state.bootstrap);
+    const signedIn = useCustomerSessionStore(state => state.status === "authenticated");
+
+    /**
+     * Ordering requires a signed-in customer (the API enforces it; this only routes the shopper).
+     * The cart lives on this device, so it is exactly as they left it when they come back.
+     */
+    const goToCheckout = async (): Promise<boolean> => {
+        await bootstrapSession();
+        if (useCustomerSessionStore.getState().status !== "authenticated") {
+            setOpen(false);
+            router.push(signInHref("checkout", CHECKOUT_PATH));
+            return false;
+        }
+        setStep("checkout");
+        return true;
+    };
 
     // Prefilled from what this shopper last entered on this device — a guest storefront has
     // no signed-in customer to read a saved address from. Runs once, after mount, so nothing
@@ -162,9 +187,32 @@ export default function MenuOrderFlow() {
     useEffect(() => {
         if (openedForRoute.current || pathname !== CHECKOUT_PATH || items.length === 0) return;
         openedForRoute.current = true;
-        setStep("checkout");
-        setOpen(true);
+        void goToCheckout().then(opened => { if (opened) setOpen(true); });
+        // Fires once per mount (openedForRoute), so the per-render goToCheckout identity is irrelevant.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname, items.length, setOpen]);
+
+    // Saved addresses are a shortcut only: if they cannot be loaded the shopper types one in.
+    useEffect(() => {
+        if (!signedIn || step !== "checkout") return;
+        let cancelled = false;
+        customerAccountApi.getAddresses()
+            .then(list => { if (!cancelled) setSavedAddresses(list); })
+            .catch(() => { if (!cancelled) setSavedAddresses([]); });
+        return () => { cancelled = true; };
+    }, [signedIn, step]);
+
+    const applySavedAddress = (address: CustomerAddress) => {
+        setFulfilment("Delivery");
+        setDetails(current => ({
+            ...current,
+            zoneId: address.deliveryZoneId ?? current.zoneId,
+            address: [address.area, address.apartment].filter(Boolean).join(", "),
+            buildingNo: address.building ?? "",
+            street: address.street,
+            floor: address.floor ?? "",
+        }));
+    };
     const setField = (field: keyof StoreCheckoutDetails, value: string) =>
         setDetails(current => ({ ...current, [field]: value }));
 
@@ -209,6 +257,18 @@ export default function MenuOrderFlow() {
     const deliveryFee = isDelivery ? selectedZone?.deliveryFee ?? 0 : 0;
     const estimatedTotal = subtotal + deliveryFee;
     const fmt = (amount: number) => settingsLoaded && currency ? formatCurrency(amount, currency) : "—";
+
+    // The server prices the cart (and any promo code) while the shopper is on the checkout
+    // step; the client-side figures above are only the fallback shown before that arrives.
+    const pricing = useStorefrontQuote({
+        enabled: open && step === "checkout" && signedIn,
+        branchId,
+        items,
+        orderType: isDelivery ? 2 : 1,
+        deliveryZoneId: isDelivery && details.zoneId ? details.zoneId : undefined,
+    });
+    const serverQuote = pricing.status === "idle" ? pricing.quote : null;
+    const summaryTotal = serverQuote?.total ?? estimatedTotal;
     const minimumScheduledFor = getMinimumScheduledFor();
 
     const resetAfterConfirmation = () => {
@@ -222,8 +282,8 @@ export default function MenuOrderFlow() {
     };
 
     const validateCheckout = () => {
-        if (!details.name.trim() || !details.phone.trim()) {
-            toast.error(isAr ? "الاسم ورقم الجوال مطلوبان" : "Name and mobile number are required");
+        if (!signedIn || !customer) {
+            void goToCheckout();
             return false;
         }
         if (fulfilment === "Delivery" && !deliveryAvailable) {
@@ -250,10 +310,6 @@ export default function MenuOrderFlow() {
                 : `Enter your ${methodLabel(selectedPayment!)} reference number`);
             return false;
         }
-        if (details.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(details.email.trim())) {
-            toast.error(isAr ? "أدخل بريداً إلكترونياً صحيحاً" : "Enter a valid email address");
-            return false;
-        }
         const scheduledTimestamp = new Date(scheduledFor).getTime();
         if (timing === "scheduled" &&
             (!Number.isFinite(scheduledTimestamp) ||
@@ -273,9 +329,10 @@ export default function MenuOrderFlow() {
         orderType: isDelivery ? 2 : 1,
         orderSource: "Online",
         clientOrderUUID,
-        customerName: details.name.trim(),
-        customerPhone: details.phone.trim(),
-        customerEmail: details.email.trim() || undefined,
+        // Informational only: the API replaces these with the signed-in account's own details.
+        customerName: customerDisplayName(customer),
+        customerPhone: customer?.mobileNumber ?? "",
+        customerEmail: customer?.email || undefined,
         // The method the shopper chose, not a payment: the order stays unpaid until one is
         // taken, whichever method this is.
         paymentMethod: selectedPayment?.code,
@@ -289,6 +346,9 @@ export default function MenuOrderFlow() {
         deliveryStreet: isDelivery ? details.street.trim() : undefined,
         deliveryFloor: isDelivery ? details.floor.trim() || undefined : undefined,
         deliveryNotes: notes.trim() || undefined,
+        // Sent only when the latest server quote accepted it; order creation re-validates it
+        // against the same cart and rejects the order if it no longer qualifies.
+        promoCode: pricing.promoApplied ? pricing.appliedCode ?? undefined : undefined,
         items: items.map((item) => ({
             productId: item.productId,
             productName: item.productName,
@@ -311,7 +371,7 @@ export default function MenuOrderFlow() {
 
     const placeOrder = async () => {
         if (submittingRef.current || items.length === 0 || unavailableItems.length > 0 || !orderContext ||
-            !branchId || !selectedPayment || !settingsLoaded || !validateCheckout()) return;
+            !branchId || !selectedPayment || !settingsLoaded || pricing.status === "loading" || !validateCheckout()) return;
         submittingRef.current = true;
         setSubmitting(true);
         setOrderError("");
@@ -323,7 +383,12 @@ export default function MenuOrderFlow() {
             if (pendingRequest.current?.fingerprint !== fingerprint)
                 pendingRequest.current = { fingerprint, token: generateUUID() };
             const clientOrderUUID = pendingRequest.current.token;
-            const order = await createPublicOrder(buildOrderPayload(clientOrderUUID), branchId);
+            const accessToken = await getCustomerAccessToken();
+            if (!accessToken) {
+                void goToCheckout();
+                return;
+            }
+            const order = await createPublicOrder(buildOrderPayload(clientOrderUUID), branchId, accessToken);
             setConfirmedToken(clientOrderUUID);
             setConfirmedOrder(order);
             setStep("confirmation");
@@ -331,7 +396,18 @@ export default function MenuOrderFlow() {
             clearCart();
             pendingRequest.current = null;
             rememberOnlineOrder({ orderId: order.id, orderNumber: order.orderNumber, token: clientOrderUUID });
-        } catch {
+        } catch (error) {
+            if ((error as { status?: number }).status === 401) {
+                void goToCheckout();
+                return;
+            }
+            // The code stopped qualifying between the preview and the order (limit reached,
+            // expired, cart changed). Show the server's reason and re-price the cart.
+            if ((error as { code?: string }).code === "PROMO_REJECTED") {
+                setOrderError((error as Error).message);
+                pricing.refresh();
+                return;
+            }
             setOrderError(isAr
                 ? "تعذر تأكيد الطلب. تحقق من المنتجات والكمية وبياناتك ثم أعد المحاولة. سلتك محفوظة."
                 : "Could not confirm your order. Check product availability, quantities and your details, then retry. Your cart is saved.");
@@ -594,22 +670,13 @@ export default function MenuOrderFlow() {
                                 <div className="divide-y p-5 sm:p-6">
                                     <section className="pb-6">
                                         <h3 className="sf-checkout-heading">{isAr ? "بيانات التواصل" : "Contact information"}</h3>
-                                        <div className="grid gap-3 sm:grid-cols-2">
-                                            <div>
-                                                <label htmlFor="sf-name" className="sf-label">{isAr ? "الاسم الكامل" : "Full name"}</label>
-                                                <input id="sf-name" autoComplete="name" maxLength={120} required value={details.name} onChange={(event) => setField("name", event.target.value)} className="sf-field" />
-                                            </div>
-                                            <div>
-                                                <label htmlFor="sf-phone" className="sf-label">{isAr ? "رقم الجوال" : "Mobile number"}</label>
-                                                <input id="sf-phone" type="tel" inputMode="tel" autoComplete="tel" maxLength={30} required value={details.phone} onChange={(event) => setField("phone", event.target.value)} dir="ltr" className="sf-field" />
-                                            </div>
-                                            <div className="sm:col-span-2">
-                                                <label htmlFor="sf-email" className="sf-label">
-                                                    {isAr ? "البريد الإلكتروني" : "Email"}{" "}
-                                                    <span className="font-normal">({isAr ? "اختياري" : "optional"})</span>
-                                                </label>
-                                                <input id="sf-email" autoComplete="email" maxLength={200} type="email" value={details.email} onChange={(event) => setField("email", event.target.value)} dir="ltr" className="sf-field" />
-                                            </div>
+                                        {/* The order is placed as the signed-in account; its details are the
+                                            ones the store will use to reach the customer. */}
+                                        <div className="rounded-[12px] border p-3.5">
+                                            <p className="font-medium">{customerDisplayName(customer)}</p>
+                                            <p className="sf-meta mt-0.5" dir="ltr">
+                                                {[customer?.mobileNumber, customer?.email].filter(Boolean).join(" · ")}
+                                            </p>
                                         </div>
                                     </section>
 
@@ -648,6 +715,27 @@ export default function MenuOrderFlow() {
 
                                         {isDelivery && (
                                             <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                                                {savedAddresses.length > 0 && (
+                                                    <div className="sm:col-span-2">
+                                                        <label htmlFor="sf-saved-address" className="sf-label">{isAr ? "عنوان محفوظ" : "Saved address"}</label>
+                                                        <select
+                                                            id="sf-saved-address"
+                                                            defaultValue=""
+                                                            onChange={(event) => {
+                                                                const chosen = savedAddresses.find(address => address.id === event.target.value);
+                                                                if (chosen) applySavedAddress(chosen);
+                                                            }}
+                                                            className="sf-field"
+                                                        >
+                                                            <option value="">{isAr ? "اختر عنواناً محفوظاً" : "Choose a saved address"}</option>
+                                                            {savedAddresses.map(address => (
+                                                                <option key={address.id} value={address.id}>
+                                                                    {address.addressName} · {address.street}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                )}
                                                 <div className="sm:col-span-2">
                                                     <label htmlFor="sf-zone" className="sf-label">{isAr ? "المنطقة" : "Area"}</label>
                                                     <select id="sf-zone" required value={deliveryZones.some(zone => zone.id === details.zoneId) ? details.zoneId : ""} onChange={(event) => setField("zoneId", event.target.value)} className="sf-field">
@@ -774,7 +862,27 @@ export default function MenuOrderFlow() {
                                             </li>
                                         ))}
                                     </ul>
-                                    <OrderTotals subtotal={subtotal} discount={discount} deliveryFee={deliveryFee} total={estimatedTotal} format={fmt} isAr={isAr} />
+                                    <PromoCodeField
+                                        appliedCode={pricing.appliedCode}
+                                        promo={pricing.promo}
+                                        status={pricing.status}
+                                        isAr={isAr}
+                                        disabled={submitting}
+                                        format={fmt}
+                                        onApply={pricing.apply}
+                                        onRemove={pricing.remove}
+                                    />
+                                    <OrderTotals
+                                        subtotal={serverQuote?.subtotal ?? subtotal}
+                                        discount={discount}
+                                        promoCode={pricing.promoApplied ? pricing.appliedCode : null}
+                                        promoDiscount={pricing.promoApplied ? serverQuote?.promoDiscountAmount ?? 0 : 0}
+                                        deliveryFee={serverQuote?.deliveryFee ?? deliveryFee}
+                                        total={summaryTotal}
+                                        isServerPriced={!!serverQuote}
+                                        format={fmt}
+                                        isAr={isAr}
+                                    />
                                     {selectedPayment && (
                                         <dl className="mt-3 flex justify-between gap-3 border-t pt-3 text-[13px]">
                                             <dt className="text-muted-foreground">{isAr ? "الدفع" : "Payment"}</dt>
@@ -834,6 +942,12 @@ export default function MenuOrderFlow() {
                                                 <dd className="sf-bidi max-w-[60%] break-words text-end font-medium">{confirmedOrder.deliveryAddress}</dd>
                                             </div>
                                         )}
+                                        {(confirmedOrder.promoDiscountAmount ?? 0) > 0 && (
+                                            <div className="flex justify-between gap-3 text-emerald-700">
+                                                <dt>{isAr ? "رمز الخصم" : "Promo"} <span dir="ltr">{confirmedOrder.promoCode}</span></dt>
+                                                <dd className="tabular-nums">-{fmt(confirmedOrder.promoDiscountAmount ?? 0)}</dd>
+                                            </div>
+                                        )}
                                         <div className="flex justify-between gap-3 border-t pt-2">
                                             <dt className="font-semibold">{isAr ? "الإجمالي" : "Total"}</dt>
                                             <dd className="sf-price">{fmt(confirmedOrder.totalAmount)}</dd>
@@ -880,7 +994,7 @@ export default function MenuOrderFlow() {
                                         <p className="sf-meta">{isAr ? "الإجمالي التقديري" : "Estimated total"}</p>
                                         <p className="sf-price leading-tight">{fmt(subtotal)}</p>
                                     </div>
-                                    <button type="button" disabled={!orderContext || unavailableItems.length > 0} onClick={() => setStep("checkout")} className="sf-btn sf-btn--primary shrink-0 px-6">
+                                    <button type="button" disabled={!orderContext || unavailableItems.length > 0} onClick={() => { void goToCheckout(); }} className="sf-btn sf-btn--primary shrink-0 px-6">
                                         {isAr ? "متابعة الدفع" : "Checkout"}
                                     </button>
                                 </div>
@@ -889,9 +1003,9 @@ export default function MenuOrderFlow() {
                                     <button type="button" disabled={submitting} onClick={() => setStep("cart")} className="sf-btn sf-btn--outline">
                                         {isAr ? "رجوع" : "Back"}
                                     </button>
-                                    <button type="button" disabled={submitting || !settingsLoaded || !selectedPayment || !branchId || !orderContext || unavailableItems.length > 0} onClick={placeOrder} className="sf-btn sf-btn--primary min-w-0 flex-1">
-                                        {submitting && <Loader2 className="size-4 animate-spin" />}
-                                        <span className="truncate">{isAr ? "تأكيد الطلب" : "Confirm order"} • {fmt(estimatedTotal)}</span>
+                                    <button type="button" disabled={submitting || !settingsLoaded || !selectedPayment || !branchId || !orderContext || unavailableItems.length > 0 || pricing.status === "loading"} onClick={placeOrder} className="sf-btn sf-btn--primary min-w-0 flex-1">
+                                        {(submitting || pricing.status === "loading") && <Loader2 className="size-4 animate-spin" />}
+                                        <span className="truncate">{isAr ? "تأكيد الطلب" : "Confirm order"} • {fmt(summaryTotal)}</span>
                                     </button>
                                 </div>
                             )}
@@ -953,15 +1067,21 @@ function ChoiceCard({
 function OrderTotals({
     subtotal,
     discount,
+    promoCode = null,
+    promoDiscount = 0,
     deliveryFee,
     total,
+    isServerPriced = false,
     format,
     isAr,
 }: {
     subtotal: number;
     discount: number;
+    promoCode?: string | null;
+    promoDiscount?: number;
     deliveryFee: number;
     total: number;
+    isServerPriced?: boolean;
     format: (amount: number) => string;
     isAr: boolean;
 }) {
@@ -977,6 +1097,12 @@ function OrderTotals({
                     <dd className="tabular-nums">-{format(discount)}</dd>
                 </div>
             )}
+            {promoDiscount > 0 && (
+                <div className="flex justify-between gap-3 text-emerald-600">
+                    <dt>{isAr ? "رمز الخصم" : "Promo"} <span dir="ltr">{promoCode}</span></dt>
+                    <dd className="tabular-nums">-{format(promoDiscount)}</dd>
+                </div>
+            )}
             {deliveryFee > 0 && (
                 <div className="flex justify-between gap-3">
                     <dt className="text-muted-foreground">{isAr ? "التوصيل" : "Delivery"}</dt>
@@ -984,7 +1110,9 @@ function OrderTotals({
                 </div>
             )}
             <div className="flex justify-between gap-3 border-t pt-2">
-                <dt className="font-semibold">{isAr ? "الإجمالي التقديري" : "Estimated total"}</dt>
+                <dt className="font-semibold">
+                    {isServerPriced ? (isAr ? "الإجمالي" : "Total") : (isAr ? "الإجمالي التقديري" : "Estimated total")}
+                </dt>
                 <dd className="sf-price">{format(total)}</dd>
             </div>
         </dl>

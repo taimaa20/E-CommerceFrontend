@@ -11,6 +11,7 @@ import { useLocale } from "@/components/locale-provider";
 import { createStoreText } from "@/lib/store-copy";
 import { resolveWhatsAppContact, whatsAppHref, WHATSAPP_PURPOSE } from "@/lib/whatsapp";
 import { useCartStore } from "@/store/cartStore";
+import { useCustomerSessionStore } from "@/store/customerSessionStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { storefrontBrandStyle, storefrontLogoUrl, useStorefrontStore } from "@/store/storefrontStore";
 import "@/app/shop/storefront.css";
@@ -35,8 +36,11 @@ export default function StoreShell({ children }: { children: React.ReactNode }) 
     const branding = useStorefrontStore(state => state.branding);
     const status = useStorefrontStore(state => state.status);
     const hasCartItems = useCartStore(state => state.items.length > 0);
+    const bootstrapSession = useCustomerSessionStore(state => state.bootstrap);
 
     useEffect(() => { void fetchSettings(); }, [fetchSettings]);
+    // Restores a signed-in customer from the httpOnly refresh cookie. Guests are unaffected.
+    useEffect(() => { void bootstrapSession(); }, [bootstrapSession]);
     useEffect(() => { void loadBranding(); }, [loadBranding]);
     useEffect(() => { void loadWhatsAppContacts(); }, [loadWhatsAppContacts]);
     useEffect(() => {

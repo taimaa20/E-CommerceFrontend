@@ -414,10 +414,16 @@ export async function uploadProductsExcel(file: File): Promise<any> {
     }
 }
 
-export async function createPublicOrder(orderData: unknown, branchId?: string): Promise<OrderDto> {
+/**
+ * `customerAccessToken` identifies the signed-in storefront customer who will own the order.
+ * The QR dine-in menu omits it; storefront (online) orders are rejected by the API without it.
+ */
+export async function createPublicOrder(orderData: unknown, branchId?: string, customerAccessToken?: string): Promise<OrderDto> {
+    const headers: Record<string, string> = withBranchOverride(getPublicHeaders(), branchId);
+    if (customerAccessToken) headers["Authorization"] = `Bearer ${customerAccessToken}`;
     const response = await fetch(`${API_BASE_URL}/orders/public`, {
         method: "POST",
-        headers: withBranchOverride(getPublicHeaders(), branchId),
+        headers,
         body: JSON.stringify(orderData),
     });
     if (!response.ok) {
@@ -428,9 +434,62 @@ export async function createPublicOrder(orderData: unknown, branchId?: string): 
         const message = typeof body === "string"
             ? body
             : body?.message || body?.title;
-        throw new Error(message || `Order request failed (${response.status})`);
+        throw Object.assign(new Error(message || `Order request failed (${response.status})`), {
+            status: response.status,
+            code: typeof body === "object" && body ? (body as { code?: string }).code : undefined,
+        });
     }
     return await response.json() as OrderDto;
+}
+
+export interface StorefrontQuoteLine {
+    productId: string;
+    quantity: number;
+    offerLineId?: number;
+    selectedOptionId?: string;
+    modifiers: { modifierId?: string; quantity: number }[];
+}
+
+export interface StorefrontQuoteRequest {
+    orderType: number;
+    deliveryZoneId?: string;
+    promoCode?: string;
+    items: StorefrontQuoteLine[];
+}
+
+export interface StorefrontQuotePromo {
+    code?: string | null;
+    isApplied: boolean;
+    reason?: string | null;
+    message: string;
+    discountAmount: number;
+    eligibleSubtotal: number;
+    minOrderAmount?: number | null;
+}
+
+/** Server-priced cart preview. Informational only: checkout re-prices everything itself. */
+export interface StorefrontQuote {
+    subtotal: number;
+    promoDiscountAmount: number;
+    subtotalAfterDiscount: number;
+    deliveryFee: number;
+    total: number;
+    promo?: StorefrontQuotePromo | null;
+}
+
+export async function quotePublicOrder(request: StorefrontQuoteRequest, branchId: string, customerAccessToken: string): Promise<StorefrontQuote> {
+    const headers: Record<string, string> = withBranchOverride(getPublicHeaders(), branchId);
+    headers["Authorization"] = `Bearer ${customerAccessToken}`;
+    const response = await fetch(`${API_BASE_URL}/orders/public/quote`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(request),
+    });
+    if (!response.ok) {
+        const body = await response.json().catch(() => null) as { message?: string } | null;
+        throw Object.assign(new Error(body?.message || `Quote request failed (${response.status})`), { status: response.status });
+    }
+    return await response.json() as StorefrontQuote;
 }
 
 export async function getTableActiveOrder(tableId: string): Promise<any[]> {
@@ -2543,6 +2602,8 @@ export interface PublicReceiptDto {
     serviceChargeAmount: number;
     taxAmount: number;
     voucherDiscountAmount: number;
+    promoCode?: string | null;
+    promoDiscountAmount?: number;
     deliveryFee?: number | null;
     deliveryZoneName?: string | null;
     totalAmount: number;

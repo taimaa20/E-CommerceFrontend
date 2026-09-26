@@ -261,6 +261,7 @@ set NEXT_PUBLIC_API_URL=/api/api-proxy
 set NEXT_PUBLIC_API_BASE_URL=
 set NEXT_PUBLIC_SIGNALR_URL=/signalr
 set PROXY_BUFFER_RESPONSES=true
+set BFF_TRUST_UPSTREAM_FORWARDED_FOR=true
 set TENANT_ID=$TargetTenantId
 set NEXT_PUBLIC_TENANT_ID=
 cd /d "%~dp0"
@@ -345,6 +346,8 @@ function startNodeServer() {
         NEXT_PUBLIC_API_URL: "/api/api-proxy",
         NEXT_PUBLIC_SIGNALR_URL: "/signalr",
         PROXY_BUFFER_RESPONSES: "true",
+        // Node listens on 127.0.0.1 behind ARR, which appends the client IP to X-Forwarded-For.
+        BFF_TRUST_UPSTREAM_FORWARDED_FOR: "true",
         TENANT_ID,
     };
 

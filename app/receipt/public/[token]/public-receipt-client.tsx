@@ -114,6 +114,7 @@ interface ReceiptImageStrings {
     tax: string;
     deliveryFee: string;
     voucher: string;
+    promo: string;
     total: string;
     paid: string;
     due: string;
@@ -183,6 +184,7 @@ function buildReceiptImageHtml(
             <div style="background:#F8FAFC;border-radius:12px;padding:16px;margin-top:16px;">
                 ${totalRow(s.subtotal, money(receipt.subtotal))}
                 ${receipt.discountAmount > 0 ? totalRow(s.discount, `-${money(receipt.discountAmount)}`) : ""}
+                ${(receipt.promoDiscountAmount ?? 0) > 0 ? totalRow(`${s.promo} ${receipt.promoCode ?? ""}`, `-${money(receipt.promoDiscountAmount ?? 0)}`) : ""}
                 ${receipt.serviceChargeAmount > 0 ? totalRow(s.service, money(receipt.serviceChargeAmount)) : ""}
                 ${receipt.taxAmount > 0 ? totalRow(s.tax, money(receipt.taxAmount)) : ""}
                 ${(receipt.deliveryFee ?? 0) > 0 ? totalRow(s.deliveryFee, money(receipt.deliveryFee ?? 0)) : ""}
@@ -255,6 +257,7 @@ export default function PublicReceiptClient({ token }: PublicReceiptClientProps)
                 tax: t("taxLabel"),
                 deliveryFee: locale === "ar" ? "رسوم التوصيل" : "Delivery fee",
                 voucher: t("voucherDiscountLabel"),
+                promo: locale === "ar" ? "رمز الخصم" : "Promo",
                 total: t("totalCol"),
                 paid: t("paidLabel"),
                 due: t("dueLabel"),
@@ -533,6 +536,12 @@ export default function PublicReceiptClient({ token }: PublicReceiptClientProps)
                             ) : null}
                             {receipt.voucherDiscountAmount > 0 ? (
                                 <ReceiptTotalRow label={t("voucherDiscountLabel")} value={`-${formatCurrency(receipt.voucherDiscountAmount, currency)}`} />
+                            ) : null}
+                            {(receipt.promoDiscountAmount ?? 0) > 0 ? (
+                                <ReceiptTotalRow
+                                    label={`${locale === "ar" ? "رمز الخصم" : "Promo"} ${receipt.promoCode ?? ""}`}
+                                    value={`-${formatCurrency(receipt.promoDiscountAmount ?? 0, currency)}`}
+                                />
                             ) : null}
                             <div className="mt-2.5 flex items-center justify-between border-t border-[#E2E8F0] pt-3 text-lg font-bold">
                                 <span>{t("totalCol")}</span>

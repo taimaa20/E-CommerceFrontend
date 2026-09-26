@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Heart, Menu, Package, ShoppingBag, Store } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
+import StoreAccountLink from "@/components/showcase/StoreAccountLink";
 import StoreImage from "@/components/showcase/StoreImage";
 import StoreSearchField from "@/components/showcase/StoreSearchField";
 import { useLocale } from "@/components/locale-provider";
@@ -108,6 +109,7 @@ export default function StoreHeader() {
                         <Link href="/shop/orders" className="sf-btn sf-btn--quiet sf-btn--sm hidden lg:inline-flex">
                             {text("trackOrder")}
                         </Link>
+                        <StoreAccountLink isAr={isAr} />
                         {/* Below `md` these two live in the tab bar instead, which is what
                             buys the phone header its single compact row. */}
                         <Link
@@ -203,6 +205,7 @@ export default function StoreHeader() {
                         ))}
                     </nav>
                     <div className="mt-auto space-y-3 border-t p-4">
+                        <StoreAccountLink isAr={isAr} variant="menu" />
                         {(context?.branches.length ?? 0) > 1 && (
                             <div>
                                 <span className="sf-label">{text("store")}</span>

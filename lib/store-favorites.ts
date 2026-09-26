@@ -1,18 +1,23 @@
+import { toast } from "sonner";
+import { customerAccountApi } from "@/lib/api-customer-account";
+import { useCustomerSessionStore } from "@/store/customerSessionStore";
+
 /**
  * The shopper's favourites, behind one small interface.
  *
- * The storefront has no login, so today a favourite is remembered on the device that made it.
- * That is an implementation detail of ONE object in this file: every component talks to
- * `favoritesRepository`, never to `localStorage`. When customer accounts arrive, an
- * `accountFavoritesRepository` implementing the same interface replaces the export (or is
- * selected beside it once a customer is signed in) and no card, page or header changes.
+ * A guest's favourites are remembered on the device that made them. A signed-in customer's live
+ * on their account, so the website and the mobile app see the same list. Every component talks
+ * to `favoritesRepository`, which routes to the right store for the current session; nothing
+ * outside this file knows where a favourite is kept.
+ *
+ * On sign-in the device list is merged into the account (the server skips duplicates and ids that
+ * no longer exist) and then cleared, so a favourite tapped as a guest is never lost.
  *
  * What is stored is deliberately only the product id. Price, discount, stock, name and imagery
  * are re-read from the storefront API every time the favourites page renders, so a favourite
- * can never show a price the store has stopped charging, and nothing about the catalogue can
- * go stale in a browser that was left open for a month.
+ * can never show a price the store has stopped charging.
  *
- * No customer detail of any kind is written here.
+ * No customer detail of any kind is written to the device.
  */
 
 /**
@@ -135,11 +140,104 @@ const localStorageFavoritesRepository: FavoritesRepository = {
     },
 };
 
+// ─── Account-backed favourites (signed-in customer) ─────────────────────────────────────────
+
+let accountActive = false;
+let accountIds: string[] = EMPTY;
+
+function setAccountIds(ids: string[]) {
+    accountIds = ids.length > 0 ? ids : EMPTY;
+    for (const listener of listeners) listener();
+}
+
+function reportSyncFailure() {
+    toast.error("Could not update your favourites · تعذر تحديث المفضلة");
+}
+
 /**
- * The favourites store the storefront uses. Swap this binding to move persistence somewhere
- * else — the interface above is the contract every component is written against.
+ * Optimistic: the heart changes at once, the server answer replaces the list, and a failure
+ * restores what was there before.
  */
-export const favoritesRepository: FavoritesRepository = localStorageFavoritesRepository;
+function mutateAccount(next: string[], call: () => Promise<{ productIds: string[] }>) {
+    const previous = accountIds;
+    setAccountIds(next);
+    call()
+        .then(result => { if (accountActive) setAccountIds(result.productIds); })
+        .catch(() => {
+            if (!accountActive) return;
+            setAccountIds(previous);
+            reportSyncFailure();
+        });
+}
+
+const accountFavoritesRepository: FavoritesRepository = {
+    list: () => accountIds,
+    has: (productId) => accountIds.includes(productId),
+    toggle: (productId) => {
+        const next = !accountFavoritesRepository.has(productId);
+        if (next) accountFavoritesRepository.add(productId);
+        else accountFavoritesRepository.remove(productId);
+        return next;
+    },
+    add: (productId) => {
+        if (!productId || accountIds.includes(productId)) return;
+        mutateAccount([productId, ...accountIds], () => customerAccountApi.addFavorite(productId));
+    },
+    remove: (productId) => {
+        if (!accountIds.includes(productId)) return;
+        mutateAccount(accountIds.filter(id => id !== productId), () => customerAccountApi.removeFavorite(productId));
+    },
+    clear: () => setAccountIds(EMPTY),
+    subscribe: (listener) => {
+        listeners.add(listener);
+        return () => { listeners.delete(listener); };
+    },
+};
+
+/** Loads the account list, folding in (then clearing) whatever this device saved as a guest. */
+async function activateAccountFavorites() {
+    accountActive = true;
+    const deviceIds = localStorageFavoritesRepository.list();
+    try {
+        const result = deviceIds.length > 0
+            ? await customerAccountApi.mergeFavorites(deviceIds)
+            : await customerAccountApi.getFavorites();
+        if (!accountActive) return;
+        if (deviceIds.length > 0) localStorageFavoritesRepository.clear();
+        setAccountIds(result.productIds);
+    } catch {
+        // The device list is left untouched, so nothing is lost; the next sign-in retries.
+        if (accountActive) setAccountIds(deviceIds);
+    }
+}
+
+function deactivateAccountFavorites() {
+    accountActive = false;
+    setAccountIds(EMPTY);
+}
+
+if (typeof window !== "undefined") {
+    useCustomerSessionStore.subscribe((state, previous) => {
+        if (state.status === previous.status) return;
+        if (state.status === "authenticated") void activateAccountFavorites();
+        else if (previous.status === "authenticated") deactivateAccountFavorites();
+    });
+}
+
+/**
+ * The favourites store the storefront uses: the account while a customer is signed in, the
+ * device otherwise. Components depend only on the interface above.
+ */
+export const favoritesRepository: FavoritesRepository = {
+    list: () => (accountActive ? accountFavoritesRepository : localStorageFavoritesRepository).list(),
+    has: (productId) => (accountActive ? accountFavoritesRepository : localStorageFavoritesRepository).has(productId),
+    toggle: (productId) => (accountActive ? accountFavoritesRepository : localStorageFavoritesRepository).toggle(productId),
+    add: (productId) => (accountActive ? accountFavoritesRepository : localStorageFavoritesRepository).add(productId),
+    remove: (productId) => (accountActive ? accountFavoritesRepository : localStorageFavoritesRepository).remove(productId),
+    clear: () => (accountActive ? accountFavoritesRepository : localStorageFavoritesRepository).clear(),
+    // Both stores notify through the same listener set, so one subscription covers a switch.
+    subscribe: (listener) => localStorageFavoritesRepository.subscribe(listener),
+};
 
 /** Server render has no device storage, so it always starts from an empty list. */
 export function favoritesServerSnapshot(): string[] {

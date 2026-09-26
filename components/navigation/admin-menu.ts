@@ -113,6 +113,7 @@ export function createAdminMenuItems({ ar, t }: AdminMenuArgs): AdminMenuItem[] 
                 { icon: BarChart3, label: ar ? "المستويات" : "Tiers", href: "/ntxadminpos/marketing/tiers" },
                 { icon: Gift, label: ar ? "الحملات" : "Campaigns", href: "/ntxadminpos/marketing/campaigns" },
                 { icon: Gift, label: ar ? "المكافآت" : "Rewards", href: "/ntxadminpos/marketing/rewards" },
+                { icon: BadgePercent, label: ar ? "رموز الخصم" : "Promo Codes", href: "/ntxadminpos/marketing/promo-codes" },
                 { icon: Users, label: ar ? "الشرائح" : "Segments", href: "/ntxadminpos/marketing/segments" },
                 { icon: Users, label: ar ? "دمج العملاء" : "Customer Merge", href: "/ntxadminpos/marketing/merge" },
             ],

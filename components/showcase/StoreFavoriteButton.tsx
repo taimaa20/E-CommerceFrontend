@@ -1,8 +1,11 @@
 "use client";
 
 import { Heart } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { showSoftSignInPrompt } from "@/lib/customer-auth-prompt";
 import { createStoreText } from "@/lib/store-copy";
 import { useStoreFavorites } from "@/lib/use-store-favorites";
+import { useCustomerSessionStore } from "@/store/customerSessionStore";
 
 /**
  * The heart. One component for every surface that offers to save a product, so the icon, the
@@ -26,6 +29,9 @@ export default function StoreFavoriteButton({
 }) {
     const text = createStoreText(isAr);
     const favorites = useStoreFavorites();
+    const sessionStatus = useCustomerSessionStore(state => state.status);
+    const router = useRouter();
+    const pathname = usePathname();
     const saved = favorites.isFavorite(productId);
     const label = saved ? text("removeFromFavorites") : text("addToFavorites");
 
@@ -33,7 +39,11 @@ export default function StoreFavoriteButton({
     const activate = (event: React.MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
-        favorites.toggle(productId);
+        const nowSaved = favorites.toggle(productId);
+        // A guest's favourite is kept on this device; suggest an account once, without blocking.
+        if (nowSaved && sessionStatus === "guest") {
+            showSoftSignInPrompt("favorite", { isAr, next: pathname, navigate: router.push });
+        }
     };
 
     if (variant === "icon") {
