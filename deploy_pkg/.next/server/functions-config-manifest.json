@@ -11,6 +11,7 @@
       ]
     },
     "/api/api-proxy/[...path]": {},
+    "/api/customer-session/[action]": {},
     "/uploads/[...path]": {}
   }
 }

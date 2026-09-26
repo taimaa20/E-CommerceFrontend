@@ -3,9 +3,11 @@ import {
     CustomerApiError,
     customerSessionApi,
     setCustomerTokenProvider,
+    type CustomerEmailCodeSent,
     type CustomerProfile,
     type CustomerSession,
     type CustomerSignUpInput,
+    type CustomerAuthResult,
 } from '@/lib/api-customer-account';
 
 /**
@@ -26,8 +28,12 @@ interface CustomerSessionState {
     accessToken: string | null;
     accessTokenExpiresAt: number;
     bootstrap: () => Promise<void>;
-    signIn: (identifier: string, password: string) => Promise<void>;
-    signUp: (input: CustomerSignUpInput) => Promise<void>;
+    /** Resolves to whether an emailed code is still needed; only a verified account gets a session. */
+    signIn: (identifier: string, password: string) => Promise<CustomerAuthResult>;
+    signUp: (input: CustomerSignUpInput) => Promise<CustomerAuthResult>;
+    /** Confirms an emailed code and, on success, starts the session it returns. */
+    verifyEmail: (email: string, code: string) => Promise<void>;
+    resendEmailCode: (email: string) => Promise<CustomerEmailCodeSent>;
     signOut: () => Promise<void>;
     setCustomer: (customer: CustomerProfile) => void;
 }
@@ -83,12 +89,24 @@ export const useCustomerSessionStore = create<CustomerSessionState>()((set, get)
         },
 
         signIn: async (identifier, password) => {
-            apply(await customerSessionApi.login(identifier.trim(), password));
+            const result = await customerSessionApi.login(identifier.trim(), password);
+            if (!result.requiresEmailVerification) apply(result.session);
+            return result;
         },
 
+        // Registration no longer implies a session: when the account must prove its email
+        // address first, the shopper stays a guest until verifyEmail succeeds.
         signUp: async (input) => {
-            apply(await customerSessionApi.register(input));
+            const result = await customerSessionApi.register(input);
+            if (!result.requiresEmailVerification) apply(result.session);
+            return result;
         },
+
+        verifyEmail: async (email, code) => {
+            apply(await customerSessionApi.verifyEmail(email, code));
+        },
+
+        resendEmailCode: (email) => customerSessionApi.resendEmailCode(email),
 
         signOut: async () => {
             // Local state is cleared even if revocation fails: the cookie is removed server-side

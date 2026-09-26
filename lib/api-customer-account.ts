@@ -32,11 +32,30 @@ export interface CustomerSession {
 export interface CustomerSignUpInput {
     firstName: string;
     lastName: string;
-    email: string;
+    /** E.164, e.g. "+9627XXXXXXXX" — see lib/store-phone. */
     mobileNumber: string;
+    email: string;
     password: string;
     preferredLanguage?: string;
 }
+
+/** What the backend says after a code has been sent. It never carries the code itself. */
+export interface CustomerEmailCodeSent {
+    maskedEmail: string;
+    codeExpiresAt: string;
+    resendAvailableAt: string;
+}
+
+/**
+ * Both sign-up and sign-in answer either with a session or with "this address still has to be
+ * confirmed". The two are distinguished by `requiresEmailVerification`, never by guessing from
+ * a missing token.
+ */
+export type CustomerAuthResult =
+    | { requiresEmailVerification: false; session: CustomerSession }
+    /** `email` is the account's own address, which the caller needs to confirm the code —
+        the shopper may have signed in with their mobile number instead. */
+    | { requiresEmailVerification: true; email: string; verification: CustomerEmailCodeSent };
 
 export interface CustomerProfileUpdate {
     firstName: string;
@@ -139,18 +158,43 @@ export interface CustomerFavorites {
     productIds: string[];
 }
 
-/** Carries the HTTP status so callers can tell "signed out" (401) from a transient failure. */
+/**
+ * Carries the HTTP status so callers can tell "signed out" (401) from a transient failure,
+ * and the backend's own `status` slug (e.g. "CODE_EXPIRED") so a screen can react to *why*
+ * a request failed without matching on message text.
+ */
 export class CustomerApiError extends Error {
-    constructor(message: string, readonly status: number) {
+    constructor(message: string, readonly status: number, readonly code?: string) {
         super(message);
         this.name = "CustomerApiError";
     }
 }
 
+interface ApiErrorBody {
+    /** The API's own shape (ExceptionMiddleware). */
+    error?: string;
+    /** Machine-readable reason, e.g. "EMAIL_NOT_VERIFIED". */
+    status?: string;
+    /** ASP.NET model-validation and other framework responses. */
+    message?: string;
+    title?: string;
+    errors?: Record<string, string[]>;
+}
+
 async function readError(response: Response): Promise<CustomerApiError> {
-    const body = await response.json().catch(() => null) as { message?: string; title?: string } | string | null;
-    const message = typeof body === "string" ? body : body?.message || body?.title;
-    return new CustomerApiError(message || `Request failed (${response.status})`, response.status);
+    const body = await response.json().catch(() => null) as ApiErrorBody | string | null;
+    if (typeof body === "string") return new CustomerApiError(body, response.status);
+
+    const message = body?.error || body?.message || body?.title || firstFieldError(body?.errors);
+    return new CustomerApiError(message || `Request failed (${response.status})`, response.status, body?.status);
+}
+
+/** Model-binding rejections arrive as a field map with no top-level message. */
+function firstFieldError(errors: Record<string, string[]> | undefined): string | undefined {
+    for (const messages of Object.values(errors ?? {})) {
+        if (messages?.length) return messages[0];
+    }
+    return undefined;
 }
 
 async function sessionCall<T>(action: string, body?: unknown): Promise<T> {
@@ -165,10 +209,34 @@ async function sessionCall<T>(action: string, body?: unknown): Promise<T> {
     return (response.status === 204 ? undefined : await response.json()) as T;
 }
 
+type AuthResponse = CustomerSession & { requiresEmailVerification?: boolean } & Partial<CustomerEmailCodeSent>;
+
+function toAuthResult(body: AuthResponse): CustomerAuthResult {
+    return body.requiresEmailVerification
+        ? {
+            requiresEmailVerification: true,
+            email: body.customer?.email ?? "",
+            verification: {
+                maskedEmail: body.maskedEmail ?? "",
+                codeExpiresAt: body.codeExpiresAt ?? "",
+                resendAvailableAt: body.resendAvailableAt ?? "",
+            },
+        }
+        : { requiresEmailVerification: false, session: body };
+}
+
 export const customerSessionApi = {
-    login: (identifier: string, password: string) =>
-        sessionCall<CustomerSession>("login", { identifier, password }),
-    register: (input: CustomerSignUpInput) => sessionCall<CustomerSession>("register", input),
+    login: async (identifier: string, password: string): Promise<CustomerAuthResult> =>
+        toAuthResult(await sessionCall<AuthResponse>("login", { identifier, password })),
+
+    register: async (input: CustomerSignUpInput): Promise<CustomerAuthResult> =>
+        toAuthResult(await sessionCall<AuthResponse>("register", input)),
+
+    verifyEmail: (email: string, code: string) =>
+        sessionCall<CustomerSession>("verify-email", { email, code }),
+    resendEmailCode: (email: string) =>
+        sessionCall<CustomerEmailCodeSent>("resend-email-code", { email }),
+
     refresh: () => sessionCall<CustomerSession>("refresh"),
     logout: () => sessionCall<void>("logout"),
 };

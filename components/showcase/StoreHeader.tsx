@@ -82,7 +82,10 @@ export default function StoreHeader() {
                         <Menu className="size-5" />
                     </button>
 
-                    <Link href="/shop" className="flex min-w-0 shrink-0 items-center gap-2.5 md:w-52">
+                    {/* Shrinkable on a phone so a long store name truncates instead of pushing
+                        the language and account controls off the edge. From `md` the fixed
+                        column returns and the name has room. */}
+                    <Link href="/shop" className="flex min-w-0 items-center gap-2.5 md:w-52 md:shrink-0">
                         {logoUrl
                             ? <StoreImage src={logoUrl} alt={settings.restaurantName} fit="contain" sizes="40px" className="size-9 shrink-0 rounded-[10px] border" />
                             : <span className="flex size-9 shrink-0 items-center justify-center rounded-[10px] border text-muted-foreground"><Package className="size-[18px]" /></span>}
@@ -98,7 +101,13 @@ export default function StoreHeader() {
                         <div className="w-full max-w-2xl">{searchField()}</div>
                     </div>
 
-                    <div className="ms-auto flex shrink-0 items-center gap-0.5 md:ms-0 md:w-52 md:justify-end">
+                    {/* A minimum width, not a fixed one. Fixed at 13rem the cluster overflowed
+                        its own box — with the track-order link and the account name shown from
+                        `lg` its contents need roughly 19rem — and the overflow ran backwards
+                        over the centred search field, hiding the language control underneath
+                        it. A minimum keeps the column symmetrical with the brand while letting
+                        the search give up the width the controls actually need. */}
+                    <div className="ms-auto flex shrink-0 items-center gap-0.5 md:ms-0 md:min-w-52 md:justify-end">
                         <button
                             type="button"
                             onClick={() => setLocale(isAr ? "en" : "ar", { reload: false })}

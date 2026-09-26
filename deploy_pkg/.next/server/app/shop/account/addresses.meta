@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/shop/layout,_N_T_/shop/account/layout,_N_T_/shop/account/addresses/layout,_N_T_/shop/account/addresses/page,_N_T_/shop/account/addresses"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/shop/account/addresses/__PAGE__",
+    "/shop/account/addresses",
+    "/shop/account",
+    "/shop",
+    "/_index",
+    "/_head"
+  ]
+}

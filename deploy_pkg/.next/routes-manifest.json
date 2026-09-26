@@ -432,6 +432,14 @@
       "namedRegex": "^/api/api\\-proxy/(?<nxtPpath>.+?)(?:/)?$"
     },
     {
+      "page": "/api/customer-session/[action]",
+      "regex": "^/api/customer\\-session/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPaction": "nxtPaction"
+      },
+      "namedRegex": "^/api/customer\\-session/(?<nxtPaction>[^/]+?)(?:/)?$"
+    },
+    {
       "page": "/customer-qr/table/[id]",
       "regex": "^/customer\\-qr/table/([^/]+?)(?:/)?$",
       "routeKeys": {
@@ -526,6 +534,14 @@
         "nxtPtoken": "nxtPtoken"
       },
       "namedRegex": "^/receipt/public/(?<nxtPtoken>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/shop/account/orders/[orderId]",
+      "regex": "^/shop/account/orders/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPorderId": "nxtPorderId"
+      },
+      "namedRegex": "^/shop/account/orders/(?<nxtPorderId>[^/]+?)(?:/)?$"
     },
     {
       "page": "/shop/category/[categoryId]",
@@ -870,6 +886,12 @@
       "namedRegex": "^/admin/marketing/merge(?:/)?$"
     },
     {
+      "page": "/admin/marketing/promo-codes",
+      "regex": "^/admin/marketing/promo\\-codes(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/marketing/promo\\-codes(?:/)?$"
+    },
+    {
       "page": "/admin/marketing/rewards",
       "regex": "^/admin/marketing/rewards(?:/)?$",
       "routeKeys": {},
@@ -1102,6 +1124,36 @@
       "regex": "^/shop(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/shop(?:/)?$"
+    },
+    {
+      "page": "/shop/account",
+      "regex": "^/shop/account(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/shop/account(?:/)?$"
+    },
+    {
+      "page": "/shop/account/addresses",
+      "regex": "^/shop/account/addresses(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/shop/account/addresses(?:/)?$"
+    },
+    {
+      "page": "/shop/account/orders",
+      "regex": "^/shop/account/orders(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/shop/account/orders(?:/)?$"
+    },
+    {
+      "page": "/shop/account/points",
+      "regex": "^/shop/account/points(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/shop/account/points(?:/)?$"
+    },
+    {
+      "page": "/shop/account/sign-in",
+      "regex": "^/shop/account/sign\\-in(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/shop/account/sign\\-in(?:/)?$"
     },
     {
       "page": "/shop/all",

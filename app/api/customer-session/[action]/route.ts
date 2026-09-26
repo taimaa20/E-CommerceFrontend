@@ -25,6 +25,8 @@ const TRUST_UPSTREAM_FORWARDED_FOR = isUpstreamForwardedForTrusted(process.env);
 const BACKEND_ROUTES = {
     login: "/api/mobile/auth/sign-in",
     register: "/api/mobile/auth/sign-up",
+    "verify-email": "/api/mobile/auth/verify-email",
+    "resend-email-code": "/api/mobile/auth/resend-email-code",
     refresh: "/api/mobile/auth/refresh-token",
     logout: "/api/mobile/auth/sign-out",
 } as const;
@@ -36,6 +38,8 @@ interface BackendSession {
     accessTokenExpiresAt: string;
     refreshTokenExpiresAt: string;
     customer: unknown;
+    /** Sign-up only: the account exists but is waiting on an emailed code, so no session yet. */
+    requiresEmailVerification?: boolean;
 }
 
 function isSessionAction(value: string): value is SessionAction {
@@ -96,8 +100,7 @@ function clearRefreshCookie(response: NextResponse) {
 }
 
 /** Everything but the refresh token, which never leaves the server side of this route. */
-async function sessionResponse(req: NextRequest, upstream: Response): Promise<NextResponse> {
-    const session = await upstream.json() as BackendSession;
+function sessionResponse(req: NextRequest, session: BackendSession): NextResponse {
     const response = NextResponse.json({
         accessToken: session.accessToken,
         accessTokenExpiresAt: session.accessTokenExpiresAt,
@@ -112,13 +115,35 @@ async function passThroughError(upstream: Response): Promise<NextResponse> {
     return NextResponse.json(body, { status: upstream.status });
 }
 
-async function handleCredentials(req: NextRequest, action: "login" | "register"): Promise<NextResponse> {
+/**
+ * Sign-in, sign-up and email verification all post credentials-shaped bodies and may come
+ * back with a session. Sign-up is the one that may instead come back saying the account is
+ * waiting on an emailed code — that answer carries no tokens, so no cookie is set and the
+ * verification details are handed to the page as-is.
+ */
+async function handleCredentials(req: NextRequest, action: "login" | "register" | "verify-email"): Promise<NextResponse> {
     const body = await req.json().catch(() => null);
     if (!body || typeof body !== "object") {
         return NextResponse.json({ message: "Invalid request." }, { status: 400 });
     }
+
     const upstream = await callBackend(req, action, body);
-    return upstream.ok ? sessionResponse(req, upstream) : passThroughError(upstream);
+    if (!upstream.ok) return passThroughError(upstream);
+
+    const session = await upstream.json() as BackendSession & Record<string, unknown>;
+    if (session.requiresEmailVerification) return NextResponse.json(session);
+    return sessionResponse(req, session);
+}
+
+/** No session involved — the backend answers with masked-email and timing details only. */
+async function handlePassThrough(req: NextRequest, action: SessionAction): Promise<NextResponse> {
+    const body = await req.json().catch(() => null);
+    if (!body || typeof body !== "object") {
+        return NextResponse.json({ message: "Invalid request." }, { status: 400 });
+    }
+
+    const upstream = await callBackend(req, action, body);
+    return NextResponse.json(await upstream.json().catch(() => ({})), { status: upstream.status });
 }
 
 async function handleRefresh(req: NextRequest): Promise<NextResponse> {
@@ -126,7 +151,7 @@ async function handleRefresh(req: NextRequest): Promise<NextResponse> {
     if (!refreshToken) return NextResponse.json({ message: "No session." }, { status: 401 });
 
     const upstream = await callBackend(req, "refresh", { refreshToken });
-    if (upstream.ok) return sessionResponse(req, upstream);
+    if (upstream.ok) return sessionResponse(req, await upstream.json() as BackendSession);
 
     // Only a definitive rejection ends the session. A rate limit or an outage leaves the cookie
     // in place so the shopper is not signed out by a transient failure.
@@ -156,7 +181,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ act
         switch (action) {
             case "login":
             case "register":
+            case "verify-email":
                 return await handleCredentials(req, action);
+            case "resend-email-code":
+                return await handlePassThrough(req, action);
             case "refresh":
                 return await handleRefresh(req);
             case "logout":

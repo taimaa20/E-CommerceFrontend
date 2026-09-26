@@ -1,10 +1,10 @@
 1:"$Sreact.fragment"
 2:I[91113,[],"ClientPageRoot"]
-3:I[79207,["1713","static/chunks/1713-2ef6abcd84b84df6.js","9094","static/chunks/9094-c733b4c51c602454.js","7811","static/chunks/7811-892dd351b38c6518.js","1869","static/chunks/1869-bc1fb5b675451d2a.js","4875","static/chunks/4875-6db85651a2491657.js","3549","static/chunks/3549-3fb7154b9dab2e08.js","3981","static/chunks/3981-dd4c36916bf3a02c.js","6679","static/chunks/6679-54b2f96fcc0e7303.js","6017","static/chunks/6017-e24de6082515e38e.js","842","static/chunks/842-f90c17fb56571241.js","7922","static/chunks/7922-64fff4a714062f03.js","2321","static/chunks/app/shop/orders/page-e610739ff7d51927.js"],"default"]
+3:I[79207,["1713","static/chunks/1713-2ef6abcd84b84df6.js","9094","static/chunks/9094-c733b4c51c602454.js","7811","static/chunks/7811-892dd351b38c6518.js","1869","static/chunks/1869-bc1fb5b675451d2a.js","4875","static/chunks/4875-6db85651a2491657.js","3549","static/chunks/3549-3fb7154b9dab2e08.js","3981","static/chunks/3981-dd4c36916bf3a02c.js","9249","static/chunks/9249-e729cdaf4b02637c.js","6017","static/chunks/6017-e24de6082515e38e.js","842","static/chunks/842-936b945ec052f12e.js","86","static/chunks/86-e1529df2fcec9b17.js","7543","static/chunks/7543-318a5aabc5ed2825.js","2321","static/chunks/app/shop/orders/page-22b8d62da9a3430c.js"],"default"]
 6:I[78937,[],"OutletBoundary"]
 7:"$Sreact.suspense"
-:HL["/_next/static/css/e93b2cb980791b4e.css","style"]
-0:{"buildId":"wqhO9c4hVxrUEgfYm4dI7","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/e93b2cb980791b4e.css","precedence":"next"}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+:HL["/_next/static/css/0c7db8d975042ec7.css","style"]
+0:{"buildId":"YYRxkPK62rvSGU3UNxJsB","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/0c7db8d975042ec7.css","precedence":"next"}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
 4:{}
 5:{}
 8:null

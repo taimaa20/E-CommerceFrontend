@@ -1,0 +1,7 @@
+1:"$Sreact.fragment"
+2:I[47795,[],"ClientSegmentRoot"]
+3:I[4241,["1713","static/chunks/1713-2ef6abcd84b84df6.js","9094","static/chunks/9094-c733b4c51c602454.js","7811","static/chunks/7811-892dd351b38c6518.js","1869","static/chunks/1869-bc1fb5b675451d2a.js","5929","static/chunks/5929-fe406099a38f45bd.js","4875","static/chunks/4875-6db85651a2491657.js","3549","static/chunks/3549-3fb7154b9dab2e08.js","3981","static/chunks/3981-dd4c36916bf3a02c.js","6050","static/chunks/6050-e6d224ca17a74783.js","5156","static/chunks/5156-71d4b310887a1bd3.js","5484","static/chunks/5484-07df6989c0fb167c.js","6017","static/chunks/6017-e24de6082515e38e.js","842","static/chunks/842-936b945ec052f12e.js","6805","static/chunks/6805-de29ada09ab0948e.js","7012","static/chunks/7012-967f40b2402d2d8e.js","8433","static/chunks/8433-75a81701019ed17c.js","9938","static/chunks/9938-5447a5a01d7fe77f.js","7581","static/chunks/app/admin/layout-957256e42eedf062.js"],"default"]
+4:I[68172,[],""]
+5:I[97210,[],""]
+0:{"buildId":"YYRxkPK62rvSGU3UNxJsB","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"Component":"$3","slots":{"children":["$","$L4",null,{"parallelRouterKey":"children","template":["$","$L5",null,{}]}]},"serverProvidedParams":{"params":{},"promises":["$@6"]}}]]}],"loading":null,"isPartial":false}
+6:{}

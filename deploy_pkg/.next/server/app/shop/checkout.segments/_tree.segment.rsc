@@ -1,6 +1,6 @@
-:HL["/_next/static/css/51b47ebba890346d.css","style"]
-:HL["/_next/static/css/e93b2cb980791b4e.css","style"]
+:HL["/_next/static/css/e9f8bfd20444cb27.css","style"]
+:HL["/_next/static/css/0c7db8d975042ec7.css","style"]
 :HL["/fonts/Biscuit Glitch.woff2","font",{"crossOrigin":"anonymous","type":"font/woff2"}]
 :HL["/fonts/NotoSansArabic-VariableFont_wdth,wght.woff2","font",{"crossOrigin":"anonymous","type":"font/woff2"}]
 :HL["https://fonts.googleapis.com/css2?family=Geist:wght@400;500;550;600;700&family=Geist+Mono:wght@400;500;600&display=swap","style"]
-0:{"buildId":"wqhO9c4hVxrUEgfYm4dI7","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"shop","paramType":null,"paramKey":"shop","hasRuntimePrefetch":false,"slots":{"children":{"name":"checkout","paramType":null,"paramKey":"checkout","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
+0:{"buildId":"YYRxkPK62rvSGU3UNxJsB","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"shop","paramType":null,"paramKey":"shop","hasRuntimePrefetch":false,"slots":{"children":{"name":"checkout","paramType":null,"paramKey":"checkout","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}

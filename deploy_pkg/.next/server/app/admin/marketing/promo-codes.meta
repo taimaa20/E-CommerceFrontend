@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/marketing/layout,_N_T_/admin/marketing/promo-codes/layout,_N_T_/admin/marketing/promo-codes/page,_N_T_/admin/marketing/promo-codes"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/marketing/promo-codes/__PAGE__",
+    "/admin/marketing/promo-codes",
+    "/admin/marketing",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}

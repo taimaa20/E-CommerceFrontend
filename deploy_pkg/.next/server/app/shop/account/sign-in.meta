@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/shop/layout,_N_T_/shop/account/layout,_N_T_/shop/account/sign-in/layout,_N_T_/shop/account/sign-in/page,_N_T_/shop/account/sign-in"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/shop/account/sign-in/__PAGE__",
+    "/shop/account/sign-in",
+    "/shop/account",
+    "/shop",
+    "/_index",
+    "/_head"
+  ]
+}

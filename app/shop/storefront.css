@@ -298,6 +298,93 @@
 
 textarea.sf-field { padding-block: 0.625rem; line-height: 1.5; }
 
+/* ── International phone field ──────────────────────────────────────── */
+
+/* Country and number read as one field. The group carries the border and the focus ring so
+   focus inside either control lights the whole control, exactly like a plain `.sf-field`. */
+.sf-phone-field {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-height: var(--sf-control);
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius-sm);
+    background: var(--sf-surface);
+    transition: border-color var(--sf-motion) var(--sf-ease), box-shadow var(--sf-motion) var(--sf-ease);
+}
+
+.sf-phone-field:focus-within {
+    border-color: var(--sf-brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sf-brand) 18%, transparent);
+}
+
+.sf-phone-field[data-invalid="true"] {
+    border-color: var(--sf-sale);
+}
+
+.sf-phone-field[data-invalid="true"]:focus-within {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sf-sale) 18%, transparent);
+}
+
+/* The visible country summary: flag, dial code, chevron. Logical properties throughout, so
+   the divider and radii land on the correct side in Arabic without a second rule. */
+.sf-phone-country {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex: 0 0 auto;
+    padding-inline: 0.75rem;
+    border-inline-end: 1px solid var(--sf-line);
+    color: var(--foreground);
+}
+
+.sf-phone-flag {
+    width: 22px;
+    height: 15px;
+    flex-shrink: 0;
+    border-radius: 2px;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--foreground) 12%, transparent);
+}
+
+/* The real control, laid over its own summary: the native picker (a wheel on a phone) with
+   the storefront's presentation on top of it. */
+.sf-phone-select {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.sf-phone-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-inline: 0.75rem;
+    border: 0;
+    border-radius: inherit;
+    background: transparent;
+    color: var(--foreground);
+    font-size: 0.9375rem;
+    outline: none;
+}
+
+.sf-phone-input::placeholder { color: color-mix(in srgb, var(--muted-foreground) 85%, transparent); }
+
+/* One-time code. Wide tracking and tabular figures so six digits are read as six digits. */
+.sf-otp-input {
+    padding-block: 0.5rem;
+    font-size: 1.375rem;
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
 .sf-label {
     display: block;
     margin-bottom: 0.375rem;

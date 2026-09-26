@@ -1,9 +1,9 @@
 1:"$Sreact.fragment"
 2:I[91113,[],"ClientPageRoot"]
-3:I[6331,["1713","static/chunks/1713-2ef6abcd84b84df6.js","7811","static/chunks/7811-892dd351b38c6518.js","1869","static/chunks/1869-bc1fb5b675451d2a.js","5929","static/chunks/5929-fe406099a38f45bd.js","3253","static/chunks/3253-c011357e4b56c1ab.js","6017","static/chunks/6017-e24de6082515e38e.js","842","static/chunks/842-f90c17fb56571241.js","7909","static/chunks/7909-fefe8dc85d2c2ddb.js","9133","static/chunks/9133-79c8bf0cfe65df2a.js","7245","static/chunks/app/admin/orders/retail-sales/page-04072e121b55b7ba.js"],"default"]
+3:I[6331,["1713","static/chunks/1713-2ef6abcd84b84df6.js","7811","static/chunks/7811-892dd351b38c6518.js","1869","static/chunks/1869-bc1fb5b675451d2a.js","5929","static/chunks/5929-fe406099a38f45bd.js","3253","static/chunks/3253-c011357e4b56c1ab.js","6017","static/chunks/6017-e24de6082515e38e.js","842","static/chunks/842-936b945ec052f12e.js","7909","static/chunks/7909-fefe8dc85d2c2ddb.js","5480","static/chunks/5480-c78a5c769b4ae9f4.js","7245","static/chunks/app/admin/orders/retail-sales/page-0f6143569ac06b80.js"],"default"]
 6:I[78937,[],"OutletBoundary"]
 7:"$Sreact.suspense"
-0:{"buildId":"wqhO9c4hVxrUEgfYm4dI7","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],null,["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"YYRxkPK62rvSGU3UNxJsB","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],null,["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
 4:{}
 5:{}
 8:null
