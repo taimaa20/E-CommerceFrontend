@@ -1,4 +1,9 @@
 import type { ProductDto } from "@/types/pos";
+import {
+    idempotencyHeaders,
+    type CustomerCancelOrderResult,
+    type OrderCancellationCapabilities,
+} from "@/lib/api-customer-account";
 
 const BASE = "/api/api-proxy";
 
@@ -67,6 +72,8 @@ export interface OnlineMenuOrderContext {
     productAvailability: OnlineProductAvailability[];
     deliveryZones: OnlineDeliveryZone[];
     paymentMethods: OnlinePaymentMethod[];
+    /** Whether a shopper may order without signing in (email required). On unless the store switches it off. */
+    guestCheckoutEnabled?: boolean;
 }
 
 export interface OnlineOrderResponse {
@@ -116,9 +123,14 @@ export interface OnlineOrderStatus {
 }
 
 export interface OnlineOrderItem {
+    /** Names the line in a cancellation. It opens nothing on its own — the guest token does. */
+    orderItemId: string;
     name: string;
     nameAr?: string;
+    /** Units still active. Zero once the line has been cancelled in full — the line is kept. */
     quantity: number;
+    /** Units cancelled off this line, so the order still reads as what was placed. */
+    cancelledQuantity: number;
     unitPrice: number;
     lineTotal: number;
 }
@@ -344,6 +356,12 @@ export interface OnlineStoreOrderLookupResult {
     order: OnlineOrderStatus;
 }
 
+/** A guest's own order, opened with its access token: tracking plus what it may cancel. */
+export interface OnlineGuestOrder {
+    order: OnlineOrderStatus;
+    cancellation: OrderCancellationCapabilities;
+}
+
 async function request<T>(path: string, init?: RequestInit, branchId?: string): Promise<T> {
     const headers = new Headers(init?.headers);
     headers.set("Content-Type", "application/json");
@@ -354,8 +372,14 @@ async function request<T>(path: string, init?: RequestInit, branchId?: string): 
             error?: string;
             message?: string;
             title?: string;
+            status?: string;
         } | null;
-        throw new Error(body?.error || body?.message || body?.title || `Request failed (${response.status})`);
+        // The HTTP status and the API's machine-readable `status` slug ride along, so a screen can
+        // react to why a request failed without parsing the message.
+        throw Object.assign(new Error(body?.error || body?.message || body?.title || `Request failed (${response.status})`), {
+            status: response.status,
+            code: body?.status,
+        });
     }
     return response.json() as Promise<T>;
 }
@@ -451,4 +475,39 @@ export const onlineShoppingApi = {
             `/online-shopping/orders/${orderId}/receipt?token=${encodeURIComponent(token)}`,
             { method: "POST" },
         ),
+
+    // Guest orders: the access token travels in the body only, never in a URL.
+    getGuestOrder: (orderId: string, accessToken: string) =>
+        request<OnlineGuestOrder>(`/online-shopping/guest-orders/${encodeURIComponent(orderId)}/access`, {
+            method: "POST",
+            body: JSON.stringify({ accessToken }),
+        }),
+
+    cancelGuestOrder: (orderId: string, accessToken: string, reason: string, idempotencyKey?: string) =>
+        request<CustomerCancelOrderResult>(`/online-shopping/guest-orders/${encodeURIComponent(orderId)}/cancel`, {
+            method: "POST",
+            headers: idempotencyHeaders(idempotencyKey),
+            body: JSON.stringify({ accessToken, reason }),
+        }),
+
+    /** Pass the explicit number of units; the active quantity cancels the whole line. */
+    cancelGuestOrderItem: (
+        orderId: string,
+        accessToken: string,
+        orderItemId: string,
+        reason: string,
+        quantity: number,
+        idempotencyKey?: string,
+    ) =>
+        request<CustomerCancelOrderResult>(`/online-shopping/guest-orders/${encodeURIComponent(orderId)}/items/cancel`, {
+            method: "POST",
+            headers: idempotencyHeaders(idempotencyKey),
+            body: JSON.stringify({ accessToken, orderItemId, reason, quantity }),
+        }),
+
+    createGuestReceiptAccess: (orderId: string, accessToken: string) =>
+        request<OnlineReceiptAccess>(`/online-shopping/guest-orders/${encodeURIComponent(orderId)}/receipt`, {
+            method: "POST",
+            body: JSON.stringify({ accessToken }),
+        }),
 };

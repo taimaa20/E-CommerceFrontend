@@ -12,6 +12,7 @@ import { createStoreText } from "@/lib/store-copy";
 import { WHATSAPP_PURPOSE } from "@/lib/whatsapp";
 import {
     buildOnlineOrderTrackingUrl,
+    buildRememberedOrderUrl,
     forgetOnlineOrder,
     getRememberedOnlineOrdersServerSnapshot,
     getRememberedOnlineOrdersSnapshot,
@@ -105,7 +106,7 @@ export default function StoreOrdersPage() {
                                         )}
                                     </div>
                                     <Link
-                                        href={buildOnlineOrderTrackingUrl(order.orderId, order.token)}
+                                        href={buildRememberedOrderUrl(order)}
                                         className="sf-btn sf-btn--outline sf-btn--sm"
                                     >
                                         {text("trackOrder")}

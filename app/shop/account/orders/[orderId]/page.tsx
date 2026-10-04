@@ -4,6 +4,8 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, RefreshCw } from "lucide-react";
 import AccountLayout from "@/components/showcase/account/AccountLayout";
+import OrderCancellationPanel from "@/components/showcase/account/OrderCancellationPanel";
+import { OrderLineCancelControl, OrderLineQuantity } from "@/components/showcase/account/OrderLineCancellation";
 import { CustomerApiError, customerAccountApi, type CustomerOrderDetails } from "@/lib/api-customer-account";
 import { formatCurrency } from "@/lib/currencies";
 import { customerOrderStatusLabel, customerOrderTypeLabel, formatCustomerOrderDate } from "@/lib/customer-order-labels";
@@ -76,6 +78,7 @@ function OrderDetails({ orderId, isAr }: { orderId: string; isAr: boolean }) {
     }
 
     const order = state.order;
+    const reload = () => setRevision(v => v + 1);
     return (
         <div>
             {back}
@@ -97,18 +100,39 @@ function OrderDetails({ orderId, isAr }: { orderId: string; isAr: boolean }) {
                 )}
 
                 <ul className="mt-4 divide-y border-y">
-                    {order.items.map(item => (
-                        <li key={item.id} className="flex items-start justify-between gap-3 py-3">
-                            <div className="min-w-0">
-                                <p className="font-medium">{isAr ? item.productNameAr || item.productName : item.productName}</p>
-                                {(item.selectedOptionName || item.selectedOptionNameAr) && (
-                                    <p className="sf-meta">{isAr ? item.selectedOptionNameAr || item.selectedOptionName : item.selectedOptionName}</p>
-                                )}
-                                <p className="sf-meta">{item.quantity} × {format(item.unitPrice)}</p>
-                            </div>
-                            <p className="shrink-0 font-medium">{format(item.lineTotal)}</p>
-                        </li>
-                    ))}
+                    {order.items.map(item => {
+                        const name = isAr ? item.productNameAr || item.productName : item.productName;
+                        return (
+                            <li key={item.id} className="flex items-start justify-between gap-3 py-3">
+                                <div className="min-w-0">
+                                    <p className={item.quantity > 0 ? "font-medium" : "font-medium text-muted-foreground line-through"}>{name}</p>
+                                    {(item.selectedOptionName || item.selectedOptionNameAr) && (
+                                        <p className="sf-meta">{isAr ? item.selectedOptionNameAr || item.selectedOptionName : item.selectedOptionName}</p>
+                                    )}
+                                    <OrderLineQuantity
+                                        quantity={item.quantity}
+                                        cancelledQuantity={item.cancelledQuantity}
+                                        unitPrice={format(item.unitPrice)}
+                                        isAr={isAr}
+                                    />
+                                    {item.quantity > 0 && order.cancellation && (
+                                        <OrderLineCancelControl
+                                            productName={name}
+                                            unitPrice={format(item.unitPrice)}
+                                            activeQuantity={item.quantity}
+                                            capabilities={order.cancellation}
+                                            pending={order.cancellation.pendingOrderItemIds?.includes(item.id) ?? false}
+                                            isAr={isAr}
+                                            onConfirm={(quantity, reason, key) =>
+                                                customerAccountApi.cancelOrderItem(order.orderId, item.id, reason, quantity, key)}
+                                            onSettled={reload}
+                                        />
+                                    )}
+                                </div>
+                                <p className="shrink-0 font-medium tabular-nums">{format(item.lineTotal)}</p>
+                            </li>
+                        );
+                    })}
                 </ul>
 
                 {/* The order's own snapshot: still correct if the promo is later edited or disabled. */}
@@ -135,6 +159,9 @@ function OrderDetails({ orderId, isAr }: { orderId: string; isAr: boolean }) {
                     <span>{t("Total", "الإجمالي")}</span>
                     <span className="sf-price">{format(order.totalAmount)}</span>
                 </div>
+
+                {/* Which controls appear is the backend's decision, carried on order.cancellation. */}
+                <OrderCancellationPanel order={order} isAr={isAr} onCancelled={reload} />
             </div>
         </div>
     );

@@ -87,6 +87,17 @@ export function getCancellationReasonLabel(
     return pick(REASON_FALLBACK[normalized], locale) ?? prettify(code);
 }
 
+/** Who raised a cancellation: a staff user, the signed-in account that owns the order, or a guest holding its access token. */
+export function getCancellationActorLabel(actorType: string | null | undefined, locale: Locale): string {
+    switch (actorType) {
+        case "Customer": return locale === "ar" ? "عميل (حساب)" : "Customer (account)";
+        case "Guest": return locale === "ar" ? "ضيف (بدون حساب)" : "Guest (no account)";
+        case "System": return locale === "ar" ? "النظام" : "System";
+        case "Staff": return locale === "ar" ? "موظف" : "Staff";
+        default: return actorType ? prettify(actorType) : "-";
+    }
+}
+
 export function getOrderTypeLabel(orderType: string | null | undefined, locale: Locale): string {
     switch (orderType) {
         case "Delivery": return locale === "ar" ? "توصيل" : "Delivery";

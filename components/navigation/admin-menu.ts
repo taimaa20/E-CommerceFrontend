@@ -81,6 +81,7 @@ export function createAdminMenuItems({ ar, t }: AdminMenuArgs): AdminMenuItem[] 
                     : []),
                 { icon: MapPinned, label: ar ? "مناطق التوصيل" : "Delivery Zones", href: "/ntxadminpos/delivery-zones" },
                 { icon: Ban, label: ar ? "الطلبات الملغاة" : "Cancelled Orders", href: "/ntxadminpos/cancel-log" },
+                { icon: ShieldCheck, label: ar ? "سياسة الإلغاء" : "Cancellation Policy", href: "/ntxadminpos/order-cancellation" },
                 { icon: ShieldAlert, label: ar ? "التصعيدات" : "Escalations", href: "/ntxadminpos/escalations" },
             ],
         },

@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import StoreImage from "@/components/showcase/StoreImage";
 import PromoCodeField from "@/components/showcase/checkout/PromoCodeField";
+import GuestContactSection, { type GuestContactField } from "@/components/showcase/checkout/GuestContactSection";
 import { useStorefrontQuote } from "@/components/showcase/checkout/useStorefrontQuote";
 import {
     Banknote,
@@ -33,9 +34,11 @@ import { signInHref } from "@/lib/customer-auth-prompt";
 import { onlineShoppingApi, type OnlinePaymentMethod } from "@/lib/api-online-shopping";
 import { formatCurrency } from "@/lib/currencies";
 import {
+    buildGuestOrderTrackingUrl,
     buildOnlineOrderTrackingUrl,
     rememberOnlineOrder,
 } from "@/lib/online-order-status";
+import { generateGuestAccessToken, isPlausibleEmail } from "@/lib/guest-order-access";
 import { generateUUID } from "@/lib/uuid";
 import {
     EMPTY_CHECKOUT_DETAILS,
@@ -147,24 +150,32 @@ export default function MenuOrderFlow() {
     const [paymentReference, setPaymentReference] = useState("");
     const [submitting, setSubmitting] = useState(false);
     const submittingRef = useRef(false);
-    const pendingRequest = useRef<{ fingerprint: string; token: string } | null>(null);
+    const pendingRequest = useRef<{ fingerprint: string; token: string; guestAccessToken?: string } | null>(null);
     const [orderError, setOrderError] = useState("");
     const [confirmedOrder, setConfirmedOrder] = useState<OrderDto | null>(null);
     const [confirmedToken, setConfirmedToken] = useState("");
+    const [confirmedGuestToken, setConfirmedGuestToken] = useState("");
+    const [guestEmailConfirmed, setGuestEmailConfirmed] = useState(false);
     const [savedAddresses, setSavedAddresses] = useState<CustomerAddress[]>([]);
     const isAr = locale === "ar";
     const router = useRouter();
     const customer = useCustomerSessionStore(state => state.customer);
     const bootstrapSession = useCustomerSessionStore(state => state.bootstrap);
     const signedIn = useCustomerSessionStore(state => state.status === "authenticated");
+    // Guest checkout is the store's switch, served with the context. A signed-in shopper always
+    // checks out with their account.
+    const isGuest = !signedIn && !!orderContext?.guestCheckoutEnabled;
+    const contactReady = signedIn || (isGuest && guestEmailConfirmed);
 
     /**
-     * Ordering requires a signed-in customer (the API enforces it; this only routes the shopper).
-     * The cart lives on this device, so it is exactly as they left it when they come back.
+     * Ordering requires a signed-in customer unless the store enabled guest checkout (the API
+     * enforces both; this only routes the shopper). The cart lives on this device, so it is
+     * exactly as they left it when they come back.
      */
     const goToCheckout = async (): Promise<boolean> => {
         await bootstrapSession();
-        if (useCustomerSessionStore.getState().status !== "authenticated") {
+        if (useCustomerSessionStore.getState().status !== "authenticated" &&
+            !useStorefrontStore.getState().context?.guestCheckoutEnabled) {
             setOpen(false);
             router.push(signInHref("checkout", CHECKOUT_PATH));
             return false;
@@ -185,12 +196,13 @@ export default function MenuOrderFlow() {
     const pathname = usePathname();
     const openedForRoute = useRef(false);
     useEffect(() => {
-        if (openedForRoute.current || pathname !== CHECKOUT_PATH || items.length === 0) return;
+        if (openedForRoute.current || pathname !== CHECKOUT_PATH || items.length === 0 || !orderContext) return;
         openedForRoute.current = true;
         void goToCheckout().then(opened => { if (opened) setOpen(true); });
         // Fires once per mount (openedForRoute), so the per-render goToCheckout identity is irrelevant.
+        // It waits for the context because that is where the guest-checkout switch comes from.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pathname, items.length, setOpen]);
+    }, [pathname, items.length, setOpen, orderContext]);
 
     // Saved addresses are a shortcut only: if they cannot be loaded the shopper types one in.
     useEffect(() => {
@@ -215,6 +227,7 @@ export default function MenuOrderFlow() {
     };
     const setField = (field: keyof StoreCheckoutDetails, value: string) =>
         setDetails(current => ({ ...current, [field]: value }));
+    const setGuestField = (field: GuestContactField, value: string) => setField(field, value);
 
     const subtotal = items.reduce((total, item) => total + itemTotal(item), 0);
     const discount = items.reduce((total, item) => total + itemDiscount(item), 0);
@@ -261,7 +274,8 @@ export default function MenuOrderFlow() {
     // The server prices the cart (and any promo code) while the shopper is on the checkout
     // step; the client-side figures above are only the fallback shown before that arrives.
     const pricing = useStorefrontQuote({
-        enabled: open && step === "checkout" && signedIn,
+        enabled: open && step === "checkout" && contactReady,
+        asGuest: isGuest,
         branchId,
         items,
         orderType: isDelivery ? 2 : 1,
@@ -274,6 +288,7 @@ export default function MenuOrderFlow() {
     const resetAfterConfirmation = () => {
         setConfirmedOrder(null);
         setConfirmedToken("");
+        setConfirmedGuestToken("");
         setPaymentReference("");
         setTiming("asap");
         setScheduledFor("");
@@ -281,8 +296,27 @@ export default function MenuOrderFlow() {
         setOpen(false);
     };
 
+    const validateGuestContact = () => {
+        if (!guestEmailConfirmed || !isPlausibleEmail(details.email)) {
+            setGuestEmailConfirmed(false);
+            toast.error(isAr ? "أدخل بريداً إلكترونياً صحيحاً" : "Enter a valid email address");
+            return false;
+        }
+        if (!details.name.trim()) {
+            toast.error(isAr ? "أدخل اسمك" : "Enter your name");
+            return false;
+        }
+        if (!details.phone) {
+            toast.error(isAr ? "أدخل رقم جوال صحيحاً" : "Enter a valid mobile number");
+            return false;
+        }
+        return true;
+    };
+
     const validateCheckout = () => {
-        if (!signedIn || !customer) {
+        if (isGuest) {
+            if (!validateGuestContact()) return false;
+        } else if (!signedIn || !customer) {
             void goToCheckout();
             return false;
         }
@@ -323,16 +357,19 @@ export default function MenuOrderFlow() {
         return true;
     };
 
-    const buildOrderPayload = (clientOrderUUID: string) => ({
+    const buildOrderPayload = (clientOrderUUID: string, guestAccessToken?: string) => ({
         tableId: null,
         tableName: isDelivery ? "ONLINE DELIVERY" : "ONLINE PICKUP",
         orderType: isDelivery ? 2 : 1,
         orderSource: "Online",
         clientOrderUUID,
-        // Informational only: the API replaces these with the signed-in account's own details.
-        customerName: customerDisplayName(customer),
-        customerPhone: customer?.mobileNumber ?? "",
-        customerEmail: customer?.email || undefined,
+        // A guest's own details; for a signed-in shopper they are informational only, because the
+        // API replaces them with the account's.
+        customerName: isGuest ? details.name.trim() : customerDisplayName(customer),
+        customerPhone: isGuest ? details.phone : customer?.mobileNumber ?? "",
+        customerEmail: isGuest ? details.email.trim() : customer?.email || undefined,
+        // Guest only: the secret that will own the order. The server keeps just its hash.
+        guestAccessToken,
         // The method the shopper chose, not a payment: the order stays unpaid until one is
         // taken, whichever method this is.
         paymentMethod: selectedPayment?.code,
@@ -380,24 +417,38 @@ export default function MenuOrderFlow() {
             // Minted inside the try so a failure to produce a secure token surfaces through
             // the normal error path and releases the button, rather than escaping placeOrder
             // and leaving submittingRef latched on with the spinner stuck.
+            // A retry re-sends the same client id and, for a guest, the same access token, so a
+            // lost response replays the order it already created instead of placing a second one.
             if (pendingRequest.current?.fingerprint !== fingerprint)
-                pendingRequest.current = { fingerprint, token: generateUUID() };
-            const clientOrderUUID = pendingRequest.current.token;
-            const accessToken = await getCustomerAccessToken();
-            if (!accessToken) {
-                void goToCheckout();
-                return;
+                pendingRequest.current = {
+                    fingerprint,
+                    token: generateUUID(),
+                    guestAccessToken: isGuest ? generateGuestAccessToken() : undefined,
+                };
+            const { token: clientOrderUUID, guestAccessToken } = pendingRequest.current;
+            let order: OrderDto;
+            if (guestAccessToken) {
+                order = await createPublicOrder(buildOrderPayload(clientOrderUUID, guestAccessToken), branchId);
+            } else {
+                const accessToken = await getCustomerAccessToken();
+                if (!accessToken) {
+                    void goToCheckout();
+                    return;
+                }
+                order = await createPublicOrder(buildOrderPayload(clientOrderUUID), branchId, accessToken);
             }
-            const order = await createPublicOrder(buildOrderPayload(clientOrderUUID), branchId, accessToken);
             setConfirmedToken(clientOrderUUID);
+            setConfirmedGuestToken(guestAccessToken ?? "");
             setConfirmedOrder(order);
             setStep("confirmation");
             rememberCheckoutDetails(details);
             clearCart();
             pendingRequest.current = null;
-            rememberOnlineOrder({ orderId: order.id, orderNumber: order.orderNumber, token: clientOrderUUID });
+            rememberOnlineOrder({ orderId: order.id, orderNumber: order.orderNumber, token: clientOrderUUID, guestAccessToken });
         } catch (error) {
             if ((error as { status?: number }).status === 401) {
+                // For a guest this means the store switched guest checkout off meanwhile.
+                if (isGuest) void loadContext();
                 void goToCheckout();
                 return;
             }
@@ -444,10 +495,9 @@ export default function MenuOrderFlow() {
         if (!confirmedOrder || !confirmedToken) return;
         const printWindow = print ? window.open("about:blank", "_blank") : null;
         try {
-            const access = await onlineShoppingApi.createReceiptAccess(
-                confirmedOrder.id,
-                confirmedToken,
-            );
+            const access = confirmedGuestToken
+                ? await onlineShoppingApi.createGuestReceiptAccess(confirmedOrder.id, confirmedGuestToken)
+                : await onlineShoppingApi.createReceiptAccess(confirmedOrder.id, confirmedToken);
             const url = print ? `${access.receiptUrl}?print=1` : access.receiptUrl;
             if (printWindow) printWindow.location.assign(url);
             else window.location.assign(url);
@@ -668,18 +718,33 @@ export default function MenuOrderFlow() {
                         {step === "checkout" && (
                             <fieldset disabled={submitting} className="min-w-0 md:grid md:grid-cols-[minmax(0,1fr)_20rem] md:items-start">
                                 <div className="divide-y p-5 sm:p-6">
-                                    <section className="pb-6">
+                                    <section className={contactReady ? "pb-6" : ""}>
                                         <h3 className="sf-checkout-heading">{isAr ? "بيانات التواصل" : "Contact information"}</h3>
-                                        {/* The order is placed as the signed-in account; its details are the
-                                            ones the store will use to reach the customer. */}
-                                        <div className="rounded-[12px] border p-3.5">
-                                            <p className="font-medium">{customerDisplayName(customer)}</p>
-                                            <p className="sf-meta mt-0.5" dir="ltr">
-                                                {[customer?.mobileNumber, customer?.email].filter(Boolean).join(" · ")}
-                                            </p>
-                                        </div>
+                                        {isGuest ? (
+                                            <GuestContactSection
+                                                email={details.email}
+                                                name={details.name}
+                                                phone={details.phone}
+                                                emailConfirmed={guestEmailConfirmed}
+                                                onFieldChange={setGuestField}
+                                                onContinue={() => setGuestEmailConfirmed(true)}
+                                                onEditEmail={() => setGuestEmailConfirmed(false)}
+                                                signInHref={signInHref("checkout", CHECKOUT_PATH)}
+                                                isAr={isAr}
+                                            />
+                                        ) : (
+                                            // The order is placed as the signed-in account; its details are the
+                                            // ones the store will use to reach the customer.
+                                            <div className="rounded-[12px] border p-3.5">
+                                                <p className="font-medium">{customerDisplayName(customer)}</p>
+                                                <p className="sf-meta mt-0.5" dir="ltr">
+                                                    {[customer?.mobileNumber, customer?.email].filter(Boolean).join(" · ")}
+                                                </p>
+                                            </div>
+                                        )}
                                     </section>
 
+                                    {contactReady && (<>
                                     <section className="py-6">
                                         <h3 className="sf-checkout-heading">{isAr ? "طريقة الاستلام" : "Fulfilment method"}</h3>
                                         {/* Both methods are always shown. Delivery states plainly when this store
@@ -846,6 +911,7 @@ export default function MenuOrderFlow() {
                                                 : (isAr ? "أي شيء يجب أن نعرفه عن طلبك" : "Anything we should know about your order")}
                                         />
                                     </section>
+                                    </>)}
                                 </div>
 
                                 <aside className="border-t bg-[var(--sf-surface-sunken)] p-5 sm:p-6 md:sticky md:top-0 md:h-full md:border-s md:border-t-0">
@@ -958,7 +1024,9 @@ export default function MenuOrderFlow() {
                                 <div className="mt-5 grid gap-2 sm:grid-cols-2">
                                     <button
                                         type="button"
-                                        onClick={() => window.location.assign(buildOnlineOrderTrackingUrl(confirmedOrder.id, confirmedToken))}
+                                        onClick={() => window.location.assign(confirmedGuestToken
+                                            ? buildGuestOrderTrackingUrl(confirmedOrder.id, confirmedGuestToken)
+                                            : buildOnlineOrderTrackingUrl(confirmedOrder.id, confirmedToken))}
                                         className="sf-btn sf-btn--primary sm:col-span-2"
                                     >
                                         <Route className="size-4" />
@@ -979,6 +1047,13 @@ export default function MenuOrderFlow() {
                                         ? "حفظنا هذا الطلب على هذا الجهاز حتى تتمكن من العودة إليه من صفحة «طلباتي»."
                                         : "We saved this order on this device so you can reopen it from “My orders”."}
                                 </p>
+                                {confirmedGuestToken && (
+                                    <p className="sf-meta mt-1 text-center">
+                                        {isAr
+                                            ? "طلبت كضيف: احفظ رابط التتبع، فهو الطريقة الوحيدة لفتح هذا الطلب من جهاز آخر."
+                                            : "You ordered as a guest: keep the tracking link — it is the only way to open this order on another device."}
+                                    </p>
+                                )}
                                 <button type="button" onClick={resetAfterConfirmation} className="sf-btn sf-btn--quiet mt-1 w-full">
                                     {isAr ? "متابعة التسوق" : "Continue shopping"}
                                 </button>
@@ -1003,7 +1078,7 @@ export default function MenuOrderFlow() {
                                     <button type="button" disabled={submitting} onClick={() => setStep("cart")} className="sf-btn sf-btn--outline">
                                         {isAr ? "رجوع" : "Back"}
                                     </button>
-                                    <button type="button" disabled={submitting || !settingsLoaded || !selectedPayment || !branchId || !orderContext || unavailableItems.length > 0 || pricing.status === "loading"} onClick={placeOrder} className="sf-btn sf-btn--primary min-w-0 flex-1">
+                                    <button type="button" disabled={submitting || !contactReady || !settingsLoaded || !selectedPayment || !branchId || !orderContext || unavailableItems.length > 0 || pricing.status === "loading"} onClick={placeOrder} className="sf-btn sf-btn--primary min-w-0 flex-1">
                                         {(submitting || pricing.status === "loading") && <Loader2 className="size-4 animate-spin" />}
                                         <span className="truncate">{isAr ? "تأكيد الطلب" : "Confirm order"} • {fmt(summaryTotal)}</span>
                                     </button>

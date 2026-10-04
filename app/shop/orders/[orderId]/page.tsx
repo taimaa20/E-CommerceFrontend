@@ -16,16 +16,21 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import StoreOrderTimeline from "@/components/showcase/StoreOrderTimeline";
+import GuestOrderCancellationPanel from "@/components/showcase/account/GuestOrderCancellationPanel";
+import { OrderLineCancelControl, OrderLineQuantity } from "@/components/showcase/account/OrderLineCancellation";
 import StoreShell from "@/components/showcase/StoreShell";
 import StoreWhatsAppLink from "@/components/showcase/StoreWhatsAppLink";
 import { useLocale } from "@/components/locale-provider";
 import { formatCurrency } from "@/lib/currencies";
 import { onlineShoppingApi, type OnlineOrderStatus } from "@/lib/api-online-shopping";
+import type { OrderCancellationCapabilities } from "@/lib/api-customer-account";
 import { createStoreText } from "@/lib/store-copy";
 import { WHATSAPP_PURPOSE } from "@/lib/whatsapp";
 import {
     getOnlineOrderStatus,
     ONLINE_ORDER_POLL_INTERVAL_MS,
+    readGuestAccessTokenFromFragment,
+    readRememberedOnlineOrders,
     rememberOnlineOrder,
 } from "@/lib/online-order-status";
 import { useSettingsStore } from "@/store/settingsStore";
@@ -54,10 +59,22 @@ function OnlineOrderTrackingContent() {
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [openingReceipt, setOpeningReceipt] = useState(false);
+    const [cancellation, setCancellation] = useState<OrderCancellationCapabilities | null>(null);
+    const [reloadKey, setReloadKey] = useState(0);
+    // A guest order opens only with its access token: from the link's fragment (never sent to a
+    // server) or from this device's order list. Undefined until read, which needs the browser.
+    const [guestToken, setGuestToken] = useState<string | null | undefined>(undefined);
     const token = searchParams.get("token") ?? "";
 
     useEffect(() => {
-        if (!params.orderId || !token) {
+        const fromLink = readGuestAccessTokenFromFragment(window.location.hash);
+        const remembered = readRememberedOnlineOrders().find(entry => entry.orderId === params.orderId);
+        setGuestToken(fromLink || remembered?.guestAccessToken || null);
+    }, [params.orderId]);
+
+    useEffect(() => {
+        if (guestToken === undefined) return;
+        if (!params.orderId || (!guestToken && !token)) {
             setError(isAr ? "رابط تتبع الطلب غير صالح." : "This tracking link is invalid.");
             setLoading(false);
             return;
@@ -69,17 +86,23 @@ function OnlineOrderTrackingContent() {
         const load = async (initial: boolean) => {
             if (!initial) setRefreshing(true);
             try {
-                const result = await onlineShoppingApi.getOrderStatus(params.orderId, token);
+                const guestOrder = guestToken
+                    ? await onlineShoppingApi.getGuestOrder(params.orderId, guestToken)
+                    : null;
+                const result = guestOrder?.order ?? await onlineShoppingApi.getOrderStatus(params.orderId, token);
                 if (cancelled) return;
                 setOrder(result);
+                setCancellation(guestOrder?.cancellation ?? null);
                 setError(null);
                 // A verified tracking link becomes a device-local entry so the same
                 // browser can reopen it later from "My orders".
                 if (initial) {
+                    const remembered = readRememberedOnlineOrders().find(entry => entry.orderId === result.orderId);
                     rememberOnlineOrder({
                         orderId: result.orderId,
                         orderNumber: result.orderNumber,
-                        token,
+                        token: guestToken ? remembered?.token ?? "" : token,
+                        guestAccessToken: guestToken ?? undefined,
                     });
                 }
                 if (!["Completed", "Cancelled", "Refunded", "PaymentFailed"].includes(result.customerStatus)) {
@@ -105,14 +128,16 @@ function OnlineOrderTrackingContent() {
             cancelled = true;
             if (timer) clearTimeout(timer);
         };
-    }, [params.orderId, token, isAr]);
+    }, [params.orderId, token, guestToken, reloadKey, isAr]);
 
     const openReceipt = async (print: boolean) => {
         if (!order) return;
         const printWindow = print ? window.open("about:blank", "_blank") : null;
         setOpeningReceipt(true);
         try {
-            const access = await onlineShoppingApi.createReceiptAccess(order.orderId, token);
+            const access = guestToken
+                ? await onlineShoppingApi.createGuestReceiptAccess(order.orderId, guestToken)
+                : await onlineShoppingApi.createReceiptAccess(order.orderId, token);
             const url = print ? `${access.receiptUrl}?print=1` : access.receiptUrl;
             if (printWindow) printWindow.location.assign(url);
             else window.location.assign(url);
@@ -222,6 +247,16 @@ function OnlineOrderTrackingContent() {
                         {isAr ? "تحديث تلقائي" : "Updates automatically"}
                     </span>
                 </div>
+
+                {guestToken && cancellation && (
+                    <GuestOrderCancellationPanel
+                        orderId={order.orderId}
+                        accessToken={guestToken}
+                        capabilities={cancellation}
+                        isAr={isAr}
+                        onCancelled={() => setReloadKey(key => key + 1)}
+                    />
+                )}
             </section>
 
             <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
@@ -273,17 +308,37 @@ function OnlineOrderTrackingContent() {
                 <section className="sf-panel">
                     <h2 className="mb-2 text-sm font-semibold">{isAr ? "ملخص المنتجات" : "Order summary"}</h2>
                     <ul className="sf-divide">
-                        {order.items.map((item, index) => (
-                            <li key={`${item.name}-${index}`} className="flex items-start justify-between gap-4 py-3">
-                                <div className="min-w-0">
-                                    <p className="sf-bidi break-words text-sm font-medium">{isAr ? item.nameAr || item.name : item.name}</p>
-                                    <p className="sf-meta mt-0.5 tabular-nums">
-                                        {item.quantity} × {formatCurrency(item.unitPrice, currency)}
-                                    </p>
-                                </div>
-                                <p className="shrink-0 text-sm font-medium tabular-nums">{formatCurrency(item.lineTotal, currency)}</p>
-                            </li>
-                        ))}
+                        {order.items.map(item => {
+                            const name = isAr ? item.nameAr || item.name : item.name;
+                            return (
+                                <li key={item.orderItemId} className="flex items-start justify-between gap-4 py-3">
+                                    <div className="min-w-0">
+                                        <p className={`sf-bidi break-words text-sm font-medium${item.quantity > 0 ? "" : " text-muted-foreground line-through"}`}>{name}</p>
+                                        <OrderLineQuantity
+                                            quantity={item.quantity}
+                                            cancelledQuantity={item.cancelledQuantity}
+                                            unitPrice={formatCurrency(item.unitPrice, currency)}
+                                            isAr={isAr}
+                                        />
+                                        {/* Only the guest token can cancel; a legacy tracking link only reads. */}
+                                        {item.quantity > 0 && guestToken && cancellation && (
+                                            <OrderLineCancelControl
+                                                productName={name}
+                                                unitPrice={formatCurrency(item.unitPrice, currency)}
+                                                activeQuantity={item.quantity}
+                                                capabilities={cancellation}
+                                                pending={cancellation.pendingOrderItemIds?.includes(item.orderItemId) ?? false}
+                                                isAr={isAr}
+                                                onConfirm={(quantity, reason, key) => onlineShoppingApi.cancelGuestOrderItem(
+                                                    order.orderId, guestToken, item.orderItemId, reason, quantity, key)}
+                                                onSettled={() => setReloadKey(value => value + 1)}
+                                            />
+                                        )}
+                                    </div>
+                                    <p className="shrink-0 text-sm font-medium tabular-nums">{formatCurrency(item.lineTotal, currency)}</p>
+                                </li>
+                            );
+                        })}
                     </ul>
                     <div className="mt-3 flex items-center justify-between border-t pt-3">
                         <span className="text-sm font-semibold">{isAr ? "الإجمالي" : "Total"}</span>

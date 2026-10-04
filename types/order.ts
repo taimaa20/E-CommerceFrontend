@@ -263,6 +263,10 @@ export interface CancellationInfoDto {
     decisionDate?: string | null;
     approvedOrRejectedBy?: string | null;
     previousStatus?: string | null;
+    /** Units the request asks to cancel off the line; null for a whole-order request. */
+    requestedQuantity?: number | null;
+    /** Staff, Customer (signed-in account) or Guest (order access token). */
+    requestedByType?: string;
 }
 
 export interface OrderListItemDto {
@@ -384,6 +388,8 @@ export interface OrderItemDto {
     productName: string;
     productNameAr?: string;
     quantity: number;
+    /** Units cancelled off this line; ordered = quantity + cancelledQuantity. */
+    cancelledQuantity?: number;
     unitPrice?: number;        // Per-item base price after order-level discount; excludes tax and service charge
     lineTotalAmount?: number;  // (unitPrice + modifiers) × quantity; 0 if complimentary
     unitPriceSnapshot?: number | null;

@@ -477,9 +477,9 @@ export interface StorefrontQuote {
     promo?: StorefrontQuotePromo | null;
 }
 
-export async function quotePublicOrder(request: StorefrontQuoteRequest, branchId: string, customerAccessToken: string): Promise<StorefrontQuote> {
+export async function quotePublicOrder(request: StorefrontQuoteRequest, branchId: string, customerAccessToken?: string): Promise<StorefrontQuote> {
     const headers: Record<string, string> = withBranchOverride(getPublicHeaders(), branchId);
-    headers["Authorization"] = `Bearer ${customerAccessToken}`;
+    if (customerAccessToken) headers["Authorization"] = `Bearer ${customerAccessToken}`;
     const response = await fetch(`${API_BASE_URL}/orders/public/quote`, {
         method: "POST",
         headers,
@@ -3521,6 +3521,18 @@ export interface CancelLogEntry {
     kitchenDecision?: "Cancel" | "Waste" | "Rejected" | null;
     kitchenDecisionByName?: string | null;
     kitchenDecisionAt?: string | null;
+    /** Staff, Customer (signed-in account), Guest (order access token) or System. */
+    actorType?: string;
+    /** Units this event cancelled — or asked to, while a request is pending. */
+    quantity?: number;
+    previousQuantity?: number | null;
+    /** Value this event removed: the order total for a whole order, the line's share for a line. */
+    amount?: number;
+    previousOrderStatus?: string | null;
+    newOrderStatus?: string | null;
+    /** Units the retail stock ledger has put back for this event; null while pending or untracked. */
+    stockReturnedQuantity?: number | null;
+    refundAmount?: number | null;
 }
 
 export interface CancelLogPage {
@@ -3632,6 +3644,10 @@ export interface KitchenCancelRequest {
     orderType: string;
     tableName: string;
     requestedBy: string;
+    /** Staff, Customer (signed-in account) or Guest (order access token). */
+    requestedByType?: string;
+    /** Units asked for on an item request — can be part of a line. Null for a whole order. */
+    requestedQuantity?: number | null;
     requestedAt: string;
     reason: string;
     note?: string | null;

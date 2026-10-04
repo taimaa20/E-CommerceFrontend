@@ -9,6 +9,8 @@ export interface OnlineOrderAccess {
     orderId: string;
     orderNumber: string;
     token: string;
+    /** Guest checkout only: the secret that owns the order. It is the only way to reopen it. */
+    guestAccessToken?: string;
     /** ISO timestamp, kept only so the device list can be sorted and dated. */
     savedAt?: string;
 }
@@ -219,11 +221,14 @@ function singleton(value: OnlineOrderAccess | null): OnlineOrderAccess[] {
 function parseAccess(source: string | unknown): OnlineOrderAccess | null {
     try {
         const parsed = (typeof source === "string" ? JSON.parse(source) : source) as Partial<OnlineOrderAccess> | null;
-        if (!parsed?.orderId || !parsed.orderNumber || !parsed.token) return null;
+        // A guest order opened from its link on another device has no client token, only its
+        // guest access token — either one is enough to reopen it.
+        if (!parsed?.orderId || !parsed.orderNumber || (!parsed.token && !parsed.guestAccessToken)) return null;
         return {
             orderId: parsed.orderId,
             orderNumber: parsed.orderNumber,
-            token: parsed.token,
+            token: typeof parsed.token === "string" ? parsed.token : "",
+            guestAccessToken: typeof parsed.guestAccessToken === "string" ? parsed.guestAccessToken : undefined,
             savedAt: typeof parsed.savedAt === "string" ? parsed.savedAt : undefined,
         };
     } catch {
@@ -233,4 +238,25 @@ function parseAccess(source: string | unknown): OnlineOrderAccess | null {
 
 export function buildOnlineOrderTrackingUrl(orderId: string, token: string): string {
     return `/shop/orders/${encodeURIComponent(orderId)}?token=${encodeURIComponent(token)}`;
+}
+
+const GUEST_ACCESS_FRAGMENT_KEY = "access";
+
+/**
+ * A guest order's link. The token rides in the fragment, which browsers never send to a server,
+ * so it stays out of access logs, proxies and referrers while the link can still be bookmarked.
+ */
+export function buildGuestOrderTrackingUrl(orderId: string, guestAccessToken: string): string {
+    return `/shop/orders/${encodeURIComponent(orderId)}#${GUEST_ACCESS_FRAGMENT_KEY}=${encodeURIComponent(guestAccessToken)}`;
+}
+
+export function readGuestAccessTokenFromFragment(hash: string): string | null {
+    return new URLSearchParams(hash.replace(/^#/, "")).get(GUEST_ACCESS_FRAGMENT_KEY);
+}
+
+/** Where a remembered order reopens: guest orders only through their access token. */
+export function buildRememberedOrderUrl(access: OnlineOrderAccess): string {
+    return access.guestAccessToken
+        ? buildGuestOrderTrackingUrl(access.orderId, access.guestAccessToken)
+        : buildOnlineOrderTrackingUrl(access.orderId, access.token);
 }

@@ -3,7 +3,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { useLocale } from "@/components/locale-provider";
 import { getCancelLog, CancelLogEntry } from "@/lib/api";
-import { getCancellationStatusLabel } from "@/lib/cancellation-i18n";
+import { getCancellationActorLabel, getCancellationStatusLabel } from "@/lib/cancellation-i18n";
+import { formatCurrency } from "@/lib/currencies";
 import { useAuthStore } from "@/store/authStore";
 import { UserRole } from "@/types/auth";
 import { isAdminRole } from "@/lib/authorization";
@@ -37,6 +38,7 @@ export default function CancelLogPage() {
     const { t, locale } = useLocale();
     const { user } = useAuthStore();
     const timeZone = useSettingsStore((state) => state.settings.timeZoneId);
+    const currency = useSettingsStore((state) => state.settings.currency);
     const isRtl = locale === "ar";
 
     const allowedRoles = [UserRole.Admin, UserRole.SuperAdmin, UserRole.Waiter, UserRole.Cashier];
@@ -186,6 +188,7 @@ export default function CancelLogPage() {
                                     <th className="px-4 py-3 text-start">{t("cancelLogColLevel")}</th>
                                     <th className="px-4 py-3 text-start">{t("cancelLogColReason")}</th>
                                     <th className="px-4 py-3 text-start">{locale === "ar" ? "الحالة" : "Status"}</th>
+                                    <th className="px-4 py-3 text-start">{locale === "ar" ? "الأثر" : "Impact"}</th>
                                     <th className="px-4 py-3 text-start">{t("cancelLogColOrderTime")}</th>
                                     <th className="px-4 py-3 text-start">{t("cancelLogColCancelledAt")}</th>
                                     <th className="px-4 py-3 text-start">{t("cancelLogColWaste")}</th>
@@ -207,7 +210,10 @@ export default function CancelLogPage() {
                                         <td className="px-4 py-3">
                                             <div className="flex flex-col gap-0.5">
                                                 <span className="font-medium text-slate-800">{row.cancelledByName}</span>
-                                                {roleBadge(row.cancelledByRole)}
+                                                {/* A storefront shopper is not a POS role: name what they are. */}
+                                                {row.actorType && row.actorType !== "Staff"
+                                                    ? <span className="w-fit rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-semibold text-violet-700">{getCancellationActorLabel(row.actorType, locale === "ar" ? "ar" : "en")}</span>
+                                                    : roleBadge(row.cancelledByRole)}
                                             </div>
                                         </td>
                                         <td className="px-4 py-3">
@@ -217,6 +223,13 @@ export default function CancelLogPage() {
                                                     {itemDisplayName && (
                                                         <span className="text-xs text-slate-500 whitespace-normal break-words" dir={itemDisplayDir} title={itemDisplayName}>
                                                             {itemDisplayName}
+                                                        </span>
+                                                    )}
+                                                    {row.quantity != null && row.quantity > 0 && (
+                                                        <span className="text-xs font-medium text-slate-700 tabular-nums">
+                                                            {locale === "ar"
+                                                                ? `${row.quantity}${row.previousQuantity != null ? ` من ${row.previousQuantity}` : ""}`
+                                                                : `${row.quantity}${row.previousQuantity != null ? ` of ${row.previousQuantity}` : ""}`}
                                                         </span>
                                                     )}
                                                 </div>
@@ -239,6 +252,20 @@ export default function CancelLogPage() {
                                                     <span className="text-[10px] text-slate-400 max-w-[140px] truncate" title={row.kitchenDecisionByName}>
                                                         {row.kitchenDecisionByName}
                                                     </span>
+                                                )}
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-3 text-xs text-slate-600">
+                                            <div className="flex flex-col gap-0.5 whitespace-nowrap tabular-nums">
+                                                {row.amount != null && <span className="font-medium text-slate-800">{currency ? formatCurrency(row.amount, currency) : row.amount}</span>}
+                                                {row.previousOrderStatus && row.newOrderStatus && (
+                                                    <span>{getCancellationStatusLabel(row.previousOrderStatus, locale === "ar" ? "ar" : "en")} → {getCancellationStatusLabel(row.newOrderStatus, locale === "ar" ? "ar" : "en")}</span>
+                                                )}
+                                                {row.stockReturnedQuantity != null && (
+                                                    <span className="text-emerald-700">{locale === "ar" ? `أعيد للمخزون: ${row.stockReturnedQuantity}` : `Stock returned: ${row.stockReturnedQuantity}`}</span>
+                                                )}
+                                                {row.refundAmount != null && (
+                                                    <span className="text-amber-700">{locale === "ar" ? "استرداد" : "Refund"}: {currency ? formatCurrency(row.refundAmount, currency) : row.refundAmount}</span>
                                                 )}
                                             </div>
                                         </td>

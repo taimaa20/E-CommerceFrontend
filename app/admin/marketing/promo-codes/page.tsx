@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { History, Pencil, Plus, RefreshCw, Search } from "lucide-react";
+import { History, Pencil, Plus, RefreshCw, Search, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,9 +11,12 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useLocale } from "@/components/locale-provider";
+import { isAdminRole } from "@/lib/authorization";
 import { formatCurrency } from "@/lib/currencies";
 import { PromoDiscountType, promoCodesApi, type PromoCode, type PromoCodeStatus } from "@/lib/api-marketing";
+import { useAuthStore } from "@/store/authStore";
 import { useSettingsStore } from "@/store/settingsStore";
+import PromoDeleteDialog from "./promo-delete-dialog";
 import PromoEditorDialog from "./promo-editor-dialog";
 import PromoUsageDialog from "./promo-usage-dialog";
 import { AUDIENCE_LABELS, STATUS_LABELS } from "./promo-form";
@@ -33,6 +36,8 @@ export default function PromoCodesPage() {
     const { isRtl } = useLocale();
     const t = (en: string, ar: string) => (isRtl ? ar : en);
     const currency = useSettingsStore(state => state.settings.currency);
+    // Deleting is Admin/SuperAdmin only; the backend enforces the same on the endpoint.
+    const canDelete = isAdminRole(useAuthStore(state => state.user?.role));
     const money = (amount: number) => (currency ? formatCurrency(amount, currency) : amount.toFixed(2));
 
     const [page, setPage] = useState(1);
@@ -43,6 +48,7 @@ export default function PromoCodesPage() {
     const [result, setResult] = useState<{ key: string; promos: PromoCode[]; total: number; failed: boolean } | null>(null);
     const [editor, setEditor] = useState<{ promo: PromoCode | null } | null>(null);
     const [usageFor, setUsageFor] = useState<PromoCode | null>(null);
+    const [deleteFor, setDeleteFor] = useState<PromoCode | null>(null);
     const requestKey = JSON.stringify({ appliedSearch, status, page, reloadKey });
 
     useEffect(() => {
@@ -181,6 +187,11 @@ export default function PromoCodesPage() {
                                                 <Switch checked={p.isActive} onCheckedChange={() => toggleActive(p)} aria-label={t("Active", "نشط")} />
                                                 <Button variant="ghost" size="icon" onClick={() => setUsageFor(p)} aria-label={t("Usage history", "سجل الاستخدام")}><History className="h-4 w-4" /></Button>
                                                 <Button variant="ghost" size="icon" onClick={() => setEditor({ promo: p })} aria-label={t("Edit", "تعديل")}><Pencil className="h-4 w-4" /></Button>
+                                                {canDelete && (
+                                                    <Button variant="ghost" size="icon" onClick={() => setDeleteFor(p)} aria-label={t("Delete", "حذف")}>
+                                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                                    </Button>
+                                                )}
                                             </div>
                                         </TableCell>
                                     </TableRow>
@@ -209,6 +220,14 @@ export default function PromoCodesPage() {
                 />
             )}
             {usageFor && <PromoUsageDialog promo={usageFor} t={t} money={money} onClose={() => setUsageFor(null)} />}
+            {deleteFor && (
+                <PromoDeleteDialog
+                    promo={deleteFor}
+                    t={t}
+                    onClose={() => setDeleteFor(null)}
+                    onDeleted={() => { setDeleteFor(null); reload(); }}
+                />
+            )}
         </div>
     );
 }

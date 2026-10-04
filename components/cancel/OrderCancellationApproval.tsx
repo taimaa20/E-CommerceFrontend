@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { CancellationApprovalDecision, decideCancellationApprovalRequest, type CancelReason } from "@/lib/api";
 import { useLocale } from "@/components/locale-provider";
-import { getCancellationReasonLabel, getOrderTypeLabel } from "@/lib/cancellation-i18n";
+import { getCancellationActorLabel, getCancellationReasonLabel, getOrderTypeLabel } from "@/lib/cancellation-i18n";
 import type { OrderDto } from "@/types/order";
 import { markConfirmedCancelledOrderSnapshot } from "@/lib/offline/terminal-orders";
 
@@ -41,6 +41,13 @@ export default function OrderCancellationApproval({ order, currency, reasons, on
     const isPaid = order.isPaid === true || order.paymentStatus === "Paid";
     const fmt = (n: number) =>
         new Intl.NumberFormat("en-US", { style: "currency", currency, minimumFractionDigits: 2 }).format(n);
+    // A part-paid order carries money too: say how much, so the decision is made knowing it.
+    const paidSoFar = order.paidAmount ?? 0;
+    const paymentLabel = isPaid
+        ? text.paid
+        : paidSoFar > 0
+            ? `${text.partiallyPaid} (${fmt(paidSoFar)})`
+            : text.unpaid;
 
     const decide = async (decision: Decision) => {
         setBusy(true);
@@ -68,10 +75,16 @@ export default function OrderCancellationApproval({ order, currency, reasons, on
 
             <div className="grid grid-cols-2 gap-2 text-sm">
                 <Field label={text.orderType} value={getOrderTypeLabel(order.orderType, locale)} />
-                <Field label={text.cashier} value={info.requestedBy || order.cashierName || "-"} />
+                <Field
+                    label={text.cashier}
+                    value={`${info.requestedBy || order.cashierName || "-"}${info.requestedByType ? ` · ${getCancellationActorLabel(info.requestedByType, locale)}` : ""}`}
+                />
                 <Field label={text.amount} value={fmt(order.totalAmount ?? 0)} />
-                <Field label={text.paymentStatus} value={isPaid ? text.paid : text.unpaid} />
+                <Field label={text.paymentStatus} value={paymentLabel} />
                 {isItemCancellation && <Field label={text.item} value={info.itemName || "-"} />}
+                {isItemCancellation && info.requestedQuantity != null && (
+                    <Field label={text.requestedQuantity} value={String(info.requestedQuantity)} />
+                )}
                 <Field label={text.reason} value={getCancellationReasonLabel(info.cancellationReason, locale, reasons)} />
                 <Field label={text.requestDate} value={formatDate(info.requestDate)} />
             </div>
@@ -154,8 +167,10 @@ const EN = {
     amount: "Order Amount",
     paymentStatus: "Payment Status",
     item: "Item",
+    requestedQuantity: "Quantity to Cancel",
     paid: "Paid",
     unpaid: "Unpaid",
+    partiallyPaid: "Partially paid",
     reason: "Cancellation Reason",
     requestDate: "Request Date",
     requestNotes: "Request Notes",
@@ -178,8 +193,10 @@ const AR: typeof EN = {
     amount: "قيمة الطلب",
     paymentStatus: "حالة الدفع",
     item: "الصنف",
+    requestedQuantity: "الكمية المطلوب إلغاؤها",
     paid: "مدفوع",
     unpaid: "غير مدفوع",
+    partiallyPaid: "مدفوع جزئياً",
     reason: "سبب الإلغاء",
     requestDate: "تاريخ الطلب",
     requestNotes: "ملاحظات الطلب",

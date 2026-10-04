@@ -33,6 +33,7 @@ import {
     subscribeSnapshots,
 } from "@/lib/offline/db";
 import { formatOrderSequence } from "@/lib/order-sequence";
+import { getCancellationActorLabel } from "@/lib/cancellation-i18n";
 import { toast } from "sonner";
 import { useSettingsStore } from "@/store/settingsStore";
 import {
@@ -798,10 +799,13 @@ export default function KitchenPage() {
                                         <div className="flex items-start justify-between gap-3">
                                             <div>
                                                 <p className="font-bold text-slate-900">
-                                                    {formatOrderSequence(request) ?? `#${request.orderNumber.substring(8)}`} · {request.isFullOrder ? (locale === "ar" ? "طلب كامل" : "Full order") : request.itemName}
+                                                    {formatOrderSequence(request) ?? `#${request.orderNumber.substring(8)}`} · {request.isFullOrder
+                                                        ? (locale === "ar" ? "طلب كامل" : "Full order")
+                                                        : `${request.requestedQuantity != null ? `${request.requestedQuantity}× ` : ""}${request.itemName ?? ""}`}
                                                 </p>
                                                 <p className="mt-1 text-sm text-slate-600">
                                                     {request.tableName || request.orderType} · {request.requestedBy}
+                                                    {request.requestedByType && request.requestedByType !== "Staff" && ` (${getCancellationActorLabel(request.requestedByType, locale === "ar" ? "ar" : "en")})`}
                                                 </p>
                                                 <p className="mt-1 text-xs text-slate-500">
                                                     {affectedNames}

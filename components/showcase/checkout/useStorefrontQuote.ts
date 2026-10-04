@@ -24,6 +24,8 @@ export const normalizePromoCode = (code: string) => code.trim().toUpperCase();
 
 interface Args {
     enabled: boolean;
+    /** Guest checkout prices the cart anonymously; everyone else is quoted as their account. */
+    asGuest?: boolean;
     branchId?: string | null;
     items: CartItem[];
     orderType: number;
@@ -42,14 +44,14 @@ interface QuoteResult {
  * each change, so a code that stops qualifying (the cart dropped below its minimum) is shown
  * as no longer applied instead of lingering. Checkout re-validates independently regardless.
  */
-export function useStorefrontQuote({ enabled, branchId, items, orderType, deliveryZoneId }: Args) {
+export function useStorefrontQuote({ enabled, asGuest = false, branchId, items, orderType, deliveryZoneId }: Args) {
     const [appliedCode, setAppliedCode] = useState<string | null>(null);
     const [refreshKey, setRefreshKey] = useState(0);
     const [result, setResult] = useState<QuoteResult | null>(null);
     const lines = toQuoteLines(items);
     const active = enabled && !!branchId && lines.length > 0;
     // Everything that changes the price. A result is only trusted for the key it was fetched for.
-    const requestKey = JSON.stringify({ branchId, lines, orderType, deliveryZoneId, appliedCode, refreshKey });
+    const requestKey = JSON.stringify({ branchId, lines, orderType, deliveryZoneId, appliedCode, refreshKey, asGuest });
 
     useEffect(() => {
         if (!active || !branchId) return;
@@ -58,8 +60,8 @@ export function useStorefrontQuote({ enabled, branchId, items, orderType, delive
         const timer = setTimeout(() => {
             void (async () => {
                 try {
-                    const token = await getCustomerAccessToken();
-                    if (!token) throw new Error("Signed out");
+                    const token = asGuest ? undefined : await getCustomerAccessToken() ?? undefined;
+                    if (!asGuest && !token) throw new Error("Signed out");
                     const quote = await quotePublicOrder({
                         orderType,
                         deliveryZoneId,

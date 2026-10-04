@@ -1345,7 +1345,16 @@ export default function OrdersPage() {
                                     return (
                                         <div key={`${item.id ?? "item"}-${i}`} className="p-3">
                                             <div className="flex items-start justify-between gap-2 font-medium">
-                                                <span>{item.quantity}× {item.productName}</span>
+                                                <span className={item.quantity > 0 ? undefined : "text-slate-400 line-through"}>
+                                                    {item.quantity}× {item.productName}
+                                                    {(item.cancelledQuantity ?? 0) > 0 && (
+                                                        <span className="ms-2 rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-semibold text-rose-700 no-underline">
+                                                            {locale === "ar"
+                                                                ? `المطلوب ${item.quantity + (item.cancelledQuantity ?? 0)} · الملغى ${item.cancelledQuantity}`
+                                                                : `Ordered ${item.quantity + (item.cancelledQuantity ?? 0)} · Cancelled ${item.cancelledQuantity}`}
+                                                        </span>
+                                                    )}
+                                                </span>
                                                 {REFUND_AND_CANCEL_UI_ENABLED && selectedOrder.orderType !== "Takeaway" && ["New", "Pending", "Preparing", "Ready"].includes(selectedOrder.status) && item.id && (
                                                     <button
                                                         type="button"

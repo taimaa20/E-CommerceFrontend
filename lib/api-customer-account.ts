@@ -94,7 +94,10 @@ export interface CustomerOrderItem {
     productId: string;
     productName: string;
     productNameAr?: string;
+    /** Units still active. Zero once the line has been cancelled in full — the line is kept. */
     quantity: number;
+    /** Units cancelled off this line, so the order still reads as what was placed. */
+    cancelledQuantity: number;
     unitPrice: number;
     lineTotal: number;
     selectedOptionName?: string;
@@ -110,6 +113,44 @@ export interface CustomerOrderDetails extends CustomerOrderSummary {
     promoDiscountAmount: number;
     deliveryFee: number;
     items: CustomerOrderItem[];
+    /** What the backend will allow on this order. It is the only source of truth for the controls below. */
+    cancellation?: OrderCancellationCapabilities;
+}
+
+/**
+ * The backend's answer to "what may this shopper do to this order right now". The UI only decides
+ * what to show from it — every cancel request is re-checked server-side, so a stale page is refused
+ * rather than obeyed.
+ */
+export interface OrderCancellationCapabilities {
+    canCustomerCancel: boolean;
+    canCancelItems: boolean;
+    canReduceQuantity: boolean;
+    /** ISO instant after which cancellation closes, or null when there is no window. */
+    cancellationDeadline?: string | null;
+    allowedCancellationActions: string[];
+    /** Present when nothing is allowed, so the reason can be explained instead of hidden. */
+    denialReason?: string | null;
+    /** The request will be queued for staff to settle with a refund rather than applied at once. */
+    requiresStaffApproval: boolean;
+    /** A request on this order is waiting for staff to decide it. */
+    hasPendingRequest?: boolean;
+    /** Lines with a request waiting for staff; empty when the pending request is for the whole order. */
+    pendingOrderItemIds?: string[];
+}
+
+export interface CustomerCancelOrderResult {
+    success: boolean;
+    status: string;
+    requiresStaffApproval: boolean;
+    orderItemId?: string | null;
+    cancelledQuantity: number;
+    remainingQuantity: number;
+    totalAmount: number;
+    promoDiscountAmount: number;
+    /** Set when the promo code stopped qualifying on what was left and was withdrawn. */
+    promoWithdrawnReason?: string | null;
+    refundAmount: number;
 }
 
 export interface CustomerLoyaltyWallet {
@@ -256,6 +297,12 @@ async function authorizedFetch(path: string, init: RequestInit, token: string): 
     return fetch(`${PROXY}${path}`, { ...init, headers, cache: "no-store" });
 }
 
+export const IDEMPOTENCY_HEADER = "X-Idempotency-Key";
+
+export function idempotencyHeaders(key?: string): HeadersInit | undefined {
+    return key ? { [IDEMPOTENCY_HEADER]: key } : undefined;
+}
+
 /** One transparent retry after a 401: the access token may have expired between check and use. */
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     const token = await tokenProvider();
@@ -287,6 +334,26 @@ export const customerAccountApi = {
     getOrders: (page: number, pageSize: number) =>
         request<CustomerOrdersPage>(`/mobile/orders?page=${page}&pageSize=${pageSize}`),
     getOrder: (orderId: string) => request<CustomerOrderDetails>(`/mobile/orders/${encodeURIComponent(orderId)}`),
+
+    getOrderCancellation: (orderId: string) =>
+        request<OrderCancellationCapabilities>(`/mobile/orders/${encodeURIComponent(orderId)}/cancellation`),
+    /**
+     * The idempotency key makes a retry of the same request replay its first answer instead of
+     * cancelling again. Reuse it for a retry; mint a new one for a new decision.
+     */
+    cancelOrder: (orderId: string, reason: string, idempotencyKey?: string) =>
+        request<CustomerCancelOrderResult>(`/mobile/orders/${encodeURIComponent(orderId)}/cancel`, {
+            method: "POST",
+            headers: idempotencyHeaders(idempotencyKey),
+            body: JSON.stringify({ reason }),
+        }),
+    /** Pass the explicit number of units; the active quantity cancels the whole line. */
+    cancelOrderItem: (orderId: string, orderItemId: string, reason: string, quantity?: number, idempotencyKey?: string) =>
+        request<CustomerCancelOrderResult>(`/mobile/orders/${encodeURIComponent(orderId)}/items/cancel`, {
+            method: "POST",
+            headers: idempotencyHeaders(idempotencyKey),
+            body: JSON.stringify({ orderItemId, reason, quantity }),
+        }),
 
     getLoyaltyWallet: () => request<CustomerLoyaltyWallet>("/mobile/loyalty/wallet"),
     getLoyaltyTransactions: (page: number, pageSize: number) =>

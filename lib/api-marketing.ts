@@ -909,6 +909,11 @@ export const promoCodesApi = {
         await api.post(`${BASE}/promo-codes/${id}/${active ? "activate" : "deactivate"}`, {});
     },
 
+    /** Admin/SuperAdmin only. Soft delete — historical usage is preserved server-side. */
+    remove: async (id: string): Promise<void> => {
+        await api.delete(`${BASE}/promo-codes/${id}`);
+    },
+
     redemptions: async (id: string, page: number, pageSize: number): Promise<PaginatedResponse<PromoCodeRedemption>> =>
         (await api.get<PaginatedResponse<PromoCodeRedemption>>(`${BASE}/promo-codes/${id}/redemptions`, {
             params: { page, pageSize },
