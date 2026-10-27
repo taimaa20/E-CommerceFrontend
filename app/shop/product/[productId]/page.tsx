@@ -113,6 +113,9 @@ function ProductDetail() {
         : `${window.location.origin}/shop/product/${product.id}`;
 
     const relatedDetails = new Map(data.relatedDetails.map(row => [row.productId, row]));
+    // Hand-picked products may come from any department, so the department heading and its
+    // "view all" link are kept only while every product shown really is from this department.
+    const relatedFromDepartment = !!category && related.every(row => row.categoryId === category.id);
     const summary = description?.split(SUMMARY_BREAK)[0]?.trim();
     const productOffers = offers.filter(offerCart.isSellable);
     const relatedInOffer = offerProductIds(productOffers);
@@ -279,9 +282,9 @@ function ProductDetail() {
             {related.length > 0 && (
                 <section className="mt-[var(--sf-section)] border-t pt-8">
                     <StoreSectionHeading
-                        title={text("relatedProducts")}
-                        href={category ? `/shop/category/${category.id}` : undefined}
-                        linkLabel={category ? text("viewAll") : undefined}
+                        title={text(relatedFromDepartment ? "relatedProducts" : "youMayAlsoLike")}
+                        href={relatedFromDepartment ? `/shop/category/${category.id}` : undefined}
+                        linkLabel={relatedFromDepartment ? text("viewAll") : undefined}
                     />
                     <StoreProductRail
                         products={related}

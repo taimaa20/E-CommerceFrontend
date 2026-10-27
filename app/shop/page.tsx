@@ -47,6 +47,7 @@ const PHONE_SECTION_LIMIT = 6;
 
 /** Heading and sub-heading for each row the API is willing to return. */
 const SECTION_COPY: Record<OnlineStoreSectionKey, { title: StoreCopyKey; hint: StoreCopyKey }> = {
+    recommended: { title: "sectionRecommended", hint: "sectionRecommendedHint" },
     onSale: { title: "sectionOnSale", hint: "sectionOnSaleHint" },
     newArrivals: { title: "sectionNewArrivals", hint: "sectionNewArrivalsHint" },
     explore: { title: "sectionExplore", hint: "sectionExploreHint" },

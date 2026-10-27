@@ -7,8 +7,11 @@
  * web-specific.
  */
 
+import type { OnlineStoreHome } from "@/lib/api-online-shopping";
+
 const PROXY = "/api/api-proxy";
 const SESSION = "/api/customer-session";
+const BRANCH_HEADER = "X-Branch-ID";
 
 export interface CustomerProfile {
     id: string;
@@ -366,6 +369,10 @@ export const customerAccountApi = {
         request<CustomerFavorites>(`/mobile/favorites/${encodeURIComponent(productId)}`, { method: "DELETE" }),
     mergeFavorites: (productIds: string[]) =>
         request<CustomerFavorites>("/mobile/favorites/merge", { method: "POST", body: JSON.stringify({ productIds }) }),
+
+    /** The anonymous storefront home, plus a `recommended` section when the account has one. */
+    getStorefrontHome: (branchId?: string) =>
+        request<OnlineStoreHome>("/mobile/storefront", { headers: branchId ? { [BRANCH_HEADER]: branchId } : undefined }),
 };
 
 /** Current access token for calls made outside this module (order placement). */

@@ -202,6 +202,35 @@
     transition: transform var(--sf-motion-slow) var(--sf-ease);
 }
 
+/* In-place product image zoom. The focal point is written inline by StoreZoomImage; the
+   origin eases briefly so the magnified view glides after the pointer instead of jittering.
+   No will-change: the browser re-rasterises the full-size image sharply once scaled. */
+.sf-zoom {
+    --sf-zoom-scale: 2;
+    --sf-zoom-duration: 320ms;
+    --sf-zoom-follow: 90ms;
+    --sf-zoom-x: 50%;
+    --sf-zoom-y: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.sf-zoom-layer {
+    transform-origin: var(--sf-zoom-x) var(--sf-zoom-y);
+    transition:
+        transform var(--sf-zoom-duration) var(--sf-ease),
+        transform-origin var(--sf-zoom-follow) linear;
+}
+
+.sf-zoom[data-zoomed] .sf-zoom-layer {
+    transform: scale(var(--sf-zoom-scale));
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .sf-zoom { cursor: zoom-in; }
+    .sf-zoom[data-zoomed] { cursor: crosshair; }
+}
+
 /* ── Controls ───────────────────────────────────────────────────────── */
 
 .sf-btn {

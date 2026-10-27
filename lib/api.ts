@@ -1,4 +1,4 @@
-import { ProductDto, ModifierGroupDto, ModifierGroupLibraryDto, ModifierDto, Table, TableStatus, TableCategoryDto, CategoryDto, SubcategoryDto, ProductOptionDto, ProductOptionCreateDto, ProductOptionUpdateDto, ProductOptionRecipeItemCreateDto, RecipeItemAlternativeDto, RecipeItemAlternativeCreateDto, RecipeItemAlternativeUpdateDto } from "@/types/pos";
+import { ProductDto, ModifierGroupDto, ModifierGroupLibraryDto, ModifierDto, Table, TableStatus, TableCategoryDto, CategoryDto, SubcategoryDto, ProductOptionDto, ProductRelatedProductDto, ProductOptionCreateDto, ProductOptionUpdateDto, ProductOptionRecipeItemCreateDto, RecipeItemAlternativeDto, RecipeItemAlternativeCreateDto, RecipeItemAlternativeUpdateDto } from "@/types/pos";
 import { DeliveryPartnerPriceAdjustmentPayload, OrderCreateDto, OrderDto, OrderFilters, OrderListItemDto, OrderSummaryDto, OrderTotalOverrideDto, OrderTotalOverridePayload, PartnerDiscountOverrideDto, PartnerDiscountOverridePayload, PartnerPriceOverrideAuditDto, ValidatePriceRequest, ValidatePriceResponse } from "@/types/order";
 import { CreateOfferRequest, OfferResponseDto } from "@/types/offer";
 import { CashierBalanceShift, CloseCashierShiftPayload, OpenCashierShiftPayload } from "@/types/cashier-balance";
@@ -3113,6 +3113,11 @@ export async function deleteModifierGroup(id: string): Promise<boolean> {
 }
 
 // ─── Product Options ────────────────────────────────────────────────────────────────────────────
+
+export async function getProductRelatedProducts(productId: string): Promise<ProductRelatedProductDto[]> {
+    const response = await api.get<ProductRelatedProductDto[]>(`/products/${productId}/related-products`);
+    return response.data ?? [];
+}
 
 export async function getProductOptions(productId: string): Promise<ProductOptionDto[]> {
     const response = await api.get<ProductOptionDto[]>(`/productoptions/product/${productId}`);

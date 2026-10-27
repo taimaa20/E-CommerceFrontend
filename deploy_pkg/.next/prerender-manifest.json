@@ -1346,6 +1346,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/admin/order-cancellation": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/admin/order-cancellation",
+      "dataRoute": "/admin/order-cancellation.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/admin/orders": {
       "experimentalBypassFor": [
         {
@@ -2550,8 +2574,8 @@
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "df71de62977d76fd73f3d486782084bc",
-    "previewModeSigningKey": "2e18671be4df2f6dbd230f3b2ffd40acab4966abd2607a0ef6ceb49f237a1c4b",
-    "previewModeEncryptionKey": "7863e4d822cdba17fd44b4df2246c70e5e1d613ba5a3fdf8e1a1547466ced93d"
+    "previewModeId": "cf8d1b47e4019ef5bbe6edc966c6423e",
+    "previewModeSigningKey": "947fa8d964702e399593186408361f859bd8191abfd3ff9c60d81027e3f4074b",
+    "previewModeEncryptionKey": "f37590dff215781b788f15879d9e5deeaf3ce47838ae654114e71e69a5219cc6"
   }
 }

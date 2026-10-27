@@ -32,12 +32,13 @@ import {
 } from "@/components/ui/dialog"
 import { useLocale } from "@/components/locale-provider"
 import ProductGalleryEditor, { type GalleryEntry } from "@/components/admin/ProductGalleryEditor"
+import ProductRelatedProductsEditor from "@/components/admin/ProductRelatedProductsEditor"
 import { InventoryCostingFields, emptyInventoryCostingForm, inventoryCostingFormFromDetail, inventoryCostingPayloadFromForm, type InventoryCostingFormState } from "@/components/products/InventoryCostingFields"
 import { ProductInventoryBehaviourField, type ProductInventoryBehaviour } from "@/components/products/ProductInventoryBehaviourField"
 import { ExistingInventoryItemPicker, LinkedInventoryItemCard } from "@/components/products/ExistingInventoryItemField"
 import { ProcurementApi, type Supplier } from "@/lib/api-procurement"
-import { ProductDto, ModifierGroupDto, ModifierDto, StationRouting, AllergenType, RecipeItemDto, RecipeItemAlternativeDto, CategoryDto, ModifierGroupLibraryDto, ProductOptionDto, ProductOptionRecipeItemDto, RecipeItemAlternativePricingType } from "@/types/pos"
-import { createProduct, updateProduct, getProducts, getRawMaterials, RawMaterial, UnitLabels, addRecipeItem, deleteRecipeItem, updateRecipeItem, uploadImage, getCategories, getModifierGroups, getProductOptions, createProductOption, updateProductOption, deleteProductOption, addProductOptionRecipeItem, updateProductOptionRecipeItem, deleteProductOptionRecipeItem, createRecipeItemAlternative, updateRecipeItemAlternative, deleteRecipeItemAlternative, getKitchens, getPrinters, KitchenDto, PrinterDto } from "@/lib/api"
+import { ProductDto, ModifierGroupDto, ModifierDto, StationRouting, AllergenType, RecipeItemDto, RecipeItemAlternativeDto, CategoryDto, ModifierGroupLibraryDto, ProductOptionDto, ProductOptionRecipeItemDto, ProductRelatedProductDto, RecipeItemAlternativePricingType } from "@/types/pos"
+import { createProduct, updateProduct, getProducts, getRawMaterials, RawMaterial, UnitLabels, addRecipeItem, deleteRecipeItem, updateRecipeItem, uploadImage, getCategories, getModifierGroups, getProductOptions, createProductOption, updateProductOption, deleteProductOption, addProductOptionRecipeItem, updateProductOptionRecipeItem, deleteProductOptionRecipeItem, createRecipeItemAlternative, updateRecipeItemAlternative, deleteRecipeItemAlternative, getKitchens, getPrinters, getProductRelatedProducts, KitchenDto, PrinterDto } from "@/lib/api"
 import ProductDeliveryPartnersTab from "@/components/admin/ProductDeliveryPartnersTab"
 import ProductBranchAssignmentsTab from "@/components/admin/ProductBranchAssignmentsTab"
 import { config } from "@/lib/config"
@@ -111,6 +112,10 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
     // Storefront gallery. Entry 0 is the PRIMARY image (Product.imageUrl/imageKey);
     // entries 1+ become the ProductImages collection, in this order.
     const [gallery, setGallery] = useState<GalleryEntry[]>([])
+    // Null while the stored links are loading (or failed to), so the save leaves them untouched.
+    const [relatedProducts, setRelatedProducts] = useState<ProductRelatedProductDto[] | null>([])
+    const [relatedLoadFailed, setRelatedLoadFailed] = useState(false)
+    const relatedRequestRef = useRef<string | null>(null)
     const [isActive, setIsActive] = useState(true)
     // Public "Coming Soon" flag — toggles menu/website Coming-Soon rendering.
     const [isSoon, setIsSoon] = useState(false)
@@ -207,6 +212,9 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
         setProductDescriptionAr("")
         setProductCalories("")
         setGallery([])
+        relatedRequestRef.current = null
+        setRelatedProducts([])
+        setRelatedLoadFailed(false)
         setIsActive(true)
         setIsSoon(false)
         setCostPrice("")
@@ -250,6 +258,19 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
         setAlternativeDrafts({})
         setDeliveryPartnerRows([])
         setDirtyDeliveryPartnerIds(new Set())
+    }
+
+    function loadRelatedProducts(productId: string) {
+        relatedRequestRef.current = productId
+        setRelatedProducts(null)
+        setRelatedLoadFailed(false)
+        void getProductRelatedProducts(productId)
+            .then((rows) => {
+                if (relatedRequestRef.current === productId) setRelatedProducts(rows)
+            })
+            .catch(() => {
+                if (relatedRequestRef.current === productId) setRelatedLoadFailed(true)
+            })
     }
 
     function buildDraftDeliveryPartnerRows(partners: DeliveryPartnerDto[]): DeliveryPartnerProductMappingDto[] {
@@ -370,6 +391,8 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
             setSelectedSubcategoryId(editProduct.subcategoryId || "")
             setExpandedAltRecipeId(null)
             setAlternativeDrafts({})
+
+            loadRelatedProducts(editProduct.id)
 
             // Load product options (variants) — backend exposes dedicated endpoints.
             void getProductOptions(editProduct.id)
@@ -1619,6 +1642,8 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
                 imageUrl: image.imageUrl,
                 imageKey: image.imageKey || undefined,
             })),
+            // Omitted while the stored links are not loaded, so they are never wiped by accident.
+            relatedProductIds: relatedProducts?.map(row => row.productId),
             availableStartDate: availabilityExpanded ? (availableStartDate || null) : null,
             availableEndDate: availabilityExpanded ? (availableEndDate || null) : null,
             availableFrom: availabilityExpanded ? (availableFrom ? `${availableFrom}:00` : null) : null,
@@ -2218,6 +2243,15 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
                                 )}
                             </CardContent>
                         </Card>
+
+                        <ProductRelatedProductsEditor
+                            productId={editProduct?.id}
+                            selected={relatedProducts}
+                            loadFailed={relatedLoadFailed}
+                            onRetryLoad={() => editProduct && loadRelatedProducts(editProduct.id)}
+                            onChange={setRelatedProducts}
+                            isAr={locale === "ar"}
+                        />
                     </TabsContent>
 
                     {/* TAB 2: Finans */}

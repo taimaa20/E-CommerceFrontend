@@ -232,8 +232,11 @@ export interface OnlineWhatsAppContact {
     messageTemplateAr: string;
 }
 
-/** Stable keys the storefront maps to a localized heading. */
-export type OnlineStoreSectionKey = "onSale" | "newArrivals" | "explore";
+/**
+ * Stable keys the storefront maps to a localized heading. `recommended` only ever comes from
+ * the signed-in home (`customerAccountApi.getStorefrontHome`), never the anonymous one.
+ */
+export type OnlineStoreSectionKey = "recommended" | "onSale" | "newArrivals" | "explore";
 
 export interface OnlineStoreSection {
     key: OnlineStoreSectionKey;

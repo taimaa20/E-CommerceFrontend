@@ -7,6 +7,8 @@ import {
     type OnlineStoreHome,
     type OnlineStoreProductPage,
 } from "@/lib/api-online-shopping";
+import { customerAccountApi } from "@/lib/api-customer-account";
+import { useCustomerSessionStore } from "@/store/customerSessionStore";
 import { useStorefrontStore } from "@/store/storefrontStore";
 
 interface AsyncState<T> {
@@ -20,13 +22,22 @@ interface AsyncState<T> {
  * One request for the whole storefront home: departments plus the merchandising rows the
  * API decided it can actually support. The page never assembles those rows itself, so it
  * cannot invent a section the catalogue does not back.
+ *
+ * A signed-in shopper gets the signed-in home instead of the anonymous one — never both, so
+ * the store is read once. It waits for the session check so it never loads one and then the
+ * other, and a failed signed-in read falls back to the anonymous home: personalisation must
+ * never cost the shopper the page.
  */
 export function useStoreHome(): AsyncState<OnlineStoreHome> {
     const branchId = useStorefrontStore(state => state.branchId);
+    const session = useCustomerSessionStore(state => state.status);
     return useRemote(
-        `home:${branchId ?? ""}`,
-        () => onlineShoppingApi.getHome(branchId),
-        [branchId],
+        `home:${branchId ?? ""}:${session}`,
+        () => session === "authenticated"
+            ? customerAccountApi.getStorefrontHome(branchId).catch(() => onlineShoppingApi.getHome(branchId))
+            : onlineShoppingApi.getHome(branchId),
+        [branchId, session],
+        session !== "unknown",
     );
 }
 
@@ -72,12 +83,14 @@ function useRemote<T>(
     key: string,
     load: () => Promise<T>,
     deps: unknown[],
+    enabled = true,
 ): AsyncState<T> {
     const [revision, setRevision] = useState(0);
     const [result, setResult] = useState<{ key: string; data: T | null; error: boolean } | null>(null);
     const requestKey = `${key}:${revision}`;
 
     useEffect(() => {
+        if (!enabled) return;
         let cancelled = false;
         load()
             .then(data => { if (!cancelled) setResult({ key: requestKey, data, error: false }); })
@@ -85,7 +98,7 @@ function useRemote<T>(
         return () => { cancelled = true; };
         // `load` is recreated every render; the dependency list is the real input set.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [requestKey, ...deps]);
+    }, [requestKey, enabled, ...deps]);
 
     const loading = result?.key !== requestKey;
     return {

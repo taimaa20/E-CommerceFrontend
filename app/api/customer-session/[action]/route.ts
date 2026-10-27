@@ -190,7 +190,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ act
             case "logout":
                 return await handleLogout(req);
         }
-    } catch {
+    } catch (error) {
+        // Server log only — the shopper still gets the generic message. The code (e.g.
+        // ECONNREFUSED, DEPTH_ZERO_SELF_SIGNED_CERT) is what tells an outage from a TLS trust
+        // problem; no request body, header or token is ever logged here.
+        const cause = (error as { cause?: { code?: string } })?.cause;
+        console.error("customer-session backend call failed", { action, code: cause?.code ?? (error as Error)?.name });
         return NextResponse.json({ message: "Service unavailable." }, { status: 502 });
     }
 }

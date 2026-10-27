@@ -89,6 +89,8 @@ const COPY = {
     view: ["View", "عرض"],
     continueShopping: ["Continue shopping", "متابعة التسوق"],
     // Merchandising sections — headings only, no claim about the products themselves.
+    sectionRecommended: ["Recommended for you", "مقترحة لك"],
+    sectionRecommendedHint: ["From the departments you shop and save most", "من الأقسام التي تتسوق منها وتحفظ منتجاتها أكثر"],
     sectionOnSale: ["Reduced right now", "أسعار مخفّضة الآن"],
     sectionOnSaleHint: ["Products with a price reduction today", "منتجات عليها تخفيض اليوم"],
     sectionNewArrivals: ["Recently added", "أضيف حديثاً"],
@@ -115,6 +117,7 @@ const COPY = {
     required: ["Required", "مطلوب"],
     quantity: ["Quantity", "الكمية"],
     relatedProducts: ["More from this department", "المزيد من هذا القسم"],
+    youMayAlsoLike: ["You may also like", "قد يعجبك أيضًا"],
     productNotFound: ["This product is no longer listed", "هذا المنتج غير مدرج"],
     productNotFoundHint: ["It may have been removed. Browse the store to find something else.", "ربما تمت إزالته. تصفح المتجر لاختيار بديل."],
     addedToCart: ["Added", "تمت الإضافة"],
@@ -131,6 +134,7 @@ const COPY = {
     closeViewer: ["Close image viewer", "إغلاق عارض الصور"],
     zoomIn: ["Zoom in", "تكبير"],
     zoomOut: ["Zoom out", "تصغير"],
+    resetZoom: ["Reset zoom", "إعادة ضبط التكبير"],
     imageViewer: ["Image viewer", "عارض الصور"],
 
     // Offers — every string here describes a real, currently running bundle offer.

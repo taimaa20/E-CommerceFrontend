@@ -934,6 +934,12 @@
       "namedRegex": "^/admin/offers(?:/)?$"
     },
     {
+      "page": "/admin/order-cancellation",
+      "regex": "^/admin/order\\-cancellation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/order\\-cancellation(?:/)?$"
+    },
+    {
       "page": "/admin/orders",
       "regex": "^/admin/orders(?:/)?$",
       "routeKeys": {},

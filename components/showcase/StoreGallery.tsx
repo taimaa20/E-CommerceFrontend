@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Expand } from "lucide-react";
 import StoreImage from "@/components/showcase/StoreImage";
 import StoreImageViewer from "@/components/showcase/StoreImageViewer";
+import StoreZoomImage from "@/components/showcase/StoreZoomImage";
 import { createStoreText } from "@/lib/store-copy";
 
 export interface GalleryImage {
@@ -22,8 +23,9 @@ export interface GalleryImage {
  * A single-image product renders just the frame — no thumbnails, no arrows, no dots — so a
  * product without a gallery never looks like one that is missing images.
  *
- * Tapping the image opens the full-screen viewer, which shares this component's `index`, so
- * closing it leaves the shopper on the photo they were looking at.
+ * The image itself magnifies in place (hover on desktop, tap on touch). The full-screen
+ * viewer opens only from the explicit expand button; it shares this component's `index`,
+ * so closing it leaves the shopper on the photo they were looking at.
  */
 export default function StoreGallery({
     images,
@@ -77,24 +79,15 @@ export default function StoreGallery({
                     style={{ scrollSnapType: "x mandatory" }}
                 >
                     {images.map((image, position) => (
-                        <button
-                            key={position}
-                            type="button"
-                            onClick={() => { setIndex(position); setViewerOpen(true); }}
-                            aria-label={text("enlargeImage")}
-                            className="w-full shrink-0"
-                            style={{ scrollSnapAlign: "center" }}
-                        >
-                            <StoreImage
+                        <div key={position} className="w-full shrink-0" style={{ scrollSnapAlign: "center" }}>
+                            <StoreZoomImage
                                 src={image.src}
                                 alt={image.alt ?? name}
-                                fit="contain"
                                 priority={position === 0}
                                 fallbackText={name}
                                 sizes="100vw"
-                                className="aspect-square w-full"
                             />
-                        </button>
+                        </div>
                     ))}
                 </div>
 
@@ -175,26 +168,22 @@ export default function StoreGallery({
                 )}
 
                 <div className="relative min-w-0 flex-1 overflow-hidden rounded-[var(--sf-radius)] border">
+                    <StoreZoomImage
+                        key={index}
+                        src={current?.src}
+                        alt={current?.alt ?? name}
+                        priority
+                        fallbackText={name}
+                        sizes="(max-width: 1280px) 45vw, 560px"
+                    />
                     <button
                         type="button"
                         onClick={() => setViewerOpen(true)}
                         aria-label={text("enlargeImage")}
-                        className="block w-full cursor-zoom-in"
+                        className="sf-icon-btn absolute end-2 top-2 border bg-background/85 backdrop-blur"
                     >
-                        <StoreImage
-                            key={index}
-                            src={current?.src}
-                            alt={current?.alt ?? name}
-                            fit="contain"
-                            priority
-                            fallbackText={name}
-                            sizes="(max-width: 1280px) 45vw, 560px"
-                            className="aspect-square w-full"
-                        />
-                    </button>
-                    <span className="sf-icon-btn pointer-events-none absolute end-2 top-2 border bg-background/85 backdrop-blur">
                         <Expand className="size-[18px]" />
-                    </span>
+                    </button>
                     {multiple && (
                         <>
                             <button

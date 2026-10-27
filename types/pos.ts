@@ -32,6 +32,17 @@ export interface ProductImageDto {
   sortOrder: number;
 }
 
+/** A hand-picked storefront "you may also like" product, as the admin product form lists it. */
+export interface ProductRelatedProductDto {
+  productId: string;
+  name: string;
+  nameAr?: string;
+  imageUrl?: string;
+  imageKey?: string;
+  isActive: boolean;
+  sortOrder: number;
+}
+
 export interface ProductDto {
   id: string; // Guid
   name: string;
