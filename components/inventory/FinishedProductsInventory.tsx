@@ -279,7 +279,8 @@ export function FinishedProductsInventory({
             />
 
             <StockAdjustmentDialog
-                product={adjustProduct}
+                // The live row, so a refresh after a stale-stock conflict reaches the open dialog.
+                product={adjustProduct && (rows.find((row) => row.productId === adjustProduct.productId) ?? adjustProduct)}
                 onClose={() => setAdjustProduct(null)}
                 onAdjusted={() => void load()}
             />

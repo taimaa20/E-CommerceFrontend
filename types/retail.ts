@@ -312,6 +312,10 @@ export interface RetailStockAdjustmentCreateInput {
     /** The quantity the shelf should show — not a delta. */
     newStock: number;
     reason: string;
+    /** The stock the operator saw; the server refuses with 409 if it has changed since. */
+    expectedOnHand?: number;
+    /** One id per intended adjustment, so a retry never posts it twice. */
+    idempotencyKey?: string;
 }
 
 export interface RetailStockAdjustmentResultDto {
@@ -326,4 +330,8 @@ export interface RetailStockAdjustmentResultDto {
     adjustedAtUtc: string;
     /** Null when the requested stock already matched, so nothing was posted. */
     movementId?: string | null;
+    /** Ledger stock on hand after the adjustment committed. */
+    stockOnHand?: number | null;
+    /** True when the server answered a retry of an adjustment it had already posted. */
+    replayed?: boolean;
 }

@@ -8,8 +8,15 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLocale } from "@/components/locale-provider";
+import { getRequestErrorMessage, isNetworkRequestError } from "@/lib/api";
 import { retailStockAdjustmentApi } from "@/lib/api-retail";
+import { generateUUID } from "@/lib/uuid";
 import type { RetailProductDto } from "@/types/retail";
+
+/** 409 status slug the server sends when the shelf figure moved after the dialog opened. */
+const STOCK_CHANGED = "stock_changed";
+/** Mirrors the server's reason limit (the movement's Notes column). */
+const REASON_MAX_LENGTH = 300;
 
 /**
  * Manual correction of a finished product's stock.
@@ -34,18 +41,62 @@ export function StockAdjustmentDialog({
     const [reason, setReason] = useState("");
     const [error, setError] = useState("");
     const [saving, setSaving] = useState(false);
+    // One id per intended adjustment. It survives a failed send, so retrying after a dropped
+    // connection can never post twice, and is replaced whenever what is being asked changes.
+    const [requestKey, setRequestKey] = useState(generateUUID);
 
+    const productId = product?.productId;
+    const seenStock = product?.stockOnHand;
+
+    // Reset the form only when a different product opens. A refresh of the same product
+    // (after a stale-stock conflict) must keep what the operator typed.
     useEffect(() => {
-        setNewStock(product ? String(product.stockOnHand) : "");
+        setNewStock(seenStock === undefined ? "" : String(seenStock));
         setReason("");
         setError("");
-    }, [product]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [productId]);
+
+    useEffect(() => {
+        setRequestKey(generateUUID());
+    }, [productId, seenStock]);
 
     const parsed = Number.parseFloat(newStock);
     const delta = product && Number.isFinite(parsed) ? parsed - product.stockOnHand : null;
 
+    const editNewStock = (value: string) => {
+        setNewStock(value);
+        setRequestKey(generateUUID());
+        setError("");
+    };
+
+    const editReason = (value: string) => {
+        setReason(value);
+        setRequestKey(generateUUID());
+        setError("");
+    };
+
+    const describeFailure = (adjustError: unknown) => {
+        const response = (adjustError as { response?: { data?: unknown; status?: number } })?.response;
+        const status = (response?.data as { status?: string } | null)?.status;
+
+        if (isNetworkRequestError(adjustError))
+            return ar
+                ? "تعذّر الاتصال بالخادم. أعد المحاولة — لن تُسجَّل التسوية مرتين."
+                : "Could not reach the server. Retry — the adjustment will not be posted twice.";
+        if (response?.status === 403)
+            return ar ? "تعديل المخزون يتطلب صلاحية SuperAdmin." : "Adjusting stock requires SuperAdmin.";
+        if (response?.status === 401)
+            return ar ? "انتهت الجلسة. سجّل الدخول مجددًا." : "Your session has expired. Sign in again.";
+        if (status === STOCK_CHANGED)
+            return ar
+                ? "تغيّر المخزون منذ فتح النافذة. تم تحديث المخزون الحالي — راجع الكمية ثم أعد الحفظ."
+                : "Stock changed since you opened this. Current stock has been refreshed — review the quantity and save again.";
+        return getRequestErrorMessage(adjustError, ar ? "تعذّر تعديل المخزون" : "Could not adjust stock");
+    };
+
     const submit = async () => {
-        if (!product) return;
+        if (!product || saving) return;
         if (!Number.isFinite(parsed) || parsed < 0) {
             setError(ar ? "أدخل كمية صالحة (صفر أو أكثر)" : "Enter a valid quantity (zero or more)");
             return;
@@ -61,30 +112,23 @@ export function StockAdjustmentDialog({
             const result = await retailStockAdjustmentApi.adjust(product.productId, {
                 newStock: parsed,
                 reason: reason.trim(),
+                expectedOnHand: product.stockOnHand,
+                idempotencyKey: requestKey,
             });
+            const onHand = result?.stockOnHand ?? result?.newStock ?? parsed;
 
             if (result && result.delta === 0) {
                 toast.info(ar ? "المخزون مطابق بالفعل — لم تُسجَّل حركة." : "Stock already matched — nothing posted.");
             } else {
-                toast.success(
-                    ar
-                        ? `تم تعديل المخزون إلى ${result?.newStock ?? parsed}`
-                        : `Stock adjusted to ${result?.newStock ?? parsed}`,
-                );
+                toast.success(ar ? `تم تعديل المخزون إلى ${onHand}` : `Stock adjusted to ${onHand}`);
             }
             onAdjusted();
             onClose();
         } catch (adjustError) {
-            const data = (adjustError as { response?: { data?: unknown; status?: number } })?.response;
-            const message =
-                typeof data?.data === "string" ? data.data : (data?.data as { message?: string })?.message;
-            setError(
-                data?.status === 403
-                    ? ar
-                        ? "تعديل المخزون يتطلب صلاحية SuperAdmin."
-                        : "Adjusting stock requires SuperAdmin."
-                    : message ?? (ar ? "تعذّر تعديل المخزون" : "Could not adjust stock"),
-            );
+            setError(describeFailure(adjustError));
+            const status = ((adjustError as { response?: { data?: { status?: string } } })?.response?.data)?.status;
+            // Pull the current figure so the dialog shows what the shelf now holds.
+            if (status === STOCK_CHANGED) onAdjusted();
         } finally {
             setSaving(false);
         }
@@ -130,10 +174,7 @@ export function StockAdjustmentDialog({
                             min="0"
                             step="1"
                             value={newStock}
-                            onChange={(event) => {
-                                setNewStock(event.target.value);
-                                setError("");
-                            }}
+                            onChange={(event) => editNewStock(event.target.value)}
                         />
                     </div>
 
@@ -143,10 +184,8 @@ export function StockAdjustmentDialog({
                         </Label>
                         <Input
                             value={reason}
-                            onChange={(event) => {
-                                setReason(event.target.value);
-                                setError("");
-                            }}
+                            maxLength={REASON_MAX_LENGTH}
+                            onChange={(event) => editReason(event.target.value)}
                             placeholder={ar ? "مثال: جرد، كسر، فقد" : "e.g. stock count, breakage, shrinkage"}
                         />
                     </div>

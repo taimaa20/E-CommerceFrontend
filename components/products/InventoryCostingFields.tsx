@@ -191,15 +191,27 @@ export function InventoryCostingFields({
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-3">
-                        <div>
-                            <Label>{ar ? "الكمية المستلمة (رصيد افتتاحي)" : "Received qty (opening balance)"}</Label>
-                            <Input
-                                type="number"
-                                min="0"
-                                value={form.receivedQuantity}
-                                onChange={(e) => set({ receivedQuantity: e.target.value })}
-                            />
-                        </div>
+                        {detail ? (
+                            // Stock is the sum of ledger movements and changes only through
+                            // Inventory; the opening balance is fixed once the product exists.
+                            <div>
+                                <Label>{ar ? "المخزون الحالي" : "Stock on hand"}</Label>
+                                <Input type="number" value={String(detail.stockOnHand ?? 0)} readOnly disabled />
+                                <p className="mt-1 text-[11px] text-muted-foreground">
+                                    {ar ? "للقراءة فقط — يُعدَّل من إدارة المخزون" : "Read-only — change it in Inventory"}
+                                </p>
+                            </div>
+                        ) : (
+                            <div>
+                                <Label>{ar ? "الكمية المستلمة (رصيد افتتاحي)" : "Received qty (opening balance)"}</Label>
+                                <Input
+                                    type="number"
+                                    min="0"
+                                    value={form.receivedQuantity}
+                                    onChange={(e) => set({ receivedQuantity: e.target.value })}
+                                />
+                            </div>
+                        )}
                         <div>
                             <Label>{ar ? "إجمالي تكلفة المورّد" : "Total supplier cost"}</Label>
                             <Input
@@ -259,13 +271,6 @@ export function InventoryCostingFields({
                         </CardContent>
                     </Card>
 
-                    {detail && (
-                        <p className="text-xs text-muted-foreground">
-                            {ar
-                                ? `المخزون الحالي: ${detail.stockOnHand} (مستلم ${detail.receivedQuantity} − مباع ${detail.soldQuantity}).`
-                                : `Current stock: ${detail.stockOnHand} (received ${detail.receivedQuantity} − sold ${detail.soldQuantity}).`}
-                        </p>
-                    )}
                 </>
             )}
         </div>
