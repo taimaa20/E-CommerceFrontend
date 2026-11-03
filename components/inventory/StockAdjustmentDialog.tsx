@@ -85,7 +85,7 @@ export function StockAdjustmentDialog({
                 ? "تعذّر الاتصال بالخادم. أعد المحاولة — لن تُسجَّل التسوية مرتين."
                 : "Could not reach the server. Retry — the adjustment will not be posted twice.";
         if (response?.status === 403)
-            return ar ? "تعديل المخزون يتطلب صلاحية SuperAdmin." : "Adjusting stock requires SuperAdmin.";
+            return ar ? "تعديل المخزون يتطلب صلاحية Admin أو SuperAdmin." : "Adjusting stock requires Admin or SuperAdmin.";
         if (response?.status === 401)
             return ar ? "انتهت الجلسة. سجّل الدخول مجددًا." : "Your session has expired. Sign in again.";
         if (status === STOCK_CHANGED)

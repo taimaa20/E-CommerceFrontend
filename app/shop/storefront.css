@@ -226,11 +226,6 @@
     transform: scale(var(--sf-zoom-scale));
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .sf-zoom { cursor: zoom-in; }
-    .sf-zoom[data-zoomed] { cursor: crosshair; }
-}
-
 /* ── Controls ───────────────────────────────────────────────────────── */
 
 .sf-btn {

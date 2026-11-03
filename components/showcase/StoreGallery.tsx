@@ -23,7 +23,7 @@ export interface GalleryImage {
  * A single-image product renders just the frame — no thumbnails, no arrows, no dots — so a
  * product without a gallery never looks like one that is missing images.
  *
- * The image itself magnifies in place (hover on desktop, tap on touch). The full-screen
+ * The image magnifies in place only on a touch tap; hovering does nothing. The full-screen
  * viewer opens only from the explicit expand button; it shares this component's `index`,
  * so closing it leaves the shopper on the photo they were looking at.
  */

@@ -1,12 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocale } from "@/components/locale-provider";
 import { WorkbookSource } from "@/components/retail/workbook-source";
-import type { RetailProductDetail } from "@/types/retail";
+import { useAuthStore } from "@/store/authStore";
+import { canAdjustRetailStock } from "@/lib/authorization";
+import { generateUUID } from "@/lib/uuid";
+import type { RetailProductDetail, RetailStockAdjustmentCreateInput } from "@/types/retail";
 
 /**
  * Inventory and costing for a product that is stocked and sold as itself - SKU, brand, the
@@ -29,7 +33,17 @@ export interface InventoryCostingFormState {
     supplierCostTotal: string;
     shippingCostPerUnit: string;
     targetMarginPercent: string;
+    /** Ledger stock the operator started from; the adjustment is refused if it has moved since. */
+    stockSeen: number | null;
+    /** Absolute quantity the operator wants on the shelf. */
+    stockTarget: string;
+    stockReason: string;
+    /** One id per intended stock change, kept across retries so a resend never posts twice. */
+    stockRequestKey: string;
 }
+
+/** Mirrors the server's adjustment reason limit (the movement's Notes column). */
+const STOCK_REASON_MAX_LENGTH = 300;
 
 export const emptyInventoryCostingForm: InventoryCostingFormState = {
     enabled: false,
@@ -43,6 +57,10 @@ export const emptyInventoryCostingForm: InventoryCostingFormState = {
     supplierCostTotal: "0",
     shippingCostPerUnit: "0",
     targetMarginPercent: "",
+    stockSeen: null,
+    stockTarget: "",
+    stockReason: "",
+    stockRequestKey: "",
 };
 
 export function inventoryCostingFormFromDetail(detail: RetailProductDetail | null | undefined): InventoryCostingFormState {
@@ -59,6 +77,37 @@ export function inventoryCostingFormFromDetail(detail: RetailProductDetail | nul
         supplierCostTotal: String(detail.supplierCostTotal ?? 0),
         shippingCostPerUnit: String(detail.shippingCostPerUnit ?? 0),
         targetMarginPercent: detail.targetMarginPercent == null ? "" : String(detail.targetMarginPercent),
+        stockSeen: detail.stockOnHand ?? 0,
+        stockTarget: String(detail.stockOnHand ?? 0),
+        stockReason: "",
+        stockRequestKey: generateUUID(),
+    };
+}
+
+/**
+ * The stock change the operator typed, as a request for the existing adjustment endpoint.
+ * Null when the quantity is unchanged. Validation runs before anything is saved, so a bad
+ * figure never leaves the product saved and the stock half-done.
+ */
+export function stockAdjustmentFromForm(
+    form: InventoryCostingFormState,
+    ar: boolean,
+): { request: RetailStockAdjustmentCreateInput | null; error: string | null } {
+    if (form.stockSeen === null) return { request: null, error: null };
+    const target = Number.parseFloat(form.stockTarget);
+    if (!Number.isFinite(target) || target < 0)
+        return { request: null, error: ar ? "أدخل كمية مخزون صالحة (صفر أو أكثر)." : "Enter a valid stock quantity (zero or more)." };
+    if (target === form.stockSeen) return { request: null, error: null };
+    if (!form.stockReason.trim())
+        return { request: null, error: ar ? "سبب تعديل المخزون مطلوب." : "A reason is required to change stock." };
+    return {
+        request: {
+            newStock: target,
+            reason: form.stockReason.trim(),
+            expectedOnHand: form.stockSeen,
+            idempotencyKey: form.stockRequestKey,
+        },
+        error: null,
     };
 }
 
@@ -116,6 +165,12 @@ export function InventoryCostingFields({
     const { locale } = useLocale();
     const ar = locale === "ar";
     const set = (patch: Partial<InventoryCostingFormState>) => onChange({ ...form, ...patch });
+    // Changing what is asked for is a new stock change, so it gets a new request id.
+    const setStock = (patch: Partial<InventoryCostingFormState>) => set({ ...patch, stockRequestKey: generateUUID() });
+    const canAdjustStock = canAdjustRetailStock(useAuthStore((state) => state.user?.role));
+    const stockTarget = Number.parseFloat(form.stockTarget);
+    const stockDelta =
+        form.stockSeen !== null && Number.isFinite(stockTarget) ? stockTarget - form.stockSeen : null;
 
     const margin = Number.parseFloat(form.targetMarginPercent);
     const calculatedPrice =
@@ -191,14 +246,51 @@ export function InventoryCostingFields({
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-3">
-                        {detail ? (
-                            // Stock is the sum of ledger movements and changes only through
-                            // Inventory; the opening balance is fixed once the product exists.
+                        {detail && canAdjustStock ? (
+                            // Edited as an absolute figure; saving posts the difference as a stock
+                            // adjustment movement. The opening balance itself never changes.
+                            <div>
+                                <Label>{ar ? "المخزون الحالي" : "Current stock"}</Label>
+                                <Input
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    value={form.stockTarget}
+                                    onChange={(e) => setStock({ stockTarget: e.target.value })}
+                                />
+                                {stockDelta !== null && stockDelta !== 0 ? (
+                                    <>
+                                        <p className="mt-1 text-[11px] tabular-nums text-muted-foreground">
+                                            {form.stockSeen} → {stockTarget}{" "}
+                                            <span className={stockDelta < 0 ? "text-red-600 dark:text-red-400" : "text-emerald-600 dark:text-emerald-400"}>
+                                                ({stockDelta > 0 ? `+${stockDelta}` : stockDelta})
+                                            </span>
+                                        </p>
+                                        <Input
+                                            className="mt-1.5"
+                                            value={form.stockReason}
+                                            maxLength={STOCK_REASON_MAX_LENGTH}
+                                            onChange={(e) => setStock({ stockReason: e.target.value })}
+                                            placeholder={ar ? "سبب التعديل (مطلوب)" : "Reason (required)"}
+                                            aria-label={ar ? "سبب تعديل المخزون" : "Stock change reason"}
+                                        />
+                                    </>
+                                ) : (
+                                    <p className="mt-1 text-[11px] text-muted-foreground">
+                                        {ar ? "يُسجَّل التغيير كحركة تسوية مخزون." : "A change is recorded as a stock adjustment."}
+                                    </p>
+                                )}
+                            </div>
+                        ) : detail ? (
+                            // Stock is the sum of ledger movements; only stock adjusters change it.
                             <div>
                                 <Label>{ar ? "المخزون الحالي" : "Stock on hand"}</Label>
                                 <Input type="number" value={String(detail.stockOnHand ?? 0)} readOnly disabled />
                                 <p className="mt-1 text-[11px] text-muted-foreground">
-                                    {ar ? "للقراءة فقط — يُعدَّل من إدارة المخزون" : "Read-only — change it in Inventory"}
+                                    {ar ? "للقراءة فقط — " : "Read-only — "}
+                                    <Link href="/ntxadminpos/inventory" className="font-medium text-primary underline-offset-2 hover:underline">
+                                        {ar ? "يُعدَّل من إدارة المخزون" : "change it in Inventory"}
+                                    </Link>
                                 </p>
                             </div>
                         ) : (

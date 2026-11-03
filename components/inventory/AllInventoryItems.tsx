@@ -9,7 +9,7 @@ import { PaginationControls } from "@/components/ui/pagination-controls";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useLocale } from "@/components/locale-provider";
 import { useAuthStore } from "@/store/authStore";
-import { isSuperAdminRole } from "@/lib/authorization";
+import { canAdjustRetailStock } from "@/lib/authorization";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useActiveBranchVersion } from "@/store/branchContextStore";
 import { formatCurrency } from "@/lib/currencies";
@@ -17,7 +17,7 @@ import { getTranslatedUnit } from "@/lib/utils";
 import { getRawMaterialsPaginated, type RawMaterial } from "@/lib/api";
 import { retailApi } from "@/lib/api-retail";
 import { RetailState, StockStatusBadge } from "@/components/retail/retail-shared";
-import { InventoryActiveBadge, InventoryTypeBadge, type InventoryItemType } from "@/components/inventory/inventory-shared";
+import { InventoryActiveBadge, InventoryTypeBadge, StockQuantityCell, type InventoryItemType } from "@/components/inventory/inventory-shared";
 import { MovementHistoryDialog } from "@/components/inventory/StockMovementHistoryDialog";
 import { StockAdjustmentDialog } from "@/components/inventory/StockAdjustmentDialog";
 import { FinishedProductDialog } from "@/components/inventory/FinishedProductDialog";
@@ -51,7 +51,7 @@ export function AllInventoryItems({
     const ar = locale === "ar";
     const currency = useSettingsStore((state) => state.settings.currency);
     const branchVersion = useActiveBranchVersion();
-    const canAdjustStock = isSuperAdminRole(useAuthStore((state) => state.user?.role));
+    const canAdjustStock = canAdjustRetailStock(useAuthStore((state) => state.user?.role));
 
     const [rows, setRows] = useState<InventoryRow[]>([]);
     const [totalCount, setTotalCount] = useState(0);
@@ -150,8 +150,14 @@ export function AllInventoryItems({
                                                 <TableCell>{row.category}</TableCell>
                                                 <TableCell className="text-sm">{row.source}</TableCell>
                                                 <TableCell className="text-sm text-muted-foreground">{row.unit}</TableCell>
-                                                <TableCell className="text-right text-base font-semibold tabular-nums">
-                                                    {row.stock}
+                                                <TableCell className="text-right">
+                                                    <StockQuantityCell
+                                                        quantity={row.stock}
+                                                        ar={ar}
+                                                        onAdjust={row.finished && canAdjustStock
+                                                            ? () => setAdjustProduct(row.finished ?? null)
+                                                            : undefined}
+                                                    />
                                                 </TableCell>
                                                 <TableCell className="text-right tabular-nums text-muted-foreground">
                                                     {row.alertLevel}
@@ -240,10 +246,13 @@ export function AllInventoryItems({
                 editProduct={editProduct}
                 branchId={branchId}
                 onSaved={() => void load()}
+                onAdjustStock={canAdjustStock ? setAdjustProduct : undefined}
+                onViewMovements={setHistoryProduct}
             />
 
             <StockAdjustmentDialog
-                product={adjustProduct}
+                // The live row, so a refresh after a stale-stock conflict reaches the open dialog.
+                product={adjustProduct && (rows.find((row) => row.finished?.productId === adjustProduct.productId)?.finished ?? adjustProduct)}
                 onClose={() => setAdjustProduct(null)}
                 onAdjusted={() => void load()}
             />

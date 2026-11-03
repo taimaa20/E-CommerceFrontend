@@ -9,13 +9,13 @@ import { PaginationControls } from "@/components/ui/pagination-controls";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useLocale } from "@/components/locale-provider";
 import { useAuthStore } from "@/store/authStore";
-import { isSuperAdminRole } from "@/lib/authorization";
+import { canAdjustRetailStock } from "@/lib/authorization";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useActiveBranchVersion } from "@/store/branchContextStore";
 import { formatCurrency } from "@/lib/currencies";
 import { retailApi } from "@/lib/api-retail";
 import { RetailState, RetailStatTiles, StockStatusBadge } from "@/components/retail/retail-shared";
-import { InventoryActiveBadge, InventoryTypeBadge } from "@/components/inventory/inventory-shared";
+import { InventoryActiveBadge, InventoryTypeBadge, StockQuantityCell } from "@/components/inventory/inventory-shared";
 import { MovementHistoryDialog } from "@/components/inventory/StockMovementHistoryDialog";
 import { StockAdjustmentDialog } from "@/components/inventory/StockAdjustmentDialog";
 import { FinishedProductDialog } from "@/components/inventory/FinishedProductDialog";
@@ -45,7 +45,7 @@ export function FinishedProductsInventory({
     const ar = locale === "ar";
     const currency = useSettingsStore((state) => state.settings.currency);
     const branchVersion = useActiveBranchVersion();
-    const canAdjustStock = isSuperAdminRole(useAuthStore((state) => state.user?.role));
+    const canAdjustStock = canAdjustRetailStock(useAuthStore((state) => state.user?.role));
 
     const [rows, setRows] = useState<RetailProductDto[]>([]);
     const [summary, setSummary] = useState<RetailCatalogSummaryDto | null>(null);
@@ -189,8 +189,12 @@ export function FinishedProductsInventory({
                                                 <TableCell className="text-sm text-muted-foreground">
                                                     {ar ? "قطعة" : "pcs"}
                                                 </TableCell>
-                                                <TableCell className="text-right text-base font-semibold tabular-nums">
-                                                    {row.stockOnHand}
+                                                <TableCell className="text-right">
+                                                    <StockQuantityCell
+                                                        quantity={row.stockOnHand}
+                                                        ar={ar}
+                                                        onAdjust={canAdjustStock ? () => setAdjustProduct(row) : undefined}
+                                                    />
                                                 </TableCell>
                                                 <TableCell className="text-right tabular-nums text-muted-foreground">
                                                     {row.reorderLevel}
@@ -276,6 +280,8 @@ export function FinishedProductsInventory({
                 editProduct={editProduct}
                 branchId={branchId}
                 onSaved={() => void load()}
+                onAdjustStock={canAdjustStock ? setAdjustProduct : undefined}
+                onViewMovements={setHistoryProduct}
             />
 
             <StockAdjustmentDialog

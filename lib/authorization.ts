@@ -50,6 +50,12 @@ export function isAdminRole(role: number | null | undefined): boolean {
     return role === UserRole.Admin || role === UserRole.SuperAdmin;
 }
 
+/** Who may correct finished-product stock: Admin and SuperAdmin, never Manager. Mirrors the
+ *  backend's RetailStockAdjusters grant — this only hides UI, the API enforces it. */
+export function canAdjustRetailStock(role: number | null | undefined): boolean {
+    return isAdminRole(role);
+}
+
 /** True only for SuperAdmin. Use to gate SuperAdmin-exclusive actions (e.g.
  *  manual stock adjustment). Backend must enforce the same — this only hides UI. */
 export function isSuperAdminRole(role: number | null | undefined): boolean {

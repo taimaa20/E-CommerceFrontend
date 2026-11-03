@@ -21,8 +21,7 @@ function setZoomed(element: HTMLElement, zoomed: boolean) {
 /**
  * Product image that magnifies in place.
  *
- * A mouse or pen magnifies on hover around the pointer, and the focal point follows it;
- * leaving the frame eases back. A touch tap toggles the same magnification around the
+ * A mouse or pen hover leaves the image as is. A touch tap toggles magnification around the
  * tapped point, and a tap elsewhere or a scroll/swipe that starts on the image resets it,
  * so the page never stops scrolling naturally.
  *
@@ -55,12 +54,6 @@ export default function StoreZoomImage({
         return () => document.removeEventListener("pointerdown", onOutside);
     }, []);
 
-    const hover = (event: React.PointerEvent<HTMLDivElement>) => {
-        if (event.pointerType === "touch") return;
-        focusAt(event.currentTarget, event.clientX, event.clientY);
-        setZoomed(event.currentTarget, true);
-    };
-
     const tap = (event: React.MouseEvent<HTMLDivElement>) => {
         if (pointerType.current !== "touch") return;
         const element = event.currentTarget;
@@ -74,9 +67,6 @@ export default function StoreZoomImage({
             ref={surface}
             className="sf-zoom"
             onPointerDown={event => { pointerType.current = event.pointerType; }}
-            onPointerEnter={hover}
-            onPointerMove={hover}
-            onPointerLeave={event => { if (event.pointerType !== "touch") setZoomed(event.currentTarget, false); }}
             // The browser took the touch for a scroll or swipe — the shopper has moved on.
             onPointerCancel={event => setZoomed(event.currentTarget, false)}
             onClick={tap}

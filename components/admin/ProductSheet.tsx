@@ -33,7 +33,12 @@ import {
 import { useLocale } from "@/components/locale-provider"
 import ProductGalleryEditor, { type GalleryEntry } from "@/components/admin/ProductGalleryEditor"
 import ProductRelatedProductsEditor from "@/components/admin/ProductRelatedProductsEditor"
-import { InventoryCostingFields, emptyInventoryCostingForm, inventoryCostingFormFromDetail, inventoryCostingPayloadFromForm, type InventoryCostingFormState } from "@/components/products/InventoryCostingFields"
+import { InventoryCostingFields, emptyInventoryCostingForm, inventoryCostingFormFromDetail, inventoryCostingPayloadFromForm, stockAdjustmentFromForm, type InventoryCostingFormState } from "@/components/products/InventoryCostingFields"
+import { retailApi, retailStockAdjustmentApi } from "@/lib/api-retail"
+import { getRequestErrorMessage, isNetworkRequestError } from "@/lib/api"
+import { canAdjustRetailStock } from "@/lib/authorization"
+import { useAuthStore } from "@/store/authStore"
+import type { RetailStockAdjustmentCreateInput } from "@/types/retail"
 import { ProductInventoryBehaviourField, type ProductInventoryBehaviour } from "@/components/products/ProductInventoryBehaviourField"
 import { ExistingInventoryItemPicker, LinkedInventoryItemCard } from "@/components/products/ExistingInventoryItemField"
 import { ProcurementApi, type Supplier } from "@/lib/api-procurement"
@@ -200,6 +205,8 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
     // is recipe-based, which is exactly how every existing product already behaves.
     const [inventoryBehaviour, setInventoryBehaviour] = useState<ProductInventoryBehaviour>("recipe")
     const [inventoryCostingForm, setInventoryCostingForm] = useState<InventoryCostingFormState>(emptyInventoryCostingForm)
+    const canAdjustStock = canAdjustRetailStock(useAuthStore((state) => state.user?.role))
+    const [isSavingProduct, setIsSavingProduct] = useState(false)
     const [retailSuppliers, setRetailSuppliers] = useState<{ id: string; name: string }[]>([])
     const [dirtyDeliveryPartnerIds, setDirtyDeliveryPartnerIds] = useState<Set<string>>(new Set())
 
@@ -1595,8 +1602,60 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
         setDirtyDeliveryPartnerIds((current) => new Set(current).add(partnerId))
     }
 
+    /** Re-reads the ledger stock after a stale-stock refusal, so the next save starts from it. */
+    const refreshStockSeen = async (productId: string) => {
+        const page = await retailApi.catalog({ search: inventoryCostingForm.sku, currentBranchOnly: true, pageSize: 5 })
+        const row = page.items.find((item) => item.productId === productId)
+        if (row) setInventoryCostingForm((form) => ({ ...form, stockSeen: row.stockOnHand, stockRequestKey: generateUUID() }))
+    }
+
+    /**
+     * Posts the stock change through the existing adjustment endpoint, after the product itself
+     * has saved. Reports its own outcome; on failure the form is left as typed so saving again
+     * retries with the same request id, which can never post the adjustment twice.
+     */
+    const saveStockChange = async (productId: string, request: RetailStockAdjustmentCreateInput): Promise<boolean> => {
+        const ar = locale === "ar"
+        try {
+            const result = await retailStockAdjustmentApi.adjust(productId, request)
+            const onHand = result?.stockOnHand ?? request.newStock
+            toast.success(ar ? `تم تحديث المخزون إلى ${onHand}.` : `Stock updated to ${onHand}.`)
+            return true
+        } catch (error) {
+            const response = (error as { response?: { status?: number; data?: { status?: string; error?: string } } })?.response
+            const stale = response?.data?.status === "stock_changed"
+            if (stale) await refreshStockSeen(productId).catch(() => undefined)
+            if (response?.data?.status === "idempotency_key_reused")
+                setInventoryCostingForm((form) => ({ ...form, stockRequestKey: generateUUID() }))
+            const reason = response?.status === 403
+                ? (ar ? "تعديل المخزون يتطلب صلاحية Admin أو SuperAdmin." : "Adjusting stock requires Admin or SuperAdmin.")
+                : stale
+                    ? (ar ? "تغيّر المخزون منذ فتح المنتج، وتم تحديث الكمية الحالية." : "Stock changed since the product was opened; the current figure has been refreshed.")
+                    : isNetworkRequestError(error)
+                        ? (ar ? "تعذّر الاتصال بالخادم." : "Could not reach the server.")
+                        : response?.data?.error ?? getRequestErrorMessage(error, ar ? "تعذّر تعديل المخزون." : "Could not adjust stock.")
+            toast.error(ar
+                ? `حُفظ المنتج، لكن لم يُحدَّث المخزون: ${reason} احفظ مجددًا لإعادة المحاولة — لن تُسجَّل التسوية مرتين.`
+                : `Product saved, but stock was not updated: ${reason} Save again to retry — the adjustment will not be posted twice.`,
+                { duration: 10000 })
+            return false
+        }
+    }
+
     const handleSaveProduct = async () => {
+        // One save at a time: a double click must not send the product or the stock change twice.
+        if (isSavingProduct) return
         if (!validateForm()) return
+
+        // Validated up front so an invalid stock figure never leaves the product saved and the
+        // stock change half-done.
+        const stockChange = editProduct && canAdjustStock && inventoryCostingForm.enabled
+            ? stockAdjustmentFromForm(inventoryCostingForm, locale === "ar")
+            : null
+        if (stockChange?.error) {
+            toast.warning(stockChange.error)
+            return
+        }
 
         // Images are already uploaded by the gallery editor, so the payload only has to
         // split the list: entry 0 stays the product's primary image (the field the POS,
@@ -1673,6 +1732,7 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
             retail: inventoryCostingPayloadFromForm(inventoryCostingForm)
         }
 
+        setIsSavingProduct(true)
         try {
             let success;
             let savedProductId = editProduct?.id
@@ -1698,6 +1758,12 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
                     await flushPendingAlternatives(payload.name)
                 }
                 toast.success(editProduct ? t("productUpdatedSuccess") : t("productSavedSuccess"))
+                // The product is saved either way; the sheet stays open only so a failed stock
+                // change can be retried without retyping it.
+                if (editProduct && stockChange?.request && !(await saveStockChange(editProduct.id, stockChange.request))) {
+                    onSuccess()
+                    return
+                }
                 resetForm()
                 onOpenChange(false)
                 onSuccess()
@@ -1717,6 +1783,11 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
             } else {
                 toast.error(t("anErrorOccurred"))
             }
+            if (stockChange?.request) {
+                toast.info(locale === "ar" ? "لم يُحفظ المنتج، ولم يتغيّر المخزون." : "The product was not saved, and stock was not changed.")
+            }
+        } finally {
+            setIsSavingProduct(false)
         }
     }
 
@@ -3325,9 +3396,9 @@ export default function ProductSheet({ open, onOpenChange, onSuccess, editProduc
                     <Button variant="outline" onClick={() => onOpenChange(false)}>
                         {t("cancel")}
                     </Button>
-                    <Button onClick={handleSaveProduct} className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    <Button onClick={handleSaveProduct} disabled={isSavingProduct} className="bg-primary text-primary-foreground hover:bg-primary/90">
                         <Save className="w-4 h-4 me-2" />
-                        {t("saveAndPublish")}
+                        {isSavingProduct ? (locale === "ar" ? "جارٍ الحفظ…" : "Saving…") : t("saveAndPublish")}
                     </Button>
                 </SheetFooter>
                 </div>

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AlertCircle, Info } from "lucide-react";
+import Link from "next/link";
+import { AlertCircle, History, Info, ShoppingCart, SlidersHorizontal } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -78,6 +79,8 @@ export function FinishedProductDialog({
     editProduct,
     branchId,
     onSaved,
+    onAdjustStock,
+    onViewMovements,
 }: {
     open: boolean;
     onOpenChange: (value: boolean) => void;
@@ -86,6 +89,10 @@ export function FinishedProductDialog({
     /** Active branch — a new product is assigned to it so it is stocked and sellable there. */
     branchId: string | null;
     onSaved: () => void;
+    /** Opens the stock adjustment for an existing product. Omit when the user may not adjust. */
+    onAdjustStock?: (product: RetailProductDto) => void;
+    /** Opens the movement history for an existing product. */
+    onViewMovements?: (product: RetailProductDto) => void;
 }) {
     const { locale } = useLocale();
     const ar = locale === "ar";
@@ -370,13 +377,57 @@ export function FinishedProductDialog({
                     </Section>
 
                     <Section title={ar ? "المخزون" : "Stock"}>
-                        {isEdit ? (
-                            <p className="flex items-start gap-1.5 text-xs text-muted-foreground sm:col-span-2">
-                                <Info className="mt-0.5 h-3 w-3 shrink-0" />
-                                {ar
-                                    ? "المخزون الحالي = مجموع حركات المخزون. غيّره باستلام أمر شراء أو بتسوية مخزون — لا يُحرَّر هنا."
-                                    : "Current stock is the sum of this product's movements. Change it by receiving a purchase order or posting an adjustment — it is not edited here."}
-                            </p>
+                        {isEdit && editProduct ? (
+                            <>
+                                <Field label={ar ? "المخزون الحالي" : "Current stock"}>
+                                    <Input type="number" value={String(editProduct.stockOnHand)} readOnly disabled />
+                                </Field>
+                                {/* Two different ways stock moves, kept apart: a correction after a
+                                    recount, and goods arriving against a purchase order. */}
+                                <div className="flex flex-wrap items-end gap-2">
+                                    {onAdjustStock && (
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => {
+                                                onOpenChange(false);
+                                                onAdjustStock(editProduct);
+                                            }}
+                                        >
+                                            <SlidersHorizontal className="h-4 w-4" />
+                                            {ar ? "تسوية المخزون" : "Adjust stock"}
+                                        </Button>
+                                    )}
+                                    {onViewMovements && (
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => {
+                                                onOpenChange(false);
+                                                onViewMovements(editProduct);
+                                            }}
+                                        >
+                                            <History className="h-4 w-4" />
+                                            {ar ? "حركات المخزون" : "Stock movements"}
+                                        </Button>
+                                    )}
+                                    <Button type="button" variant="outline" size="sm" asChild>
+                                        <Link href="/ntxadminpos/procurement">
+                                            <ShoppingCart className="h-4 w-4" />
+                                            {ar ? "استلام عبر أمر شراء" : "Receive via purchase order"}
+                                        </Link>
+                                    </Button>
+                                </div>
+                                <p className="flex items-start gap-1.5 text-xs text-muted-foreground sm:col-span-2">
+                                    <Info className="mt-0.5 h-3 w-3 shrink-0" />
+                                    {ar
+                                        ? "المخزون الحالي = مجموع حركات المخزون، ولا يُحرَّر هنا. التسوية تصحّح الكمية بعد الجرد؛ الكميات الواردة تُستلم عبر أمر شراء."
+                                        : "Current stock is the sum of this product's movements and is not edited here. Adjust corrects the quantity after a recount; incoming goods are received through a purchase order."}
+                                    {!onAdjustStock && (ar ? " تسوية المخزون تتطلب صلاحية Admin أو SuperAdmin." : " Stock adjustments require Admin or SuperAdmin.")}
+                                </p>
+                            </>
                         ) : (
                             <>
                                 <Field

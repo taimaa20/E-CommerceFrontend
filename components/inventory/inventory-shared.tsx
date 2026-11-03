@@ -1,7 +1,35 @@
 "use client";
 
-import { Boxes, Layers } from "lucide-react";
+import { Boxes, Layers, SlidersHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
+/**
+ * Current stock with its correction action beside it. The row's action column sits at the far
+ * end of a wide, horizontally scrolling table, so an adjust control there is easily never seen;
+ * next to the figure it is always in view. Pass no handler to show the figure alone.
+ */
+export function StockQuantityCell({
+    quantity,
+    ar,
+    onAdjust,
+}: {
+    quantity: number;
+    ar: boolean;
+    onAdjust?: () => void;
+}) {
+    return (
+        <div className="flex items-center justify-end gap-2">
+            <span className="text-base font-semibold tabular-nums">{quantity}</span>
+            {onAdjust && (
+                <Button variant="outline" size="sm" className="h-7 gap-1 px-2 text-xs" onClick={onAdjust}>
+                    <SlidersHorizontal className="h-3 w-3" />
+                    {ar ? "تسوية" : "Adjust"}
+                </Button>
+            )}
+        </div>
+    );
+}
 
 /**
  * The two things a business stocks. The persistence models behind them differ — raw materials
