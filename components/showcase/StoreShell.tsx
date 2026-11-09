@@ -16,6 +16,13 @@ import { useSettingsStore } from "@/store/settingsStore";
 import { storefrontBrandStyle, storefrontLogoUrl, useStorefrontStore } from "@/store/storefrontStore";
 import "@/app/shop/storefront.css";
 
+// The home request waits for the session check, so the check starts when the store's code loads
+// instead of after the page hydrates. It is the same single-flight bootstrap the effect below
+// calls — one refresh per page load either way — and components still render the initial
+// "unknown" state during hydration, because zustand hands React the initial state as the
+// server snapshot.
+if (typeof window !== "undefined") void useCustomerSessionStore.getState().bootstrap();
+
 /**
  * Chrome shared by every public storefront page: header, footer and the cart /
  * checkout flow. Wrapped by each store page rather than by app/shop/layout.tsx

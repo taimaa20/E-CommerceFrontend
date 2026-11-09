@@ -69,14 +69,17 @@ export default function StorePage() {
  * route to the catalogue browser instead of breaking an existing link.
  */
 function StoreRoot() {
+    const searchParams = useSearchParams();
+    const browsing = ["q", "page", "sort"].some(key => !!searchParams.get(key));
+    return browsing ? <StoreSearchResults /> : <StoreHome />;
+}
+
+/** Offer marks are read here, not in StoreRoot: the home reads its own offers, so reading them above it fetched them twice. */
+function StoreSearchResults() {
     const { locale } = useLocale();
     const isAr = locale === "ar";
     const text = createStoreText(isAr);
-    const searchParams = useSearchParams();
-    const browsing = ["q", "page", "sort"].some(key => !!searchParams.get(key));
     const inOffer = useOfferProductIds();
-
-    if (!browsing) return <StoreHome />;
 
     return (
         <div className="sf-container">
